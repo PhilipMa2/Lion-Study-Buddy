@@ -12,6 +12,8 @@
       <%= link_to post_path(post) do %>
         Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
+      <%= button_to 'Confirm', confirm_post_path(post), method: :post %>
+      <%= button_to 'Cancel', cancel_post_path(post), method: :post %>
     </li>
   <% end %>
 </ul>

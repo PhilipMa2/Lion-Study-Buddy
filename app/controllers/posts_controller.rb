@@ -35,6 +35,23 @@ class PostsController < ApplicationController
     redirect_to post_path(@post)
   end
 
+  def confirm
+    @post = Post.find(params[:id])
+    @post.update(status: 'confirmed')
+    redirect_to post_path(@post), notice: 'Post was successfully confirmed.'
+  end
+
+  def cancel
+    @post = Post.find(params[:id])
+    @post.update(status: 'cancelled')
+    redirect_to post_path(@post), alert: 'Post was successfully cancelled.'
+  end
+
+
+
+
+
+
   private
   
   def post_params
