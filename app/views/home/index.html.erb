@@ -1,0 +1,6 @@
+<h1>Lion Study Buddy</h1>
+<%= link_to 'Profile', profile_path %>
+<%= link_to 'Create Post', new_post_path %><br><br>
+<% @posts.each do |post| %>
+  <%= link_to post.text, post_path(post) %><br>
+<% end %>
