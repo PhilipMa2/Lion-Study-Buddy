@@ -2,7 +2,10 @@
     get "up" => "rails/health#show", as: :rails_health_check
 
     root 'home#index'
-    resources :posts, only: [:show, :new, :create]
+    
+    resources :posts, only: [:show, :new, :create] do
+      post 'attend', on: :member
+    end
 
     get 'login', to: 'sessions#new'
     post 'login', to: 'sessions#create'

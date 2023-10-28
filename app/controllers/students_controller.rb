@@ -3,5 +3,7 @@ class StudentsController < ApplicationController
 
   def profile
     @student = current_student
+    @created_posts = @student.posts
+    @applied_posts = @student.attended_posts
   end
 end

@@ -3,3 +3,4 @@
 <p><strong>Schedule:</strong> <%= @post.schedule %></p>
 <p><strong>Tag:</strong> <%= @post.tag %></p>
 <p><strong>Text:</strong> <%= @post.text %></p>
+<%= button_to "Attend", attend_post_path(@post), method: :post %>
