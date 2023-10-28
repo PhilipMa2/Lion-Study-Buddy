@@ -1,24 +1,21 @@
-# README
+* Ruby version 3.2.2
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* First Thing to do<br>
+  rbenv install 3.2.2<br>
+  rbenv local 3.2.2<br>
+  gem install bundler<br>
+  bundle install<br>
 
-Things you may want to cover:
+* Database creation<br>
+  rails db:create<br>
+  rails db:migrate<br>
+  rails db:seed<br>
 
-* Ruby version
+* Database checking<br>
+  rails console<br>
+  ActiveRecord::Base.connection.tables<br>
+  Student.limit(10).all<br>
+  Student.count<br>
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Start server<br>
+  rails server<br>
