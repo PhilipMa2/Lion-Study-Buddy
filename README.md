@@ -16,7 +16,8 @@ Kailun Zhang (kz2475)
   
   `bundle install`
 
-*\*If you are on macOS and run into the following error message: `ERROR: While executing gem ... (Gem::FilePermissionError) You don't have write permissions for the /Library/Ruby/Gems/2.6.0 directory.`, then run `export GEM_HOME="$HOME/.gem"` before running the `gem install bundler` command.*
+*\*If you are on macOS and run into the following error message: `ERROR: While executing gem ... (Gem::FilePermissionError) You don't have write permissions for the /Library/Ruby/Gems/2.X.X directory.`, then add `export PATH="$HOME/.rbenv/bin:$PATH"` and
+`eval "$(rbenv init -)"` to your .bash_profile, restart your terminal, and then run the `gem install bundler` command.*
 
 #### Database creation
   `rails db:create`
@@ -28,14 +29,19 @@ Kailun Zhang (kz2475)
 #### Database checking
   `rails console`
   
-  `ActiveRecord::Base.connection.tables`
+  `ActiveRecord::Base.connection.tables` => ["schema_migrations", "ar_internal_metadata", "posts", "students", "student_attend_posts"]
   
   `Student.limit(10).all`
   
-  `Student.count`
+  `Student.count` => 5
 
 #### Start server
   `rails server`
+
+### Run Cucumber Feature Tests
+  `rake cucumber`
+
+  `cucumber features`
 
 ### Features
 Assumptions:

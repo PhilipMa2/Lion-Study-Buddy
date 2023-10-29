@@ -94,15 +94,52 @@ GEM
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
+    cucumber (8.0.0)
+      builder (~> 3.2, >= 3.2.4)
+      cucumber-ci-environment (~> 9.0, >= 9.0.4)
+      cucumber-core (~> 11.0, >= 11.0.0)
+      cucumber-cucumber-expressions (~> 15.1, >= 15.1.1)
+      cucumber-gherkin (~> 23.0, >= 23.0.1)
+      cucumber-html-formatter (~> 19.1, >= 19.1.0)
+      cucumber-messages (~> 18.0, >= 18.0.0)
+      diff-lcs (~> 1.5, >= 1.5.0)
+      mime-types (~> 3.4, >= 3.4.1)
+      multi_test (~> 1.1, >= 1.1.0)
+      sys-uname (~> 1.2, >= 1.2.2)
+    cucumber-ci-environment (9.2.0)
+    cucumber-core (11.0.0)
+      cucumber-gherkin (~> 23.0, >= 23.0.1)
+      cucumber-messages (~> 18.0, >= 18.0.0)
+      cucumber-tag-expressions (~> 4.1, >= 4.1.0)
+    cucumber-cucumber-expressions (15.2.0)
+    cucumber-gherkin (23.0.1)
+      cucumber-messages (~> 18.0, >= 18.0.0)
+    cucumber-html-formatter (19.2.0)
+      cucumber-messages (~> 18.0, >= 18.0.0)
+    cucumber-messages (18.0.0)
+    cucumber-rails (2.6.1)
+      capybara (>= 2.18, < 4)
+      cucumber (>= 3.2, < 9)
+      mime-types (~> 3.3)
+      nokogiri (~> 1.10)
+      railties (>= 5.0, < 8)
+      rexml (~> 3.0)
+      webrick (~> 1.7)
+    cucumber-rails-training-wheels (1.0.0)
+      cucumber-rails (>= 1.1.1)
+    cucumber-tag-expressions (4.1.0)
     date (3.3.3)
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    diff-lcs (1.5.0)
+    docile (1.4.0)
     drb (2.1.1)
       ruby2_keywords
     erubi (1.12.0)
     faker (3.2.1)
       i18n (>= 1.8.11, < 2)
+    ffi (1.16.3)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -128,9 +165,13 @@ GEM
       net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
+    mime-types (3.5.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2023.1003)
     mini_mime (1.1.5)
     minitest (5.20.0)
     msgpack (1.7.2)
+    multi_test (1.1.0)
     mutex_m (0.1.2)
     net-imap (0.4.2)
       date
@@ -142,6 +183,8 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.4-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     psych (5.1.1.1)
@@ -200,6 +243,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -207,10 +256,13 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.7-x86_64-darwin)
     sqlite3 (1.6.7-x86_64-linux)
     stimulus-rails (1.3.0)
       railties (>= 6.0.0)
     stringio (3.0.8)
+    sys-uname (1.2.3)
+      ffi (~> 1.1)
     thor (1.3.0)
     timeout (0.4.0)
     turbo-rails (1.5.0)
@@ -234,11 +286,15 @@ GEM
     zeitwerk (2.6.12)
 
 PLATFORMS
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
   bootsnap
   capybara
+  cucumber
+  cucumber-rails
+  cucumber-rails-training-wheels
   debug
   faker
   importmap-rails
@@ -246,6 +302,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.1.1)
   selenium-webdriver
+  simplecov
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
