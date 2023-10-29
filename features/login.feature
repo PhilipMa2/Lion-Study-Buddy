@@ -16,7 +16,7 @@ Scenario: User cannot access without valid credentials
     Then they should be directed to the login page
     When the user enters valid username and password
     And clicks the login button
-    Then they should be redirected back to the restricted content
+    Then they should be redirected back to the home page
 
 Scenario: User can successfully log out
     Given the user is on the login page
