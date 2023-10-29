@@ -1,0 +1,22 @@
+<h1>Create Post</h1>
+<%= form_for @post do |f| %>
+  <p>
+    <%= f.label :course %><br>
+    <%= f.text_field :course, value: @student.course %>
+  </p>
+  <p>
+    <%= f.label :schedule %><br>
+    <%= f.text_field :schedule, value: @student.schedule %>
+  </p>
+  <p>
+    <%= f.label :tag %><br>
+    <%= f.text_field :tag, value: @student.tag %>
+  </p>
+  <p>
+    <%= f.label :text %><br>
+    <%= f.text_field :text, value: @student.text %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>

@@ -1,0 +1,30 @@
+<h1><%= @student.name %>'s Profile</h1>
+<p>Email: <%= @student.email %></p>
+<p>Course: <%= @student.course %></p>
+<p>Schedule: <%= @student.schedule %></p>
+<p>Tag: <%= @student.tag %></p>
+<p>Text: <%= @student.text %></p>
+
+<h2>Posts Created</h2>
+<ul>
+  <% @created_posts.each do |post| %>
+    <li>
+      <%= link_to post_path(post) do %>
+        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+      <% end %>
+      <%= button_to 'Confirm', confirm_post_path(post), method: :post %>
+      <%= button_to 'Cancel', cancel_post_path(post), method: :post %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Posts Applied For</h2>
+<ul>
+  <% @applied_posts.each do |post| %>
+    <li>
+      <%= link_to post_path(post) do %>
+        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
