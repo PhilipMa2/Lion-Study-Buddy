@@ -1,6 +1,6 @@
-gem 'capybara' source "https://rubygems.org"
+ruby "3.2.2" 
 
-ruby "3.2.2"
+source "https://rubygems.org"
 
 gem 'faker'
 
