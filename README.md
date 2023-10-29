@@ -6,7 +6,27 @@ Angela Zhang (zz2921)
 Kailun Zhang (kz2475)
 
 ### Instructions to Test and Run Product
-[TODO]
+#### Ruby version 3.2.2
+
+#### First things to do:
+  rbenv install 3.2.2
+  rbenv local 3.2.2
+  gem install bundler
+  bundle install
+
+#### Database creation
+  rails db:create
+  rails db:migrate
+  rails db:seed
+
+#### Database checking
+  rails console
+  ActiveRecord::Base.connection.tables
+  Student.limit(10).all
+  Student.count
+
+#### Start server
+  rails server
 
 ### Features
 Assumptions:
@@ -18,24 +38,4 @@ We will have the following paths / routes:
 - create_post
 - home
 - profile
-* Ruby version 3.2.2
 
-* First Thing to do<br>
-  rbenv install 3.2.2<br>
-  rbenv local 3.2.2<br>
-  gem install bundler<br>
-  bundle install<br>
-
-* Database creation<br>
-  rails db:create<br>
-  rails db:migrate<br>
-  rails db:seed<br>
-
-* Database checking<br>
-  rails console<br>
-  ActiveRecord::Base.connection.tables<br>
-  Student.limit(10).all<br>
-  Student.count<br>
-
-* Start server<br>
-  rails server<br>
