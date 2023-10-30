@@ -1,6 +1,6 @@
-@username = "cs1234"
-@password = "valid_password"
-@firstname = "Christina"
+@email = "frank@example.com"
+@passcode = "frank789"
+@firstname = "Frank"
 @lastname = "Smith"
 @testcourse = "COMS4152"
 @testtag = "project"
@@ -8,17 +8,17 @@
 @testEditedTag = "midterm"
 
 Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
-  visit('/' + expected_path)
+  visit path_to(expected_path)
 end
 
-When("the user enters valid username and password") do
-  fill_in('username', with: @username)
-  fill_in('password', with: @password)
+When("the user enters valid email and passcode") do
+  fill_in('email', with: @email)
+  fill_in('passcode', with: @passcode)
 end
 
 When("the user enters wrong credentials") do
-  fill_in('username', with: @username)
-  fill_in('password', with: "bad_password")
+  fill_in('email', with: @email)
+  fill_in('passcode', with: "bad_passcode")
 end
 
 When(/^the user clicks the "([^"]*)" button$/) do |button_name|
@@ -48,15 +48,15 @@ Then("the user should be logged out") do
 end
 
 Given("the user is logged in") do
-  visit('/login')
-  fill_in('username', with: @username)
-  fill_in('password', with: @password)
-  click_button('login')
+  visit path_to('login')
+  fill_in('email', with: @email)
+  fill_in('passcode', with: @passcode)
+  click_button('Login')
 end
 
 When("fills in the post details") do
-  fill_in('course', with: @testcourse)
-  fill_in('tag', with: @testtag)
+  fill_in('Course', with: @testcourse)
+  fill_in('Tag', with: @testtag)
 end
 
 Then("the post should be created successfully") do
@@ -65,10 +65,10 @@ Then("the post should be created successfully") do
 end
 
 Given("there exists a post in the user's profile") do
-  visit('/create_post')
-  fill_in('course', with: @testcourse)
-  fill_in('tag', with: @testtag) 
-  click_button('submit')
+  visit path_to('new post')
+  fill_in('Course', with: @testcourse)
+  fill_in('Tag', with: @testtag)
+  click_button('Create')
 end
 
 When("selects the post to delete") do
@@ -87,8 +87,8 @@ When("selects the post to edit") do
 end
 
 When("updates the post details") do
-  fill_in('course', with: @testEditedCourse)
-  fill_in('tag', with: @testEditedTag)
+  fill_in('Course', with: @testEditedCourse)
+  fill_in('Tag', with: @testEditedTag)
 end
 
 When("saves the changes") do
@@ -102,4 +102,28 @@ end
 Then("the post should be edited successfully") do
   expect(page).to have_content(@testEditedCourse)
   expect(page).to have_content(@testEditedTag)
+end
+
+Given('the following posts exist:') do |table|
+  table.hashes.each do |post|
+    creator_name = post['creator_name']
+    creator_id = post['creator_id']
+    course = post['course']
+    schedule = post['schedule']
+    tag = post['tag']
+    text = post['text']
+
+    # Here you would write the code to create posts in your system or database
+    # This code would depend on the structure of your application and how posts are created
+
+    # As an example, let's say you're adding posts via a form:
+    visit('/new post') # Navigating to the new post creation page
+    fill_in('Creator Name', with: creator_name)
+    fill_in('Creator ID', with: creator_id)
+    fill_in('Course', with: course)
+    fill_in('Schedule', with: schedule)
+    fill_in('Tag', with: tag)
+    fill_in('Text', with: text)
+    click_button('Create') # Submit the form to create the post
+  end
 end
