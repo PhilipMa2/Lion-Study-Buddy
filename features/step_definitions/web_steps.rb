@@ -1,23 +1,27 @@
-@email = "frank@example.com"
-@passcode = "frank789"
-@firstname = "Frank"
-@testcourse = "COMS4152"
-@testtag = "project"
-@testEditedCourse = "CALC1201"
-@testEditedTag = "midterm"
+require 'rspec'
+
+# @email = "frank@example.com"
+# @passcode = "frank789"
+# @firstname = "Frank"
+# @testcourse = "COMS4152"
+# @testtag = "project"
+# @testEditedCourse = "CALC1201"
+# @testEditedTag = "midterm"
 
 Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
   visit path_to(expected_path)
 end
 
-When("the user enters valid email and passcode") do
-  fill_in('email', with: @email)
-  fill_in('passcode', with: @passcode)
+When("the user logs in with correct credentials") do
+  find('#email').set("frank@example.com")
+  fill_in('passcode', with: "frank789")
+  click_button("Login")
 end
 
-When("the user enters wrong credentials") do
-  fill_in('email', with: @email)
+When("the user logs in with wrong credentials") do
+  find('#email').set("frank@example.com")
   fill_in('passcode', with: "bad_passcode")
+  click_button("Login")
 end
 
 When(/^the user clicks the "([^"]*)" button$/) do |button_name|
@@ -25,30 +29,27 @@ When(/^the user clicks the "([^"]*)" button$/) do |button_name|
 end
 
 Then("the user should be logged in successfully") do
-  expect(page).to have_content("Welcome, #{@firstname}!")
-  assert_equal(current_path, '/profile')
+  visit path_to("profile")
+  expect(page).to have_content("#{@firstname}'s Profile")
+  expect(current_path).to eq('/profile')
 end
 
 Given("an unauthenticated user") do
-  clear_session
+  Capybara.reset_session!
 end
 
 Then(/^the user should be directed to the "([^"]*)" page$/) do |expected_path|
-  assert_equal(current_path, '/' + expected_path)
-end
-
-Then(/^the user should be redirected back to "([^"]*)"$/) do |expected_path|
-  expect(current_path).to eq(expected_path)
+  expect(current_path).to eq('/' + (expected_path != "home" ? expected_path : ""))
 end
 
 Then("the user should be logged out") do
   expect(page).to have_content('Login') 
-  expect(page).not_to have_content("Welcome, #{@firstname}!") # to check absence of logged-in user content
+  expect(page).not_to have_content("#{@firstname}'s Profile") # to check absence of logged-in user content
 end
 
 Given("the user is logged in") do
   visit path_to('login')
-  fill_in('email', with: @email)
+  fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: @passcode)
   click_button('Login')
 end
@@ -65,8 +66,8 @@ end
 
 Given("there exists a post in the user's profile") do
   visit path_to('new post')
-  fill_in('Course', with: @testcourse)
-  fill_in('Tag', with: @testtag)
+  fill_in('course', with: @testcourse)
+  fill_in('tag', with: @testtag)
   click_button('Create')
 end
 

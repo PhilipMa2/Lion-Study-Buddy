@@ -41,8 +41,6 @@ Kailun Zhang (kz2475)
   `rails server`
 
 ### Run Cucumber Feature Tests
-  `rake cucumber`
-
   `cucumber features`
 
 ### Basic Features (iter1)
@@ -51,3 +49,6 @@ Kailun Zhang (kz2475)
 
 *TODO for iter2:* 
 * matching students
+
+*A Note for Feature Tests*
+These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
