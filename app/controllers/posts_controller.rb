@@ -44,12 +44,8 @@ class PostsController < ApplicationController
   def cancel
     @post = Post.find(params[:id])
     @post.update(status: 'cancelled')
-    redirect_to post_path(@post), alert: 'Post was successfully cancelled.'
+    redirect_to post_path(@post), notice: 'Post was successfully cancelled.'
   end
-
-
-
-
 
 
   private
