@@ -15,8 +15,7 @@ class ApplicationController < ActionController::Base
 
   def require_student
     unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
+      redirect_to login_path, notice: "Please log in."
     end
   end
 end

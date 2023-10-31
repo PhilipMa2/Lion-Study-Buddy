@@ -12,6 +12,13 @@
       <%= link_to post_path(post) do %>
         Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
+
+      <% if post.confirmed? %>
+        <span class="status-icon" style="color: green;">✅</span>
+      <% elsif post.cancelled? %>
+        <span class="status-icon" style="color: red;">❌</span>
+      <% end %>
+
       <%= button_to 'Confirm', confirm_post_path(post), method: :post %>
       <%= button_to 'Cancel', cancel_post_path(post), method: :post %>
     </li>
@@ -24,6 +31,12 @@
     <li>
       <%= link_to post_path(post) do %>
         Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+      <% end %>
+
+      <% if post.confirmed? %>
+        <span class="status-icon" style="color: green;">✅</span>
+      <% elsif post.cancelled? %>
+        <span class="status-icon" style="color: red;">❌</span>
       <% end %>
     </li>
   <% end %>
