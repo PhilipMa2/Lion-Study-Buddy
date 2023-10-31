@@ -12,6 +12,7 @@ Scenario: User logs in successfully with valid credentials
 Scenario: User logs in unsuccessfully with invalid credentials
     Given the user visits the "login" page
     When the user logs in with wrong credentials
+    Then the user should see "Invalid email or passcode"
     Then the user should be directed to the "login" page
 
 Scenario: User cannot access without valid credentials

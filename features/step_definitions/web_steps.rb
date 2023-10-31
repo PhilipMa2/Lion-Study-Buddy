@@ -1,13 +1,5 @@
 require 'rspec'
 
-# @email = "frank@example.com"
-# @passcode = "frank789"
-# @firstname = "Frank"
-# @testcourse = "COMS4152"
-# @testtag = "project"
-# @testEditedCourse = "CALC1201"
-# @testEditedTag = "midterm"
-
 Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
   visit path_to(expected_path)
 end
@@ -102,6 +94,10 @@ end
 Then("the post should be edited successfully") do
   expect(page).to have_content(@testEditedCourse)
   expect(page).to have_content(@testEditedTag)
+end
+
+Then(/^the user should see "([^"]*)"$/) do |expected_content|
+  expect(page).to have_content(expected_content)
 end
 
 Given('the following posts exist:') do |table|

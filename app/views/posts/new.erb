@@ -1,4 +1,11 @@
+<% if flash.now[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash.now[:alert] %>
+  </div>
+<% end %>
+
 <h1>Create Post</h1>
+
 <%= form_for @post do |f| %>
   <p>
     <%= f.label :course %><br>
