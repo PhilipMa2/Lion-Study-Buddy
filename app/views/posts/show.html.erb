@@ -1,4 +1,4 @@
-<h1><%= @post.text %></h1>
+<h1 class="py-5 text-center"><%= @post.text %></h1>
 <p><strong>Status:</strong> <%= @post.status.humanize %></p> <!-- Display the status -->
 <p><strong>Course:</strong> <%= @post.course %></p>
 <p><strong>Schedule:</strong> <%= @post.schedule %></p>
@@ -7,5 +7,5 @@
 
 <!-- Only display the "Attend" button if the post is "pending" or "confirmed" -->
 <% if @post.pending? || @post.confirmed? %>
-  <%= button_to "Attend", attend_post_path(@post), method: :post %>
+  <%= button_to "Attend", attend_post_path(@post), method: :post, class: "btn btn-primary" %>
 <% end %>
