@@ -1,7 +1,6 @@
 @email = "frank@example.com"
 @passcode = "frank789"
 @firstname = "Frank"
-@lastname = "Smith"
 @testcourse = "COMS4152"
 @testtag = "project"
 @testEditedCourse = "CALC1201"
