@@ -41,11 +41,13 @@ Kailun Zhang (kz2475)
   `rails server`
 
 ### Run Cucumber Feature Tests
-  `cucumber features`
+  `rails server`
+
+  open a new terminal and concurrently run `cucumber features`
 
 ### Basic Features (iter1)
-* login feature 
-* post feature (create, edit delete)
+* login, logout feature 
+* post feature (create, delete, confirm)
 
 *TODO for iter2:* 
 * matching students

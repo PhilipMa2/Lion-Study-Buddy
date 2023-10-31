@@ -22,7 +22,7 @@ end
 
 Then("the user should be logged in successfully") do
   visit path_to("profile")
-  expect(page).to have_content("#{@firstname}'s Profile")
+  expect(page).to have_content("Frank's Profile")
   expect(current_path).to eq('/profile')
 end
 
@@ -31,7 +31,11 @@ Given("an unauthenticated user") do
 end
 
 Then(/^the user should be directed to the "([^"]*)" page$/) do |expected_path|
-  expect(current_path).to eq('/' + (expected_path != "home" ? expected_path : ""))
+  if (expected_path == "specified post")
+    expect(current_path).to eq('/posts/' + @specified_post_id)
+  else
+    expect(current_path).to eq('/' + (expected_path != "home" ? expected_path : ""))
+  end
 end
 
 Then("the user should be logged out") do
@@ -42,45 +46,39 @@ end
 Given("the user is logged in") do
   visit path_to('login')
   fill_in('email', with: "frank@example.com")
-  fill_in('passcode', with: @passcode)
+  fill_in('passcode', with: "frank789")
   click_button('Login')
 end
 
 When("fills in the post details") do
-  fill_in('Course', with: @testcourse)
-  fill_in('Tag', with: @testtag)
+  fill_in('Course', with: "COMS4107")
+  fill_in('Tag', with: "midterm study")
 end
 
 Then("the post should be created successfully") do
-  expect(page).to have_content(@testcourse)
-  expect(page).to have_content(@testtag)
+  expect(page).to have_content("COMS4107")
+  expect(page).to have_content("midterm study")
 end
 
-Given("there exists a post in the user's profile") do
-  visit path_to('new post')
-  fill_in('course', with: @testcourse)
-  fill_in('tag', with: @testtag)
-  click_button('Create')
+Given("there exists a created post in the user's profile") do
+  visit path_to('profile')
+  expect(page).to have_content("\nPosts Created\nCourse: ")
 end
 
 When("selects the post to delete") do
-  # Identify and click the delete button/icon of the post
-  click_button('delete')
+  # Identify and click the delete button/icon of the first post
+  # TODO: Set @specified_post_id to top post to be deleted
+  @specified_post_id = "5"
+  click_button('Cancel', :match => :first)
 end
 
-When("confirms the deletion") do
-  # Confirm the deletion, could be a pop-up confirmation or a secondary action
-  click_button('Confirm') # Assuming a confirmation button after selecting to delete
-end
-
-When("selects the post to edit") do
-  # Identify and click the delete button/icon of the post
-  click_button('edit')
+When("selects the post to confirm") do
+  click_button('Confirm', :match => :first)
 end
 
 When("updates the post details") do
-  fill_in('Course', with: @testEditedCourse)
-  fill_in('Tag', with: @testEditedTag)
+  fill_in('Course', with: "COMS1001")
+  fill_in('Tag', with: "Project Partner")
 end
 
 When("saves the changes") do
@@ -88,12 +86,11 @@ When("saves the changes") do
 end
 
 Then("the post should be deleted from the user's profile") do
-  expect(page).not_to have_content(@testcourse)
+  expect(page).not_to have_content("COMS4107")
 end
 
-Then("the post should be edited successfully") do
-  expect(page).to have_content(@testEditedCourse)
-  expect(page).to have_content(@testEditedTag)
+Then("the post should be confirmed successfully") do
+  # TODO: define "confirming" a post
 end
 
 Then(/^the user should see "([^"]*)"$/) do |expected_content|
