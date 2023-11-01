@@ -1,24 +1,19 @@
-@email = "frank@example.com"
-@passcode = "frank789"
-@firstname = "Frank"
-@lastname = "Smith"
-@testcourse = "COMS4152"
-@testtag = "project"
-@testEditedCourse = "CALC1201"
-@testEditedTag = "midterm"
+require 'rspec'
 
 Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
   visit path_to(expected_path)
 end
 
-When("the user enters valid email and passcode") do
-  fill_in('email', with: @email)
-  fill_in('passcode', with: @passcode)
+When("the user logs in with correct credentials") do
+  fill_in('email', with: "frank@example.com")
+  fill_in('passcode', with: "frank789")
+  click_button("Login")
 end
 
-When("the user enters wrong credentials") do
-  fill_in('email', with: @email)
+When("the user logs in with wrong credentials") do
+  fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: "bad_passcode")
+  click_button("Login")
 end
 
 When(/^the user clicks the "([^"]*)" button$/) do |button_name|
@@ -26,82 +21,78 @@ When(/^the user clicks the "([^"]*)" button$/) do |button_name|
 end
 
 Then("the user should be logged in successfully") do
-  expect(page).to have_content("Welcome, #{@firstname}!")
-  assert_equal(current_path, '/profile')
+  visit path_to("profile")
+  expect(page).to have_content("Frank's Profile")
+  expect(current_path).to eq('/profile')
 end
 
 Given("an unauthenticated user") do
-  clear_session
+  Capybara.reset_session!
 end
 
 Then(/^the user should be directed to the "([^"]*)" page$/) do |expected_path|
-  assert_equal(current_path, '/' + expected_path)
-end
-
-Then(/^the user should be redirected back to "([^"]*)"$/) do |expected_path|
-  expect(current_path).to eq(expected_path)
+  if (expected_path == "specified post")
+    expect(current_path).to eq('/posts/' + @specified_post_id)
+  else
+    expect(current_path).to eq('/' + (expected_path != "home" ? expected_path : ""))
+  end
 end
 
 Then("the user should be logged out") do
   expect(page).to have_content('Login') 
-  expect(page).not_to have_content("Welcome, #{@firstname}!") # to check absence of logged-in user content
+  expect(page).not_to have_content("#{@firstname}'s Profile") # to check absence of logged-in user content
 end
 
 Given("the user is logged in") do
   visit path_to('login')
-  fill_in('email', with: @email)
-  fill_in('passcode', with: @passcode)
+  fill_in('email', with: "frank@example.com")
+  fill_in('passcode', with: "frank789")
   click_button('Login')
 end
 
 When("fills in the post details") do
-  fill_in('Course', with: @testcourse)
-  fill_in('Tag', with: @testtag)
+  fill_in('Course', with: "COMS4107")
+  fill_in('Tag', with: "midterm study")
 end
 
 Then("the post should be created successfully") do
-  expect(page).to have_content(@testcourse)
-  expect(page).to have_content(@testtag)
+  expect(page).to have_content("COMS4107")
+  expect(page).to have_content("midterm study")
 end
 
-Given("there exists a post in the user's profile") do
-  visit path_to('new post')
-  fill_in('Course', with: @testcourse)
-  fill_in('Tag', with: @testtag)
-  click_button('Create')
+Given("there exists a created post in the user's profile") do
+  visit path_to('profile')
+  expect(page).to have_content("\nPosts Created\nCourse: ")
 end
 
-When("selects the post to delete") do
-  # Identify and click the delete button/icon of the post
-  click_button('delete')
-end
-
-When("confirms the deletion") do
-  # Confirm the deletion, could be a pop-up confirmation or a secondary action
-  click_button('Confirm') # Assuming a confirmation button after selecting to delete
-end
-
-When("selects the post to edit") do
-  # Identify and click the delete button/icon of the post
-  click_button('edit')
+Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
+  # Identify and click the button/icon of the first post
+  page_content = page.body
+  match = /Course: (.*?), Schedule/.match(page_content)
+  @specified_post_id = match[1] if match # should be "5" for our test case
+  click_button(button_to_click, :match => :first)
 end
 
 When("updates the post details") do
-  fill_in('Course', with: @testEditedCourse)
-  fill_in('Tag', with: @testEditedTag)
+  fill_in('Course', with: "COMS1001")
+  fill_in('Tag', with: "Project Partner")
 end
 
 When("saves the changes") do
-  click_button('Save Changes') # Assuming this is your application's save changes button
+  click_button('Save Changes')
 end
 
 Then("the post should be deleted from the user's profile") do
-  expect(page).not_to have_content(@testcourse)
+  expect(page).not_to have_content("COMS4107")
 end
 
-Then("the post should be edited successfully") do
-  expect(page).to have_content(@testEditedCourse)
-  expect(page).to have_content(@testEditedTag)
+Then("the post should be confirmed successfully") do
+  expect(page).to have_content("Status: Confirmed")
+  expect(page).not_to have_content("Status: Pending")
+end
+
+Then(/^the user should see "([^"]*)"$/) do |expected_content|
+  expect(page).to have_content(expected_content)
 end
 
 Given('the following posts exist:') do |table|
@@ -113,10 +104,6 @@ Given('the following posts exist:') do |table|
     tag = post['tag']
     text = post['text']
 
-    # Here you would write the code to create posts in your system or database
-    # This code would depend on the structure of your application and how posts are created
-
-    # As an example, let's say you're adding posts via a form:
     visit('/new post') # Navigating to the new post creation page
     fill_in('Creator Name', with: creator_name)
     fill_in('Creator ID', with: creator_id)

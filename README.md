@@ -2,7 +2,9 @@
 
 ### Group 28
 Philip Ma (ym2876)
+
 Angela Zhang (zz2921)
+
 Kailun Zhang (kz2475)
 
 ### Instructions to Test and Run Product (Ruby version 3.2.2)
@@ -39,18 +41,16 @@ Kailun Zhang (kz2475)
   `rails server`
 
 ### Run Cucumber Feature Tests
-  `rake cucumber`
+  `rake cucumber` *
 
-  `cucumber features`
+**Please ensure that server is running concurrently, otherwise there will be a Selenium network connection error.*
 
-### Features
-Assumptions:
+### Basic Features (iter1)
+* login, logout feature 
+* post feature (create, delete, confirm)
 
-- @username = "cs1234"; @password = "valid_password"; @firstname = "Christina"; @lastname = "Smith" is a valid authentication / account in our system (for testing purposes)
+*TODO for iter2:* 
+* matching students
 
-We will have the following paths / routes:
-- login
-- create_post
-- home
-- profile
-
+*A Note for Feature Tests*
+These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.

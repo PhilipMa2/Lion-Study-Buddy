@@ -10,6 +10,8 @@ def path_to(page_name)
         base_url + '/profile'
     when 'new post'
         base_url + '/posts/new'
+    when "specified post #{id}"
+        base_url + "/posts/#{id}"
     else
       # Default or error case, you can also raise an error here
       raise "No mapping found for #{page_name}"

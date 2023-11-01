@@ -4,11 +4,12 @@ class SessionsController < ApplicationController
 
   def create
     student = Student.authenticate(params[:email], params[:passcode])
-    if student
+    if !student.nil?
       session[:student_id] = student.id
       redirect_to root_path, notice: 'Logged in successfully'
     else
       flash.now[:alert] = 'Invalid email or passcode'
+      puts "Flash Message: #{flash.now[:alert]}"
       render :new
     end
   end
