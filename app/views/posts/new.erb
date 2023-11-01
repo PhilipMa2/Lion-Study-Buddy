@@ -1,29 +1,21 @@
-<% if flash.now[:alert] %>
-  <div class="alert alert-danger">
-    <%= flash.now[:alert] %>
-  </div>
-<% end %>
-
-<h1>Create Post</h1>
+<h1 class="py-5 text-center">Create Post</h1>
 
 <%= form_for @post do |f| %>
-  <p>
-    <%= f.label :course %><br>
-    <%= f.text_field :course, value: @student.course %>
-  </p>
-  <p>
-    <%= f.label :schedule %><br>
-    <%= f.text_field :schedule, value: @student.schedule %>
-  </p>
-  <p>
-    <%= f.label :tag %><br>
-    <%= f.text_field :tag, value: @student.tag %>
-  </p>
-  <p>
-    <%= f.label :text %><br>
-    <%= f.text_field :text, value: @student.text %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-  </p>
+  <div class="mb-3">
+    <%= f.label :course, class: "form-label" %>
+    <%= f.text_field :course, value: @student.course, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :schedule, class: "form-label" %>
+    <%= f.text_field :schedule, value: @student.schedule, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :tag, class: "form-label" %>
+    <%= f.text_field :tag, value: @student.tag, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :text, class: "form-label" %>
+    <%= f.text_field :text, value: @student.text, class: "form-control" %>
+  </div>
+  <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>

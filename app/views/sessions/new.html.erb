@@ -1,17 +1,16 @@
-<h1>Login</h1>
-
-<%= form_with url: login_path, local: true do |f| %>
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
-  
-  <div class="field">
-    <%= f.label :passcode %>
-    <%= f.password_field :passcode %>
-  </div>
-  
-  <div class="actions">
-    <%= f.submit "Login" %>
-  </div>
-<% end %>
+<main class="form-signin w-100 m-auto d-flex align-items-center py-4 bg-body-tertiary justify-content-center">
+  <%= form_with url: login_path, local: true do |f| %>
+    <h1 class="h3 mb-3 fw-normal">Please log in</h1>    
+    <div class="form-floating">
+      <%= f.email_field :email, class: "form-control", id: "floatingInput" %>
+      <%= f.label :email, for: "floatingInput" %>
+    </div>
+    
+    <div class="form-floating">
+      <%= f.password_field :passcode, class: "form-control", id: "floatingPassword" %>
+      <%= f.label :passcode, for: "floatingPassword" %>
+    </div>
+    
+    <%= f.submit "Login", class: "btn btn-primary w-100 py-2" %>
+  <% end %>
+</main>
