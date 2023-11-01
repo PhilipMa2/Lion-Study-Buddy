@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_28_022412) do
+ActiveRecord::Schema[7.1].define(version: 3) do
   create_table "posts", force: :cascade do |t|
     t.text "creator_name"
     t.integer "creator_id"
     t.text "course"
-    t.text "schedule"
     t.text "tag"
     t.text "text"
+    t.string "status", default: "pending"
+    t.integer "start_slot"
+    t.integer "end_slot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "pending"
     t.index ["creator_id"], name: "index_posts_on_creator_id"
   end
 

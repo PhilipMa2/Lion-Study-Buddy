@@ -23,7 +23,7 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.course %></td>
-        <td><%= post.schedule %></td>
+        <td><%= display_schedule(post.start_slot, post.end_slot) %></td>
         <td><%= post.tag %></td>
         <td><%= post.creator_name %></td>
         <td><%= link_to 'View', post_path(post) %></td>

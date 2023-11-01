@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
   render_views
   let(:student) { create(:student) }
-  let(:sample_post) { create(:post, creator: student) }
+  let(:sample_post) { create(:post, creator_name: student.name, creator_id: student.id) }
   let(:valid_post_params) { attributes_for(:post) }
   let(:invalid_post_params) { attributes_for(:post, course: nil) }
 
@@ -49,12 +49,12 @@ RSpec.describe PostsController, type: :controller do
       context 'with valid attributes' do
         it 'creates a new post' do
           expect {
-            post :create, params: { post: valid_post_params }
+            post :create, params: { post: valid_post_params.merge(creator_name: student.name, creator_id: student.id) }
           }.to change(Post, :count).by(1)
         end
 
         it 'redirects to root path' do
-          post :create, params: { post: valid_post_params }
+          post :create, params: { post: valid_post_params.merge(creator_name: student.name, creator_id: student.id) }
           expect(response).to redirect_to root_path
         end
       end

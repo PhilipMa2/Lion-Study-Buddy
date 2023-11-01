@@ -45,11 +45,11 @@ student4 = Student.create(email: "dave@example.com", passcode: "davepass", name:
 student5 = Student.create(email: "frank@example.com", passcode: "frank789", name: "Frank", course: "Biology", schedule: "Mon-Wed-Fri 2PM-4PM", tag: "Junior", text: "Researching on marine life")
 
 # Create some posts
-post1 = Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.id, schedule: student1.schedule, tag: student1.tag, text: "Need help with integrals")
-post2 = Post.create(creator_name: student2.name, creator_id: student2.id, course: student2.id, schedule: student2.schedule, tag: student2.tag, text: "Looking for a study partner")
-post3 = Post.create(creator_name: student3.name, creator_id: student3.id, course: student3.id, schedule: student3.schedule, tag: student3.tag, text: "Looking for a study partner")
-post4 = Post.create(creator_name: student4.name, creator_id: student4.id, course: student4.id, schedule: student4.schedule, tag: student4.tag, text: "Looking for a study partner")
-post5 = Post.create(creator_name: student5.name, creator_id: student5.id, course: student5.id, schedule: student5.schedule, tag: student5.tag, text: "Looking for a study partner")
+post1 = Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.course, start_slot: 10, end_slot: 12, tag: student1.tag, text: "Looking for a study partner 1")
+post2 = Post.create(creator_name: student2.name, creator_id: student2.id, course: student2.course, start_slot: 30, end_slot: 31, tag: student2.tag, text: "Looking for a study partner 2")
+post3 = Post.create(creator_name: student3.name, creator_id: student3.id, course: student3.course, start_slot: 14, end_slot: 15, tag: student3.tag, text: "Looking for a study partner 3")
+post4 = Post.create(creator_name: student4.name, creator_id: student4.id, course: student4.course, start_slot: 45, end_slot: 46, tag: student4.tag, text: "Looking for a study partner 4")
+post5 = Post.create(creator_name: student5.name, creator_id: student5.id, course: student5.course, start_slot: 28, end_slot: 30, tag: student5.tag, text: "Looking for a study partner 5")
 
 # Show that student1 is attending the post created by student2 and vice versa
 StudentAttendPost.create(student_id: student1.id, post_id: post2.id)
