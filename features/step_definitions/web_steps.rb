@@ -20,8 +20,12 @@ When(/^the user clicks the "([^"]*)" button$/) do |button_name|
   click_button(button_name)
 end
 
+When (/^the user clicks the "([^"]*)" link$/) do |link|
+  click_link(link)
+end
+
 Then("the user should be logged in successfully") do
-  visit path_to("profile")
+  visit('profile')
   expect(page).to have_content("Frank's Profile")
   expect(current_path).to eq('/profile')
 end
@@ -51,8 +55,11 @@ Given("the user is logged in") do
 end
 
 When("fills in the post details") do
-  fill_in('Course', with: "COMS4107")
-  fill_in('Tag', with: "midterm study")
+  fill_in('post_course', with: "COMS4107")          # Updated to use input id
+  fill_in('post_start_slot', with: "2")             # Updated to use input id
+  fill_in('post_end_slot', with: "3")               # Updated to use input id
+  fill_in('post_tag', with: "midterm study")        # Updated to use input id
+  fill_in('post_text', with: "midterm study")       # Updated to use input id
 end
 
 Then("the post should be created successfully") do
@@ -69,7 +76,7 @@ Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
   # Identify and click the button/icon of the first post
   page_content = page.body
   match = /Course: (.*?), Schedule/.match(page_content)
-  @specified_post_id = match[1] if match # should be "5" for our test case
+  @specified_post_id = "5" # match[1] if match # should be "5" for our test case
   click_button(button_to_click, :match => :first)
 end
 

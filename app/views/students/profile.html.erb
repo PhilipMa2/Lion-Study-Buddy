@@ -10,7 +10,7 @@
   <% @created_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
       <div class="d-flex gap-2 justify-content-center py-2">
   
@@ -32,7 +32,7 @@
   <% @applied_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
 
       <% if post.confirmed? %>

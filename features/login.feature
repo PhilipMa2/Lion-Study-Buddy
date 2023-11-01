@@ -25,6 +25,6 @@ Scenario: User cannot access without valid credentials
 Scenario: User can successfully log out
     Given the user visits the "login" page
     When the user logs in with correct credentials
-    When the user clicks the "Logout" button
+    When the user clicks the "Logout" link
     Then the user should be logged out
     Then the user should be directed to the "home" page
