@@ -1,6 +1,6 @@
-source "https://rubygems.org"
+ruby "3.2.2" 
 
-ruby "3.2.2"
+source "https://rubygems.org"
 
 gem 'faker'
 
@@ -40,6 +40,14 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem "cucumber"
+
+gem "capybara"
+
+gem 'bootstrap', '~> 5.3.2'
+gem 'jquery-rails'
+gem 'dartsass-sprockets'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
@@ -62,8 +70,13 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
   gem "selenium-webdriver"
   gem 'shoulda-matchers', '~> 4.0'
   gem 'rails-controller-testing'
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels'
+  gem 'simplecov', :require => false
+  gem 'rspec'
 end
+
+gem "dartsass-rails", "~> 0.5.0"

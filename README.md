@@ -1,21 +1,56 @@
-* Ruby version 3.2.2
+# Lion-Study-Buddy
 
-* First Thing to do<br>
-  rbenv install 3.2.2<br>
-  rbenv local 3.2.2<br>
-  gem install bundler<br>
-  bundle install<br>
+### Group 28
+Philip Ma (ym2876)
 
-* Database creation<br>
-  rails db:create<br>
-  rails db:migrate<br>
-  rails db:seed<br>
+Angela Zhang (zz2921)
 
-* Database checking<br>
-  rails console<br>
-  ActiveRecord::Base.connection.tables<br>
-  Student.limit(10).all<br>
-  Student.count<br>
+Kailun Zhang (kz2475)
 
-* Start server<br>
-  rails server<br>
+### Instructions to Test and Run Product (Ruby version 3.2.2)
+
+#### First, run these commands in order:
+  `rbenv install 3.2.2`
+  
+  `rbenv local 3.2.2`
+  
+  `gem install bundler` *
+  
+  `bundle install`
+
+*\*If you are on macOS and run into the following error message: `ERROR: While executing gem ... (Gem::FilePermissionError) You don't have write permissions for the /Library/Ruby/Gems/2.X.X directory.`, then add `export PATH="$HOME/.rbenv/bin:$PATH"` and
+`eval "$(rbenv init -)"` to your .bash_profile, restart your terminal, and then run the `gem install bundler` command.*
+
+#### Database creation
+  `rails db:create`
+  
+  `rails db:migrate`
+  
+  `rails db:seed`
+
+#### Database checking
+  `rails console`
+  
+  `ActiveRecord::Base.connection.tables` => ["schema_migrations", "ar_internal_metadata", "posts", "students", "student_attend_posts"]
+  
+  `Student.limit(10).all`
+  
+  `Student.count` => 5
+
+#### Start server
+  `rails server`
+
+### Run Cucumber Feature Tests
+  `rake cucumber` *
+
+**Please ensure that server is running concurrently, otherwise there will be a Selenium network connection error.*
+
+### Basic Features (iter1)
+* login, logout feature 
+* post feature (create, delete, confirm)
+
+*TODO for iter2:* 
+* matching students
+
+*A Note for Feature Tests*
+These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.

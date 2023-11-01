@@ -1,26 +1,26 @@
-<h1>Create Post</h1>
+<h1 class="py-5 text-center">Create Post</h1>
+
 <%= form_for @post do |f| %>
-  <p>
+  <div class="mb-3">
     <%= f.label :course %><br>
     <%= f.text_field :course, value: @student.course %>
-  </p>
-  <p>
+  </div>
+  <div class="mb-3">
     <%= f.label :start_slot, 'Start Time Slot' %><br>
     <%= f.number_field :start_slot, min: 0, max: 59 %>
-  </p>
-  <p>
+  </div>
+  <div class="mb-3">
     <%= f.label :end_slot, 'End Time Slot' %><br>
     <%= f.number_field :end_slot, min: 0, max: 59 %>
-  </p>
-  <p>
+  </div>
+  <div class="mb-3">
     <%= f.label :tag %><br>
     <%= f.text_field :tag, value: @student.tag %>
-  </p>
-  <p>
+  </div>
+  <div class="mb-3">
     <%= f.label :text %><br>
     <%= f.text_field :text, value: @student.text %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-  </p>
+  </div>
+  <%= f.submit "Create", class: "btn btn-primary" %>
+
 <% end %>
