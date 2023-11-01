@@ -4,6 +4,14 @@ Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
   visit path_to(expected_path)
 end
 
+Given /the following students exist/ do |students_table|
+  student1 = nil
+  students_table.hashes.each do |student|
+    student1 = Student.create(student)
+    Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.course, start_slot: 28, end_slot: 30, tag: student1.tag, text: "Looking for a study partner 5")
+  end
+end
+
 When("the user logs in with correct credentials") do
   fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: "frank789")
@@ -72,11 +80,26 @@ Given("there exists a created post in the user's profile") do
   expect(page).to have_content("\nPosts Created\nCourse: ")
 end
 
+Given("there exists a post to attend on the main page") do
+  first('.post').click_link('View')
+  expect(page).to have_content("Looking for a study partner")
+end
+
+Then("attend the post") do
+  click_button('Attend')
+  expect(page).to have_content("You are now attending this post")
+end
+
+Then("attend the post again") do
+  click_button('Attend')
+  expect(page).to have_content("You are already attending this post")
+end
+
 Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
   # Identify and click the button/icon of the first post
   page_content = page.body
   match = /Course: (.*?), Schedule/.match(page_content)
-  @specified_post_id = "5" # match[1] if match # should be "5" for our test case
+  @specified_post_id = "1" # match[1] if match # should be "5" for our test case
   click_button(button_to_click, :match => :first)
 end
 

@@ -25,7 +25,7 @@
   </thead>
   <tbody>
     <% @posts.each do |post| %>
-      <tr>
+      <tr class="post">
         <td><%= post.course %></td>
         <td><%= display_schedule(post.start_slot, post.end_slot) %></td>
         <td><%= post.tag %></td>

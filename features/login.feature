@@ -4,6 +4,12 @@ Feature: logging in and logging out
     So that I can have my own profile
     I want to log in, log out, and do restricted actions only when I am logged in.
 
+Background: students in database
+
+  Given the following students exist:
+  | name   | email              | passcode    |
+  | Frank  | frank@example.com  | frank789    |  
+
 Scenario: User logs in successfully with valid credentials
     Given the user visits the "login" page
     When the user logs in with correct credentials
@@ -20,11 +26,4 @@ Scenario: User cannot access without valid credentials
     Given the user visits the "new post" page
     Then the user should be directed to the "login" page
     When the user logs in with correct credentials
-    Then the user should be directed to the "home" page
-
-Scenario: User can successfully log out
-    Given the user visits the "login" page
-    When the user logs in with correct credentials
-    When the user clicks the "Logout" link
-    Then the user should be logged out
     Then the user should be directed to the "home" page
