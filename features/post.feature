@@ -16,7 +16,7 @@ Scenario: User deletes a post from their profile
   Given the user is logged in
   And there exists a created post in the user's profile
   Given the user visits the "profile" page
-  And selects the post to delete
+  And the user selects the post to "Cancel"
   Then the user should be directed to the "specified post" page
   Then the post should be deleted from the user's profile
 
@@ -24,6 +24,6 @@ Scenario: User confirms a post from their profile when they have found a match
   Given the user is logged in
   And there exists a created post in the user's profile
   When the user visits the "profile" page
-  And selects the post to confirm
-  Then the user should be directed to the "profile" page
+  Given the user selects the post to "Confirm"
+  Then the user should be directed to the "specified post" page
   Then the post should be confirmed successfully

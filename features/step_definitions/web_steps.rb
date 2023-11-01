@@ -5,13 +5,13 @@ Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
 end
 
 When("the user logs in with correct credentials") do
-  find('#email').set("frank@example.com")
+  fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: "frank789")
   click_button("Login")
 end
 
 When("the user logs in with wrong credentials") do
-  find('#email').set("frank@example.com")
+  fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: "bad_passcode")
   click_button("Login")
 end
@@ -65,15 +65,12 @@ Given("there exists a created post in the user's profile") do
   expect(page).to have_content("\nPosts Created\nCourse: ")
 end
 
-When("selects the post to delete") do
-  # Identify and click the delete button/icon of the first post
-  # TODO: Set @specified_post_id to top post to be deleted
-  @specified_post_id = "5"
-  click_button('Cancel', :match => :first)
-end
-
-When("selects the post to confirm") do
-  click_button('Confirm', :match => :first)
+Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
+  # Identify and click the button/icon of the first post
+  page_content = page.body
+  match = /Course: (.*?), Schedule/.match(page_content)
+  @specified_post_id = match[1] if match # should be "5" for our test case
+  click_button(button_to_click, :match => :first)
 end
 
 When("updates the post details") do
@@ -82,7 +79,7 @@ When("updates the post details") do
 end
 
 When("saves the changes") do
-  click_button('Save Changes') # Assuming this is your application's save changes button
+  click_button('Save Changes')
 end
 
 Then("the post should be deleted from the user's profile") do
@@ -90,7 +87,8 @@ Then("the post should be deleted from the user's profile") do
 end
 
 Then("the post should be confirmed successfully") do
-  # TODO: define "confirming" a post
+  expect(page).to have_content("Status: Confirmed")
+  expect(page).not_to have_content("Status: Pending")
 end
 
 Then(/^the user should see "([^"]*)"$/) do |expected_content|
@@ -106,10 +104,6 @@ Given('the following posts exist:') do |table|
     tag = post['tag']
     text = post['text']
 
-    # Here you would write the code to create posts in your system or database
-    # This code would depend on the structure of your application and how posts are created
-
-    # As an example, let's say you're adding posts via a form:
     visit('/new post') # Navigating to the new post creation page
     fill_in('Creator Name', with: creator_name)
     fill_in('Creator ID', with: creator_id)
