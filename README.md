@@ -41,9 +41,9 @@ Kailun Zhang (kz2475)
   `rails server`
 
 ### Run Cucumber Feature Tests
-  `rails server`
+  `rake cucumber` *
 
-  open a new terminal and concurrently run `cucumber features`
+**Please ensure that server is running concurrently, otherwise there will be a Selenium network connection error.*
 
 ### Basic Features (iter1)
 * login, logout feature 
