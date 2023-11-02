@@ -2,20 +2,25 @@
 
 <%= form_for @post do |f| %>
   <div class="mb-3">
-    <%= f.label :course, class: "form-label" %>
-    <%= f.text_field :course, value: @student.course, class: "form-control" %>
+    <%= f.label :course %><br>
+    <%= f.text_field :course, value: @student.course %>
   </div>
   <div class="mb-3">
-    <%= f.label :schedule, class: "form-label" %>
-    <%= f.text_field :schedule, value: @student.schedule, class: "form-control" %>
+    <%= f.label :start_slot, 'Start Time Slot' %><br>
+    <%= f.number_field :start_slot, min: 0, max: 59 %>
   </div>
   <div class="mb-3">
-    <%= f.label :tag, class: "form-label" %>
-    <%= f.text_field :tag, value: @student.tag, class: "form-control" %>
+    <%= f.label :end_slot, 'End Time Slot' %><br>
+    <%= f.number_field :end_slot, min: 0, max: 59 %>
   </div>
   <div class="mb-3">
-    <%= f.label :text, class: "form-label" %>
-    <%= f.text_field :text, value: @student.text, class: "form-control" %>
+    <%= f.label :tag %><br>
+    <%= f.text_field :tag, value: @student.tag %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :text %><br>
+    <%= f.text_field :text, value: @student.text %>
   </div>
   <%= f.submit "Create", class: "btn btn-primary" %>
+
 <% end %>

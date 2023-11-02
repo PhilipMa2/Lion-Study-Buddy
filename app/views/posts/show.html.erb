@@ -1,7 +1,7 @@
 <h1 class="py-5 text-center"><%= @post.text %></h1>
 <p><strong>Status:</strong> <%= @post.status.humanize %></p> <!-- Display the status -->
 <p><strong>Course:</strong> <%= @post.course %></p>
-<p><strong>Schedule:</strong> <%= @post.schedule %></p>
+<p><strong>Schedule:</strong> <%= display_schedule(@post.start_slot, @post.end_slot) %></p>
 <p><strong>Tag:</strong> <%= @post.tag %></p>
 <p><strong>Text:</strong> <%= @post.text %></p>
 

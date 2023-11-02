@@ -41,9 +41,14 @@ Kailun Zhang (kz2475)
   `rails server`
 
 ### Run Cucumber Feature Tests
-  `rake cucumber` *
+  `bundle exec rake cucumber` 
 
-**Please ensure that server is running concurrently, otherwise there will be a Selenium network connection error.*
+The code coverage is stored in coverage/cucumber and it is expected to be 96.77%
+
+### Run Rspec Tests
+  `bundle exec rake spec`
+
+The code coverage is stored in coverage/rspec and it is expected to be 97.85%.
 
 ### Basic Features (iter1)
 * login, logout feature 

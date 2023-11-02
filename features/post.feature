@@ -4,6 +4,12 @@ Feature: create and delete post to search for new a study buddy
   So that I can broadcast my need for a study buddy
   I want to create and delete a post requesting a study buddy for other students to see.
 
+Background: students in database
+
+  Given the following students exist:
+  | name   | email              | passcode    |
+  | Frank  | frank@example.com  | frank789    |  
+
 Scenario: User creates a new post
   Given the user is logged in
   Given the user visits the "new post" page
@@ -27,3 +33,9 @@ Scenario: User confirms a post from their profile when they have found a match
   Given the user selects the post to "Confirm"
   Then the user should be directed to the "specified post" page
   Then the post should be confirmed successfully
+
+Scenario: User attend a post
+  Given the user is logged in
+  Given there exists a post to attend on the main page
+  Then attend the post
+  Then attend the post again

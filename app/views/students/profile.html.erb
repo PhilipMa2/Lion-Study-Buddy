@@ -10,10 +10,17 @@
   <% @created_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
       <div class="d-flex gap-2 justify-content-center py-2">
-        <%= button_to 'Confirm', confirm_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
+  
+      <% if post.confirmed? %>
+        <span class="status-icon" style="color: green;">✅</span>
+      <% elsif post.cancelled? %>
+        <span class="status-icon" style="color: red;">❌</span>
+      <% end %>
+
+      <%= button_to 'Confirm', confirm_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
         <%= button_to 'Cancel', cancel_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
       </div>
     </li>
@@ -25,7 +32,13 @@
   <% @applied_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= post.schedule %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+      <% end %>
+
+      <% if post.confirmed? %>
+        <span class="status-icon" style="color: green;">✅</span>
+      <% elsif post.cancelled? %>
+        <span class="status-icon" style="color: red;">❌</span>
       <% end %>
     </li>
   <% end %>

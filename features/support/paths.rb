@@ -1,19 +1,20 @@
 def path_to(page_name)
-    base_url = "http://localhost:#{ENV['APP_PORT'] || 3000}"
+    base_url = "http://127.0.0.1:3000"
 
     case page_name
     when 'home'
         base_url + '/'
     when 'login'
         base_url + '/login'
+    when 'logout'  # Add this case
+        base_url + '/logout'
     when 'profile'
         base_url + '/profile'
     when 'new post'
         base_url + '/posts/new'
-    when "specified post #{id}"
-        base_url + "/posts/#{id}"
+    when /^specified post (\d+)$/  # Adjust this regex
+        base_url + "/posts/#{$1}"
     else
-      # Default or error case, you can also raise an error here
       raise "No mapping found for #{page_name}"
     end
 end

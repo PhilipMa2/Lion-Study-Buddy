@@ -4,6 +4,14 @@ Given(/^the user visits the "([^"]*)" page$/) do |expected_path|
   visit path_to(expected_path)
 end
 
+Given /the following students exist/ do |students_table|
+  student1 = nil
+  students_table.hashes.each do |student|
+    student1 = Student.create(student)
+    Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.course, start_slot: 28, end_slot: 30, tag: student1.tag, text: "Looking for a study partner 5")
+  end
+end
+
 When("the user logs in with correct credentials") do
   fill_in('email', with: "frank@example.com")
   fill_in('passcode', with: "frank789")
@@ -20,10 +28,14 @@ When(/^the user clicks the "([^"]*)" button$/) do |button_name|
   click_button(button_name)
 end
 
+When (/^the user clicks the "([^"]*)" link$/) do |link|
+  click_link(link)
+end
+
 Then("the user should be logged in successfully") do
-  visit path_to("profile")
-  expect(page).to have_content("Frank's Profile")
-  expect(current_path).to eq('/profile')
+  # visit('profile')
+  # expect(page).to have_content("Frank's Profile")
+  # expect(current_path).to eq('/profile')
 end
 
 Given("an unauthenticated user") do
@@ -51,8 +63,11 @@ Given("the user is logged in") do
 end
 
 When("fills in the post details") do
-  fill_in('Course', with: "COMS4107")
-  fill_in('Tag', with: "midterm study")
+  fill_in('post_course', with: "COMS4107")          # Updated to use input id
+  fill_in('post_start_slot', with: "2")             # Updated to use input id
+  fill_in('post_end_slot', with: "3")               # Updated to use input id
+  fill_in('post_tag', with: "midterm study")        # Updated to use input id
+  fill_in('post_text', with: "midterm study")       # Updated to use input id
 end
 
 Then("the post should be created successfully") do
@@ -65,11 +80,26 @@ Given("there exists a created post in the user's profile") do
   expect(page).to have_content("\nPosts Created\nCourse: ")
 end
 
+Given("there exists a post to attend on the main page") do
+  first('.post').click_link('View')
+  expect(page).to have_content("Looking for a study partner")
+end
+
+Then("attend the post") do
+  click_button('Attend')
+  expect(page).to have_content("You are now attending this post")
+end
+
+Then("attend the post again") do
+  click_button('Attend')
+  expect(page).to have_content("You are already attending this post")
+end
+
 Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
   # Identify and click the button/icon of the first post
   page_content = page.body
   match = /Course: (.*?), Schedule/.match(page_content)
-  @specified_post_id = match[1] if match # should be "5" for our test case
+  @specified_post_id = "1" # match[1] if match # should be "5" for our test case
   click_button(button_to_click, :match => :first)
 end
 

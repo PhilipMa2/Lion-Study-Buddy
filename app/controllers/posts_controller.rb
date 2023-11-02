@@ -13,11 +13,25 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.creator = current_student
+    @student = current_student
+    
+    # overlap_exists = current_student.posts.any? do |post|
+    #   new_start, new_end = @post.start_slot, @post.end_slot
+    #   existing_start, existing_end = post.start_slot, post.end_slot
+
+    #   new_start < existing_end && existing_start < new_end
+    # end
+
+    # if overlap_exists
+    #   flash.now[:alert] = 'Error: The schedule overlaps with an existing post.'
+    #   redirect_to root_path, notice: 'You already created this post.'
+    # else
     if @post.save
       redirect_to root_path, notice: 'Post was successfully created.'
     else
       render :new
     end
+    # end
   end
 
   def attend
@@ -44,17 +58,13 @@ class PostsController < ApplicationController
   def cancel
     @post = Post.find(params[:id])
     @post.update(status: 'cancelled')
-    redirect_to post_path(@post), alert: 'Post was successfully cancelled.'
+    redirect_to post_path(@post), notice: 'Post was successfully cancelled.'
   end
-
-
-
-
 
 
   private
   
   def post_params
-    params.require(:post).permit(:course, :schedule, :tag, :text)
+    params.require(:post).permit(:creator_name, :course, :tag, :text, :status, :start_slot, :end_slot)
   end
 end
