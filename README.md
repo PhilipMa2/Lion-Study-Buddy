@@ -85,6 +85,27 @@ These tests expect "frank@example.com" email and "frank789" passcode to be the v
 * students are matched iff both parties have approved of the match
 
 #### Profile
-* students have their own customizable profiles, where they can disclose information they believe is relevant for potential study buddies to know
-* students indicate their availabilities for study via the schedule visualizer
-* students' privacy is protected based on the access level (ie. match status) of the user viewing their profile. In other words, sensitive information like email and last name will not be disclosed until both parties have agreed to match.
+A student's privacy is protected based on the access level of the user accessing their profile. There are 3 access levels:
+1. Non-matched user / guest [LEAST ACCESS]
+2. Matched user [SOME ACCESS]
+3. The user themselves [MOST ACCESS]
+
+*Note*: The information accessible is cumulative by access level. In other words, a user with a higher access level can access everything someone with a lower access level can access, and more.
+
+**ACCESS LEVEL 1**:
+* User's first name
+* User's bio (where they can disclose information they believe is relevant for potential study buddies to know)
+* User's open posts
+
+**ACCESS LEVEL 2**:
+* User's last name
+* User's email
+* User's schedule availability visualized
+
+**ACCESS LEVEL 3**:
+* list of matched study groups (with names of members)
+* list of incoming requests which they can accept or decline
+* list of pending requests they have made
+* list of past / closed study groups ie. from previous semesters
+* editable access to their visualized schedule
+* editable access to their personal bio text box
