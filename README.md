@@ -1,6 +1,8 @@
 # Lion-Study-Buddy
 
-### Group 28
+A specialized platform designed for Columbia University students to discover study session partners and integrate a detailed schedule planner within each student's profile.
+
+### Created by Group 28
 Philip Ma (ym2876)
 
 Angela Zhang (zz2921)
@@ -59,3 +61,30 @@ The code coverage is stored in coverage/rspec and it is expected to be 97.85%.
 
 *A Note for Feature Tests*
 These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
+
+
+## Features
+
+#### Log in
+* students log in and out of their own account
+* matching and requesting to match are only available after the student's identity has been verified through log in
+
+#### Posts
+* students create and delete posts requesting a study buddy for other students to see
+* students indicate the course, frequency of study, number of students in group, and optionally a tag or short written description of focuses of the study group
+
+#### Post Filtering & Sorting
+* students are able to filter all open posts by course name
+* students are able to sort posts by number of overlapping times with their own schedule
+
+#### Matching - 2-way response to posts
+* students request to match with a post by clicking on a post and pressing "Request to Match"
+* students have the option to accept or decline people who request to match in their profile
+* if a student is on a post that does not match their availability, there should be a flash warning
+* students cannot request to match their own post
+* students are matched iff both parties have approved of the match
+
+#### Profile
+* students have their own customizable profiles, where they can disclose information they believe is relevant for potential study buddies to know
+* students indicate their availabilities for study via the schedule visualizer
+* students' privacy is protected based on the access level (ie. match status) of the user viewing their profile. In other words, sensitive information like email and last name will not be disclosed until both parties have agreed to match.
