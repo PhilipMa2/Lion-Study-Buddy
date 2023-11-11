@@ -33,9 +33,9 @@ When (/^the user clicks the "([^"]*)" link$/) do |link|
 end
 
 Then("the user should be logged in successfully") do
-  # visit('profile')
-  # expect(page).to have_content("Frank's Profile")
-  # expect(current_path).to eq('/profile')
+  visit('profile')
+  expect(page).to have_content("Frank's Profile")
+  expect(current_path).to eq('/profile')
 end
 
 Given("an unauthenticated user") do
@@ -143,4 +143,18 @@ Given('the following posts exist:') do |table|
     fill_in('Text', with: text)
     click_button('Create') # Submit the form to create the post
   end
+end
+
+Then(/^the correct number of overlapping sessions should show up$/) do
+  assert_equal expected_number, actual_number
+end
+
+And(/^the pending request should show up in the requested's inbox$/) do
+  
+  assert page.has_content?('Pending Request'), "Pending request not found in inbox"
+end
+
+And(/^the pending request should show up in the requestee's profile$/) do
+  # Implement code to check if the pending request is present in the requestee's profile
+  # For example, assert page.has_content?('Pending Request'), "Pending request not found in profile"
 end

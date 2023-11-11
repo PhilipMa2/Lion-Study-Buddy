@@ -71,7 +71,15 @@ These tests expect "frank@example.com" email and "frank789" passcode to be the v
 
 #### Posts
 * students create and delete posts requesting a study buddy for other students to see
-* students indicate the course, frequency of study, number of students in group, and optionally a tag or short written description of focuses of the study group
+* a post has the following information: 
+  * status (open, full, or closed)
+  * course
+  * student count (# of matched students into the group... starts at 1)
+  * capacity (max # of students the group will accept)
+  * tag (optional text field)
+  * text (optional text field)
+* a user viewing the posts can also see the number of overlapping sessions between themselves and the accepted members of the study group
+* a user viewing a post that has no overlapping sessions will have a warning flash
 
 #### Post Filtering & Sorting
 * students are able to filter all open posts by course name

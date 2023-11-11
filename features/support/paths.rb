@@ -14,6 +14,8 @@ def path_to(page_name)
         base_url + '/posts/new'
     when /^specified post (\d+)$/  # Adjust this regex
         base_url + "/posts/#{$1}"
+    when 'study group post'  
+        base_url + "/posts/1" # TODO: adjust variable
     else
       raise "No mapping found for #{page_name}"
     end
