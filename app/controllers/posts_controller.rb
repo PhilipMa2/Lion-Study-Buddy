@@ -39,11 +39,12 @@ class PostsController < ApplicationController
     @student = current_student
     already_attended = StudentAttendPost.exists?(student: @student, post: @post)
 
-    if @post.post_status == "close" || @post.post_status == "full"
+    if @post.creator_id == @student.id
+      flash[:alert] = 'You cannot request to join your own post.'
+    elsif @post.post_status == "close" || @post.post_status == "full"
       flash[:alert] = 'This post is not accepting applications.'
     elsif already_attended
-      StudentAttendPost.create(student: @student, post: @post)
-      flash[:notice] = 'You already applied this post!'
+      flash[:notice] = 'You have already applied to this post!'
     else
       StudentAttendPost.create(student: @student, post: @post)
       flash[:notice] = 'Application submitted!'
@@ -51,6 +52,7 @@ class PostsController < ApplicationController
 
     redirect_to post_path(@post)
   end
+
 
   def accept_application
     application = StudentAttendPost.find(params[:id])

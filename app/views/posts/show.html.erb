@@ -2,10 +2,13 @@
 <p><strong>Course:</strong> <%= @post.course %></p>
 <p><strong>Tag:</strong> <%= @post.tag %></p>
 <p><strong>Text:</strong> <%= @post.text %></p>
-<p><strong>Capacity:</strong> <%= @post.capacity %></p>
+<p>
+  <strong>Capacity:</strong> 
+  <%= @post.student_attend_posts.where(apply_status: 'accepted').count + 1 %> / <%= @post.capacity %>
+</p>
 
 <% if @post.post_status == "open" %>
-  <%= button_to "Apply", apply_post_path(@post), method: :post, class: "btn btn-primary" %>
+  <%= button_to "Request to Join", apply_post_path(@post), method: :post, class: "btn btn-primary" %>
 <% end %>
 
 <!-- Display members list to accepted students and the creator -->
@@ -21,9 +24,9 @@
 <% if @post.creator == current_student %>
   <% @post.student_attend_posts.each do |application| %>
     <div class="applicant-row">
-      <% applicant = application.student %>
-      <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
-      <% if application.apply_status == "apply" %>
+      <% if application.apply_status == "pending" %>
+        <% applicant = application.student %>
+        <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
         <div class="buttons">
           <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
           <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>

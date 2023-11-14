@@ -10,15 +10,21 @@
 <ul class="list-group">
   <% @created_posts.each do |post| %>
     <li class="list-group-item text-center">
-      <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
-      <% end %>
       <div class="d-flex gap-2 justify-content-center py-2">
         <% if post.post_status == "open" %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
           <span class="status-icon" style="color: green;">OPEN</span>
         <% elsif post.post_status == "full" %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
           <span class="status-icon" style="color: red;">FULL</span>
         <% else %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
           <span class="status-icon" style="color: red;">❌</span>
         <% end %>
       </div>
@@ -30,13 +36,16 @@
 <ul class="list-group">
   <% @applied_posts.each do |post| %>
     <li class="list-group-item text-center">
-      <%= link_to post_path(post) do %>
-        Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
-      <% end %>
       <% if post.apply_status == "accepted" %>
+        <%= link_to post_path(post) do %>
+          Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
+        <% end %>
         <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.apply_status == "rejected" %>
-        <span class="status-icon" style="color: red;">❌</span>
+      <% elsif post.apply_status == "pending" %>
+        <%= link_to post_path(post) do %>
+          Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
+        <% end %>
+        <span class="status-icon" style="color: green;">pending</span>
       <% end %>
     </li>
   <% end %>

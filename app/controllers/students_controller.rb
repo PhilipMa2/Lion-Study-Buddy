@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :require_student, only: [:profile]
+  before_action :require_student, only: [:show, :profile]
 
   def show
     @student = Student.find(params[:id])

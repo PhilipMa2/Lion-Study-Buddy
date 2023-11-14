@@ -24,7 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 3) do
   create_table "student_attend_posts", force: :cascade do |t|
     t.integer "student_id", null: false
     t.integer "post_id", null: false
-    t.string "apply_status", default: "apply"
+    t.string "apply_status", default: "pending"
     t.index ["post_id"], name: "index_student_attend_posts_on_post_id"
     t.index ["student_id"], name: "index_student_attend_posts_on_student_id"
   end

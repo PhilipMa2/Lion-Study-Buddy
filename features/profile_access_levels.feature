@@ -7,6 +7,8 @@ Feature: restricting access to profile information based on access levels
 # Please refer to the README for details on the 3 access levels
 
 # LEVEL 1 ACCESS:
+// Can we require login? we really need current_student when query for access
+// So if not login, just redirect to login
 Scenario: User accesses the profile of someone they have not matched with
     Given the user is logged in 
     And the user visits a non-matched user's profile page

@@ -24,11 +24,11 @@ Scenario: User attempts to request to match with a post they are already accepte
     And the user visits a study group post page that they are already accepted in
     And the user presses "Request to Join"
     Then the request should fail 
-    And the user should see "You are already in this study group"
+    And the user should see "You are already in this study group" // Can we change this to "You have already applied to this post!"
 
 Scenario: User accepts a request to match
     Given the user is logged in 
-    And the user visits the profile page
+    And the user visits the profile page // Can we accept match in post page
     When the user accepts a match from their pending requests
     Then the match request should be gone from their pending requests
     And the requestee should have their pending request moved to matched requests 
