@@ -43,3 +43,46 @@
     </li>
   <% end %>
 </ul>
+
+<h2 class="py-5 text-center">Schedule</h2>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-bordered text-center">
+      <thead class="table-light">
+        <tr>
+          <th class="text-uppercase">Time
+          </th>
+          <th class="text-uppercase">Monday</th>
+          <th class="text-uppercase">Tuesday</th>
+          <th class="text-uppercase">Wednesday</th>
+          <th class="text-uppercase">Thursday</th>
+          <th class="text-uppercase">Friday</th>
+          <th class="text-uppercase">Saturday</th>
+          <th class="text-uppercase">Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% (8..21).each do |hour| %>
+          <tr>
+            <td class="align-middle"><%= "#{hour.to_s.rjust(2, '0')}:00" %></td>
+            <% 7.times do %>
+              <td class="align-middle">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">  
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="8">
+            <button type="submit" class="btn btn-primary align-items-center">Confirm</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
+
+
+
