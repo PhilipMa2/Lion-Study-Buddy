@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_student, only: [:new, :create, :attend]
+  before_action :require_student, only: [:new, :create, :apply, :accept_application, :reject_application, :close]
 
   def show
     @post = Post.find(params[:id])
@@ -39,13 +39,13 @@ class PostsController < ApplicationController
     @student = current_student
     already_attended = StudentAttendPost.exists?(student: @student, post: @post)
 
-    if @post.closed? || @post.full?
+    if @post.post_status == "close" || @post.post_status == "full"
       flash[:alert] = 'This post is not accepting applications.'
     elsif already_attended
       StudentAttendPost.create(student: @student, post: @post)
       flash[:notice] = 'You already applied this post!'
     else
-      StudentAttendPost.create(student: @student, post: @post, status: :applied)
+      StudentAttendPost.create(student: @student, post: @post)
       flash[:notice] = 'Application submitted!'
     end
 
@@ -54,20 +54,19 @@ class PostsController < ApplicationController
 
   def accept_application
     application = StudentAttendPost.find(params[:id])
-    application.accepted!
-    application.post.update_status
-    redirect_to post_path(@application.post), notice: 'Application accepted.'
+    application.update(apply_status: 'accepted')
+    redirect_to post_path(application.post), notice: 'Application accepted.'
   end
 
   def reject_application
-    @application = StudentAttendPost.find(params[:id])
-    @application.update(status: 'rejected')
-    redirect_to post_path(@application.post), notice: 'Application rejected.'
+    application = StudentAttendPost.find(params[:id])
+    application.update(apply_status: 'rejected')
+    redirect_to post_path(application.post), notice: 'Application rejected.'
   end
 
   def close
     @post = Post.find(params[:id])
-    @post.update(status: 'close')
+    @post.update(apply_status: 'close')
     redirect_to post_path(@post), notice: 'Post was successfully closed.'
   end
 
@@ -75,6 +74,6 @@ class PostsController < ApplicationController
   private
   
   def post_params
-    params.require(:post).permit(:creator_name, :course, :tag, :text, :status, :start_slot, :end_slot)
+    params.require(:post).permit(:creator_name, :course, :tag, :text, :post_status, :start_slot, :end_slot)
   end
 end

@@ -5,23 +5,22 @@
 <p>Tag: <%= @student.tag %></p>
 <p>Text: <%= @student.text %></p>
 
+<% if current_student == @student %>
 <h2 class="py-5 text-center">Posts Created</h2>
 <ul class="list-group">
   <% @created_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
       <% end %>
       <div class="d-flex gap-2 justify-content-center py-2">
-  
-      <% if post.confirmed? %>
-        <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.cancelled? %>
-        <span class="status-icon" style="color: red;">❌</span>
-      <% end %>
-
-      <%= button_to 'Confirm', confirm_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
-        <%= button_to 'Cancel', cancel_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
+        <% if post.post_status == "open" %>
+          <span class="status-icon" style="color: green;">OPEN</span>
+        <% elsif post.post_status == "full" %>
+          <span class="status-icon" style="color: red;">FULL</span>
+        <% else %>
+          <span class="status-icon" style="color: red;">❌</span>
+        <% end %>
       </div>
     </li>
   <% end %>
@@ -32,14 +31,14 @@
   <% @applied_posts.each do |post| %>
     <li class="list-group-item text-center">
       <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
       <% end %>
-
-      <% if post.confirmed? %>
+      <% if post.apply_status == "accepted" %>
         <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.cancelled? %>
+      <% elsif post.apply_status == "rejected" %>
         <span class="status-icon" style="color: red;">❌</span>
       <% end %>
     </li>
   <% end %>
 </ul>
+<% end %>
