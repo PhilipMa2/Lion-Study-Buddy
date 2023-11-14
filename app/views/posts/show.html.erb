@@ -1,11 +1,28 @@
 <h1 class="py-5 text-center"><%= @post.text %></h1>
-<p><strong>Status:</strong> <%= @post.status.humanize %></p> <!-- Display the status -->
+<p><strong>Status:</strong> <%= @post.status.humanize %></p>
 <p><strong>Course:</strong> <%= @post.course %></p>
 <p><strong>Schedule:</strong> <%= display_schedule(@post.start_slot, @post.end_slot) %></p>
 <p><strong>Tag:</strong> <%= @post.tag %></p>
 <p><strong>Text:</strong> <%= @post.text %></p>
 
-<!-- Only display the "Attend" button if the post is "pending" or "confirmed" -->
-<% if @post.pending? || @post.confirmed? %>
-  <%= button_to "Attend", attend_post_path(@post), method: :post, class: "btn btn-primary" %>
+<% if @post.open? %>
+  <%= button_to "Apply", apply_post_path(@post), method: :post, class: "btn btn-primary" %>
+<% end %>
+
+<!-- Display members list to accepted students and the creator -->
+<% if @post.students.include?(current_student) || @post.creator == current_student %>
+  <h3>Members:</h3>
+  <% @post.students.each do |student| %>
+    <p><%= student.name %></p>
+  <% end %>
+<% end %>
+
+<!-- Display accept/reject options to the creator -->
+<% if @post.creator == current_student %>
+  <% @post.student_attend_posts.each do |application| %>
+    <% if application.applied? %>
+      <%= link_to 'Accept', accept_application_path(application), method: :post %>
+      <%= link_to 'Reject', reject_application_path(application), method: :post %>
+    <% end %>
+  <% end %>
 <% end %>

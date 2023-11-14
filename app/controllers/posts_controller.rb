@@ -34,31 +34,41 @@ class PostsController < ApplicationController
     # end
   end
 
-  def attend
-    @student = current_student
+  def apply
     @post = Post.find(params[:id])
+    @student = current_student
     already_attended = StudentAttendPost.exists?(student: @student, post: @post)
 
-    unless already_attended
-        StudentAttendPost.create(student: @student, post: @post)
-        flash[:notice] = 'You are now attending this post!'
+    if @post.closed? || @post.full?
+      flash[:alert] = 'This post is not accepting applications.'
+    elsif already_attended
+      StudentAttendPost.create(student: @student, post: @post)
+      flash[:notice] = 'You already applied this post!'
     else
-        flash[:alert] = 'You are already attending this post!'
+      StudentAttendPost.create(student: @student, post: @post, status: :applied)
+      flash[:notice] = 'Application submitted!'
     end
 
     redirect_to post_path(@post)
   end
 
-  def confirm
-    @post = Post.find(params[:id])
-    @post.update(status: 'confirmed')
-    redirect_to post_path(@post), notice: 'Post was successfully confirmed.'
+  def accept_application
+    application = StudentAttendPost.find(params[:id])
+    application.accepted!
+    application.post.update_status
+    redirect_to post_path(@application.post), notice: 'Application accepted.'
   end
 
-  def cancel
+  def reject_application
+    @application = StudentAttendPost.find(params[:id])
+    @application.update(status: 'rejected')
+    redirect_to post_path(@application.post), notice: 'Application rejected.'
+  end
+
+  def close
     @post = Post.find(params[:id])
-    @post.update(status: 'cancelled')
-    redirect_to post_path(@post), notice: 'Post was successfully cancelled.'
+    @post.update(status: 'close')
+    redirect_to post_path(@post), notice: 'Post was successfully closed.'
   end
 
 
