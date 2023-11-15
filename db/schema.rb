@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 3) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
   create_table "posts", force: :cascade do |t|
     t.text "creator_name"
     t.integer "creator_id"
@@ -47,7 +47,16 @@ ActiveRecord::Schema[7.1].define(version: 3) do
     t.index ["email"], name: "index_students_on_email"
   end
 
+  create_table "time_slots", force: :cascade do |t|
+    t.integer "available_time"
+    t.integer "student_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_time_slots_on_student_id"
+  end
+
   add_foreign_key "posts", "students", column: "creator_id"
   add_foreign_key "student_attend_posts", "posts"
   add_foreign_key "student_attend_posts", "students"
+  add_foreign_key "time_slots", "students"
 end

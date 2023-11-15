@@ -8,6 +8,7 @@ RSpec.describe StudentsController, type: :controller do
     context 'when student is logged in' do
       let!(:created_posts) { create_list(:post, 3, creator: student) }
       let!(:attended_posts) { create_list(:post, 2) }
+      let!(:time_slots) { create_list(:time_slot, 1, student: student)}
       
       before do
         # Simulate that student is logged in
@@ -28,6 +29,10 @@ RSpec.describe StudentsController, type: :controller do
 
       it 'assigns @applied_posts' do
         expect(assigns(:applied_posts)).to match_array(attended_posts)
+      end
+
+      it 'assigns @time_slots' do
+        expect(assigns(:time_slots)).to match_array(time_slots)
       end
 
       it 'renders the profile template' do

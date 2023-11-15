@@ -5,5 +5,6 @@ class StudentsController < ApplicationController
     @student = current_student
     @created_posts = @student.posts
     @applied_posts = @student.attended_posts
+    @time_slots = TimeSlot.where(student: session[:student_id])
   end
 end
