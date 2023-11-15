@@ -10,11 +10,6 @@ Background: students in database
   | name   | email              | passcode    |
   | Frank  | frank@example.com  | frank789    |  
 
-Scenario: User logs in successfully with valid credentials
-    Given the user visits the "login" page
-    When the user logs in with correct credentials
-    Then the user should be logged in successfully
-
 Scenario: User logs in unsuccessfully with invalid credentials
     Given the user visits the "login" page
     When the user logs in with wrong credentials

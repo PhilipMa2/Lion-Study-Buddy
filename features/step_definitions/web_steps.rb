@@ -8,7 +8,7 @@ Given /the following students exist/ do |students_table|
   @student = nil
   students_table.hashes.each do |student|
     @student = Student.create(student)
-    Post.create(creator_name: @student.name, creator_id: @student.id, course: @student.course, start_slot: 28, end_slot: 30, tag: @student.tag, text: "Looking for a study partner 5")
+    Post.create(creator_id: @student.id, course: @student.course, capacity: 3, tag: @student.tag, text: "Looking for a study partner 5")
   end
 end
 
@@ -64,10 +64,9 @@ end
 
 When("fills in the post details") do
   fill_in('post_course', with: "COMS4107")          # Updated to use input id
-  fill_in('post_start_slot', with: "2")             # Updated to use input id
-  fill_in('post_end_slot', with: "3")               # Updated to use input id
   fill_in('post_tag', with: "midterm study")        # Updated to use input id
   fill_in('post_text', with: "midterm study")       # Updated to use input id
+  fill_in('post_capacity', with: 3)
 end
 
 Then("the post should be created successfully") do
@@ -86,12 +85,12 @@ Given("there exists a post to attend on the main page") do
 end
 
 Then("attend the post") do
-  click_button('Attend')
+  click_button('Request to Join')
   expect(page).to have_content("You are now attending this post")
 end
 
 Then("attend the post again") do
-  click_button('Attend')
+  click_button('Request to Join')
   expect(page).to have_content("You are already attending this post")
 end
 

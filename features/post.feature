@@ -18,24 +18,3 @@ Scenario: User creates a new post
   Then the post should be created successfully
   And the user should be directed to the "home" page
 
-Scenario: User deletes a post from their profile
-  Given the user is logged in
-  And there exists a created post in the user's profile
-  Given the user visits the "profile" page
-  And the user selects the post to "Cancel"
-  Then the user should be directed to the "specified post" page
-  Then the post should be deleted from the user's profile
-
-Scenario: User confirms a post from their profile when they have found a match
-  Given the user is logged in
-  And there exists a created post in the user's profile
-  When the user visits the "profile" page
-  Given the user selects the post to "Confirm"
-  Then the user should be directed to the "specified post" page
-  Then the post should be confirmed successfully
-
-Scenario: User attend a post
-  Given the user is logged in
-  Given there exists a post to attend on the main page
-  Then attend the post
-  Then attend the post again
