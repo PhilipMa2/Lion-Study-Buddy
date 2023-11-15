@@ -16,8 +16,15 @@ def path_to(page_name)
         base_url + "/posts/#{$1}"
     when 'study group post'  
         base_url + "/posts/1" # TODO: adjust variable
+<<<<<<< HEAD
     when 'timeslot'
         base_url + "/time_slots"
+=======
+    when 'unmatched_student'
+        base_url + "/students/4" # Dave is not matched with Frank
+    when 'unmatched_post'
+        base_url + "/posts/4" # Frank is not in Dave's study group
+>>>>>>> az/web-steps
     else
       raise "No mapping found for #{page_name}"
     end
