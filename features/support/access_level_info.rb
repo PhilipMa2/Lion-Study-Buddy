@@ -10,7 +10,7 @@ def should_see_access(access_level_int)
         [
             "'s Profile", # First Name
             "Bio",
-            "Posts Created"
+            "Open Posts"
         ]
     when 2
         [

@@ -58,7 +58,9 @@ The code coverage is stored in coverage/rspec and it is expected to be 97.85%.
 * matching students
 
 *A Note for Feature Tests*
-These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
+These tests expect:
+* "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
+* Frank is unmatched with user Dave (id 4), who has an open post (id 4)
 
 
 ## Features

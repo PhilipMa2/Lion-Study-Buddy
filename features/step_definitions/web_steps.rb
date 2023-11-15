@@ -8,7 +8,28 @@ Given /the following students exist/ do |students_table|
   student1 = nil
   students_table.hashes.each do |student|
     student1 = Student.create(student)
-    Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.course, start_slot: 28, end_slot: 30, tag: student1.tag, text: "Looking for a study partner 5")
+    Post.create(creator_name: student1.name, creator_id: student1.id, course: student1.course, start_slot: 28, end_slot: 30, tag: student1.tag, text: "Looking for a study partner")
+  end
+end
+
+Given(/^there are students with the following details:$/) do |table|
+  table.hashes.each do |student|
+    Student.create!(student)
+  end
+end
+
+Given(/^there are posts with the following details:$/) do |table|
+  table.hashes.each do |post|
+    creator = Student.find_by(id: post['creator_id'])
+    Post.create!(post.merge(creator: creator))
+  end
+end
+
+Given(/^there are attendances with the following details:$/) do |table|
+  table.hashes.each do |attendance|
+    student = Student.find_by(id: attendance['student_id'])
+    post = Post.find_by(id: attendance['post_id'])
+    StudentAttendPost.create!(attendance.merge(student: student, post: post))
   end
 end
 
@@ -121,14 +142,14 @@ Then("the post should be confirmed successfully") do
   expect(page).not_to have_content("Status: Pending")
 end
 
-Then(/^the user should see level "([^"]*)" access information$/) do |access_level_str|
+Then(/^the user should see level (\d+) access information$/) do |access_level_str|
   access_level_int = access_level_str.to_i
   for accessible_item in should_see_access(access_level_int) do
     expect(page).to have_content(accessible_item)
   end
 end
 
-Then(/^the user should not see level "([^"]*)" access information$/) do |access_level_str|
+Then(/^the user should not see level (\d+) access information$/) do |access_level_str|
   access_level_int = access_level_str.to_i
   for unaccessible_item in should_not_see_access(access_level_int) do
     expect(page).not_to have_content(unaccessible_item)
@@ -140,23 +161,21 @@ Then(/^the user should see "([^"]*)"$/) do |expected_content|
 end
 
 Given('the following posts exist:') do |table|
-  table.hashes.each do |post|
-    creator_name = post['creator_name']
-    creator_id = post['creator_id']
-    course = post['course']
-    schedule = post['schedule']
-    tag = post['tag']
-    text = post['text']
+  data = table.hashes.first
+  fill_in 'post_creator_id', with: data['Creator ID']
+  fill_in 'post_course', with: data['Course']
+  fill_in 'post_capacity', with: data['Capacity']
+  fill_in 'post_tag', with: data['Tag']
+  fill_in 'post_text', with: data['Text']
+end
 
-    visit('/new post') # Navigating to the new post creation page
-    fill_in('Creator Name', with: creator_name)
-    fill_in('Creator ID', with: creator_id)
-    fill_in('Course', with: course)
-    fill_in('Schedule', with: schedule)
-    fill_in('Tag', with: tag)
-    fill_in('Text', with: text)
-    click_button('Create') # Submit the form to create the post
-  end
+Given('the following student_attend_posts exist:') do |table|
+  data = table.hashes.first
+  fill_in 'post_creator_id', with: data['Creator ID']
+  fill_in 'post_course', with: data['Course']
+  fill_in 'post_capacity', with: data['Capacity']
+  fill_in 'post_tag', with: data['Tag']
+  fill_in 'post_text', with: data['Text']
 end
 
 Then(/^the correct number of overlapping sessions should show up$/) do
@@ -171,4 +190,8 @@ end
 And(/^the pending request should show up in the requestee's profile$/) do
   # Implement code to check if the pending request is present in the requestee's profile
   # For example, assert page.has_content?('Pending Request'), "Pending request not found in profile"
+end
+
+Then(/^the user visits user ([^"]*)'s profile page$/) do |user_id|
+  visit "http://127.0.0.1:3000/students/" +  user_id
 end
