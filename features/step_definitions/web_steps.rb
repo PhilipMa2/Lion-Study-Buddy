@@ -251,66 +251,6 @@ Then (/^the user's available time slots for the week are cleared successfully$/)
   expect(actual_time_slots).to eq(expected_time_slots)
 end
 
-When /the user indicates their available time slots for each day/ do |schedule|
-  schedule.hashes.each do |row|
-    day = row['Day'].to_i - 1
-    available_time = row['Available Time Slots'].split(',').map(&:strip)
-    available_time.each do |slot|
-      slot = slot.to_i
-      slot_id = (slot - 8) + day * 13 + 1
-      checkbox_id = "time_slot_#{slot_id}"
-      check(checkbox_id)
-    end
-  end
-end
-
-Then (/^the user's available time slots for the week are saved successfully$/) do
-  expect(page).to have_content("Schedule saved successfully")
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19]
-  actual_time_slots = @student.selected_time_slots
-  expect(actual_time_slots).to eq(expected_time_slots)
-end
-
-Given /the user has already set their available time slots for the week/ do
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19]
-  expected_time_slots.each do |slot|
-    check("time_slot_#{slot}")
-  end
-  click_button("Update")
-  actual_time_slots = @student.selected_time_slots
-  expect(actual_time_slots).to eq(expected_time_slots)
-end
-
-Then (/^the user's available time slots for the week are updated successfully$/) do
-  expect(page).to have_content("Schedule saved successfully")
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19, 32, 45, 33, 46, 47]
-  actual_time_slots = @student.selected_time_slots
-  expect(actual_time_slots).to eq(expected_time_slots)
-end
-
-Given /the user has already set their available time slots for the complete week/ do
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19, 32, 45, 33, 46, 47]
-  expected_time_slots.each do |slot|
-    check("time_slot_#{slot}")
-  end
-  click_button("Update")
-  actual_time_slots = @student.selected_time_slots
-  expect(actual_time_slots).to eq(expected_time_slots)
-end
-
-And /the user clears their available time slots for each day/ do
-  time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19, 32, 45, 33, 46, 47]
-  time_slots.each do |slot|
-    uncheck("time_slot_#{slot}")
-  end
-end
-
-Then (/^the user's available time slots for the week are cleared successfully$/) do
-  expected_time_slots = []
-  actual_time_slots = @student.selected_time_slots
-  expect(actual_time_slots).to eq(expected_time_slots)
-end
-
 Then(/^the user visits user ([^"]*)'s profile page$/) do |user_id|
   visit "http://127.0.0.1:3000/students/" +  user_id
 end
