@@ -121,6 +121,20 @@ Then("the post should be confirmed successfully") do
   expect(page).not_to have_content("Status: Pending")
 end
 
+Then(/^the user should see level "([^"]*)" access information$/) do |access_level_str|
+  access_level_int = access_level_str.to_i
+  for accessible_item in should_see_access(access_level_int) do
+    expect(page).to have_content(accessible_item)
+  end
+end
+
+Then(/^the user should not see level "([^"]*)" access information$/) do |access_level_str|
+  access_level_int = access_level_str.to_i
+  for unaccessible_item in should_not_see_access(access_level_int) do
+    expect(page).not_to have_content(unaccessible_item)
+  end
+end
+
 Then(/^the user should see "([^"]*)"$/) do |expected_content|
   expect(page).to have_content(expected_content)
 end
