@@ -27,14 +27,11 @@ RSpec.describe StudentsController, type: :controller do
       let!(:time_slots) { create_list(:time_slot, 1, student: student)}
       
       before do
-        # Simulate that student is logged in
         session[:student_id] = student.id
-        # Simulate that student attended some posts
-        attended_posts.each { |post| create(:student_attend_post, student: student, post: post) }
-
+        # attended_posts.each { |post| create(:student_attend_post, student: student, post: post) }
         get :profile
       end
-      
+
       it 'assigns @student' do
         expect(assigns(:student)).to eq(student)
       end
