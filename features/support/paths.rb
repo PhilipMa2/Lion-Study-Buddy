@@ -16,6 +16,8 @@ def path_to(page_name)
         base_url + "/posts/#{$1}"
     when 'study group post'  
         base_url + "/posts/1" # TODO: adjust variable
+    when 'timeslot'
+        base_url + "/time_slots"
     else
       raise "No mapping found for #{page_name}"
     end

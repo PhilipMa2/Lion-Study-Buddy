@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy'
   
   get 'profile', to: 'students#profile'
+
+  resources :time_slots, only: [:create]
 end
