@@ -1,0 +1,52 @@
+<h2 class="py-5 text-center">Schedule</h2>
+<p>*Checked boxes indicate time slots available for study</p>
+<%= form_with(url: time_slots_path, method: :post) do |form| %>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-bordered text-center">
+      <thead class="table-light">
+        <tr>
+          <th class="text-uppercase">Time
+          </th>
+          <th class="text-uppercase">Monday</th>
+          <th class="text-uppercase">Tuesday</th>
+          <th class="text-uppercase">Wednesday</th>
+          <th class="text-uppercase">Thursday</th>
+          <th class="text-uppercase">Friday</th>
+          <th class="text-uppercase">Saturday</th>
+          <th class="text-uppercase">Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% (8..21).each do |hour| %>
+          <tr>
+            <td class="align-middle"><%= "#{hour.to_s.rjust(2, '0')}:00" %></td>
+            <% 7.times do |day| %>
+              <td class="align-middle">
+              <% slot_id = (hour - 8) + day * 13 + 1 %>
+                <% if time_slots.any? { |time_slot| time_slot.available_time == slot_id } %>
+                  <%= form.check_box :selected_time_slots,
+                  {multiple: true, checked: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
+                  slot_id,
+                  nil %>  
+                <% else %>
+                  <%= form.check_box :selected_time_slots,
+                  {multiple: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
+                  slot_id,
+                  nil %>  
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="8">
+            <%= form.submit 'Update', class: "btn btn-primary align-items-center" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+<% end %>

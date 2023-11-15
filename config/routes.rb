@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   
   get 'profile', to: 'students#profile'
   get 'students/:id', to: 'students#show', as: :student
+
+  resources :time_slots, only: [:create]
 end

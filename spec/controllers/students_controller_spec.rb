@@ -24,12 +24,17 @@ RSpec.describe StudentsController, type: :controller do
       let!(:created_posts) { create_list(:post, 3, creator: student) }
       let!(:attended_posts) { create_list(:post, 2) }
       let!(:attendances) { attended_posts.map { |post| create(:student_attend_post, student: student, post: post) } }
-
+      let!(:time_slots) { create_list(:time_slot, 1, student: student)}
+      
       before do
+        # Simulate that student is logged in
         session[:student_id] = student.id
+        # Simulate that student attended some posts
+        attended_posts.each { |post| create(:student_attend_post, student: student, post: post) }
+
         get :profile
       end
-
+      
       it 'assigns @student' do
         expect(assigns(:student)).to eq(student)
       end
@@ -40,6 +45,10 @@ RSpec.describe StudentsController, type: :controller do
 
       it 'assigns @applied_posts' do
         expect(assigns(:applied_posts)).to match_array(attendances)
+      end
+
+      it 'assigns @time_slots' do
+        expect(assigns(:time_slots)).to match_array(time_slots)
       end
 
       it 'renders the profile template' do
