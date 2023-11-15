@@ -1,9 +1,9 @@
 class StudentsController < ApplicationController
-  before_action :require_student, only: [:show, :profile]
+  before_action :require_student, only: [:profile]
 
   def show
     @student = Student.find(params[:id])
-    @can_view_full_profile = can_view_full_profile?(@student)
+    @can_view_full_profile = logged_in? && can_view_full_profile?(@student)
   end
 
   def can_view_full_profile?(student)
