@@ -6,16 +6,21 @@ RSpec.describe StudentsController, type: :controller do
   let(:other_student) { create(:student) }
 
   describe 'GET #show' do
+    before do
+      @current_student = student
+      allow(controller).to receive(:current_student).and_return(@current_student)
+    end
     it 'assigns the requested student to @student' do
       get :show, params: { id: other_student.id }
       expect(assigns(:student)).to eq(other_student)
+        expect(assigns(:can_view_full_profile)).to be false
     end
 
-    context 'when the current student cannot view full profile' do
-      it 'sets @can_view_full_profile to false' do
-        get :show, params: { id: other_student.id }
-        expect(assigns(:can_view_full_profile)).to be false
-      end
+    it 'returns true if there is an accepted application from current student or to the current student' do 
+      post_student = create(:post, creator: student)
+      create(:student_attend_post, student: other_student, post: post_student, apply_status: 'accepted')
+      result = controller.can_view_full_profile?(other_student)
+      expect(result).to be_truthy
     end
   end
 
