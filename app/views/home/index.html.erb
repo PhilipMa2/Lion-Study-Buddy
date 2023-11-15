@@ -25,7 +25,13 @@
       <tr class="post">
         <td><%= post.course %></td>
         <td><%= post.tag %></td>
-        <td><%= link_to post.creator.name, student_path(post.creator) %></td>
+        <td>
+          <% if logged_in? && post.creator_id == current_student.id %>
+            <%= link_to post.creator.name, profile_path %>
+          <% else %>
+            <%= link_to post.creator.name, student_path(post.creator) %>
+          <% end %>
+        </td>
         <td><%= link_to 'View', post_path(post), class: "btn btn-info" %></td>
       </tr>
     <% end %>

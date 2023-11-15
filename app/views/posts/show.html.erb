@@ -14,9 +14,9 @@
 <!-- Display members list to accepted students and the creator -->
 <% if @post.students.include?(current_student) || @post.creator == current_student %>
   <h3>Members:</h3>
-  <p><%= @post.creator.name %></p>
+  <p><%= link_to @post.creator.name, student_path(@post.creator) %></p>
   <% @post.student_attend_posts.where(apply_status: 'accepted').each do |application| %>
-    <p><%= application.student.name %></p>
+    <p><%= link_to application.student.name, student_path(application.student) %></p>
   <% end %>
 <% end %>
 

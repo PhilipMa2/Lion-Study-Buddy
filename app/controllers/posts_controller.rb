@@ -38,6 +38,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @student = current_student
     already_attended = StudentAttendPost.exists?(student: @student, post: @post)
+    accepted_applications_count = @post.student_attend_posts.where(apply_status: 'accepted').count
 
     if @post.creator_id == @student.id
       flash[:alert] = 'You cannot request to join your own post.'
@@ -45,6 +46,9 @@ class PostsController < ApplicationController
       flash[:alert] = 'This post is not accepting applications.'
     elsif already_attended
       flash[:notice] = 'You have already applied to this post!'
+    elsif accepted_applications_count + 1 >= @post.capacity
+      flash[:alert] = 'This post has reached its capacity.'
+      @post.update(post_status: 'full')
     else
       StudentAttendPost.create(student: @student, post: @post)
       flash[:notice] = 'Application submitted!'
@@ -76,6 +80,6 @@ class PostsController < ApplicationController
   private
   
   def post_params
-    params.require(:post).permit(:creator_name, :course, :tag, :text, :post_status, :start_slot, :end_slot)
+    params.require(:post).permit(:creator_id, :course, :capacity, :tag, :text, :post_status)
   end
 end

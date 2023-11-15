@@ -32,20 +32,23 @@
   <% end %>
 </ul>
 
+
+////////////////////////////url
 <h2 class="py-5 text-center">Posts Applied For</h2>
 <ul class="list-group">
-  <% @applied_posts.each do |post| %>
+  <% @applied_posts.each do |application| %>
     <li class="list-group-item text-center">
-      <% if post.apply_status == "accepted" %>
+      <% post = application.post %>
+      <% if application.apply_status == "accepted" %>
         <%= link_to post_path(post) do %>
-          Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
+          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
         <% end %>
         <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.apply_status == "pending" %>
+      <% elsif application.apply_status == "pending" %>
         <%= link_to post_path(post) do %>
-          Course: <%= post.post.course %>, Tag: <%= post.post.course %>,  Creator: <%= post.post.creator.name %>
+          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
         <% end %>
-        <span class="status-icon" style="color: green;">pending</span>
+        <span class="status-icon" style="color: orange;">pending</span>
       <% end %>
     </li>
   <% end %>
