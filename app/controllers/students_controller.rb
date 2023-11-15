@@ -12,7 +12,23 @@ class StudentsController < ApplicationController
     # Check if the viewed student has accepted an application from the current student
     accepted_by_viewed_student = StudentAttendPost.where(student_id: current_student.id, post_id: student.posts.select(:id), apply_status: 'accepted').exists?
     
-    accepted_by_current_student || accepted_by_viewed_student
+    # Early return for response rate optimization
+    if (accepted_by_current_student || accepted_by_viewed_student)
+      return true;
+    end
+
+    # Check if the viewed student and the current student share a post they're both accepted to
+    current_student_accepted_posts = StudentAttendPost.where(student_id: student.id, apply_status: 'accepted')
+    # viewed_student_accepted_posts = StudentAttendPost.where(student_id: current_student.id, apply_status: 'accepted')
+
+    for current_student_accepted_post in current_student_accepted_posts do
+      if (StudentAttendPost.where(student_id: current_student.id, post_id: current_student_accepted_post.post_id, apply_status: 'accepted').exists?) 
+        # viewed student shares a same accepted post as viewing student
+        return true;
+      end
+    end
+
+    return false;
   end
 
   def profile
