@@ -7,14 +7,5 @@ class Post < ApplicationRecord
     validates :tag, presence: true
     validates :text, presence: true
     validates :capacity, presence: true
-    
-    # def is_full?
-    #     students.count >= capacity
-    # end
-  
-    # def update_status
-    #     self.poststatus = is_full? ? 'full' : 'open'
-    #     save
-    # end
 end
   

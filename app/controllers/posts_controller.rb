@@ -72,7 +72,7 @@ class PostsController < ApplicationController
 
   def close
     @post = Post.find(params[:id])
-    @post.update(apply_status: 'close')
+    @post.update(post_status: 'close')
     redirect_to post_path(@post), notice: 'Post was successfully closed.'
   end
 

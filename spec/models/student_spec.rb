@@ -1,31 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe Student, type: :model do
-  describe 'associations' do
-    it { should have_many(:posts).with_foreign_key('creator_id') }
-    it { should have_many(:student_attend_posts) }
-    it { should have_many(:attended_posts).through(:student_attend_posts).source(:post) }
-  end
+  it { should have_many(:posts).with_foreign_key('creator_id') }
+  it { should have_many(:student_attend_posts) }
+  it { should have_many(:applied_posts).through(:student_attend_posts).source(:post) }
 
   describe '.authenticate' do
-    let!(:student) { FactoryBot.create(:student, email: 'test@example.com', passcode: 'securepass') }
+    let!(:student) { create(:student, email: 'test@example.com', passcode: 'secret') }
 
-    context 'with valid credentials' do
-      it 'returns the student' do
-        expect(Student.authenticate('test@example.com', 'securepass')).to eq(student)
-      end
+    it 'authenticates with correct email and passcode' do
+      expect(Student.authenticate('test@example.com', 'secret')).to eq(student)
     end
 
-    context 'with invalid email' do
-      it 'returns nil' do
-        expect(Student.authenticate('wrong@example.com', 'securepass')).to be_nil
-      end
+    it 'returns nil with incorrect passcode' do
+      expect(Student.authenticate('test@example.com', 'wrong')).to be_nil
     end
 
-    context 'with invalid passcode' do
-      it 'returns nil' do
-        expect(Student.authenticate('test@example.com', 'wrongpass')).to be_nil
-      end
+    it 'returns nil with unknown email' do
+      expect(Student.authenticate('unknown@example.com', 'secret')).to be_nil
+    end
+  end
+
+  describe '#applied_posts_with_status' do
+    let(:student) { create(:student) }
+    let!(:post) { create(:post) }
+    let!(:student_attend_post) { create(:student_attend_post, student: student, post: post) }
+
+    it 'returns posts student has applied to' do
+      expect(student.applied_posts_with_status).to include(student_attend_post)
     end
   end
 end
