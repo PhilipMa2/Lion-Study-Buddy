@@ -1,11 +1,11 @@
 <% if @can_view_full_profile %>
     <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
     <p>Email: <%= @student.email %></p>
-    <p>Course: <%= @student.course %></p>
+    <p>Open Posts: <%= @student.course %></p>
     <p>Schedule: <%= @student.schedule %></p>
     <p>Tag: <%= @student.tag %></p>
-    <p>Text: <%= @student.text %></p>
+    <p>Bio: <%= @student.text %></p>
 <% else %>
     <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
-    <p>Course: <%= @student.course %></p>
+    <p>Open Posts: <%= @student.course %></p>
 <% end %>

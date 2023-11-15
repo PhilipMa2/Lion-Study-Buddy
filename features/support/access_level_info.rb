@@ -8,13 +8,13 @@ def should_see_access(access_level_int)
     case access_level_int
     when 1
         [
-            "First Name",
+            "'s Profile", # First Name
             "Bio",
-            "Open Posts"
+            "Posts Created"
         ]
     when 2
         [
-            "Last Name",
+            # "Last Name", # for next iteration
             "Email",
             "Schedule"
         ]
