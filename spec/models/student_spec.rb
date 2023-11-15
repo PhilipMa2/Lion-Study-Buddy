@@ -28,4 +28,13 @@ RSpec.describe Student, type: :model do
       end
     end
   end
+
+  describe 'selected_time_slots' do
+    let!(:student) { create(:student) }
+    let!(:timeslot) { create(:time_slot, student: student, available_time: 1) }
+
+    it 'returns an array of available times' do
+      expect(student.selected_time_slots).to match_array([1])
+    end
+  end
 end

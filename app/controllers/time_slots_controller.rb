@@ -12,11 +12,13 @@ class TimeSlotsController < ApplicationController
     end
 
     def create_time_slot
-        params[:selected_time_slots].each do |slot|
-            if slot != "0"
-                time_s = slot.match(/\d+\z/)
-                time = time_s ? time_s[0].to_i : nil
-                TimeSlot.create(available_time: time, student: current_student)
+        if !params[:selected_time_slots].nil? 
+            params[:selected_time_slots].each do |slot|
+                if slot != "0"
+                    time_s = slot.match(/\d+\z/)
+                    time = time_s ? time_s[0].to_i : nil
+                    TimeSlot.create(available_time: time, student: current_student)
+                end
             end
         end
     end
