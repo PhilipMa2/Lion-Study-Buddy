@@ -9,7 +9,6 @@ class CreateStudentsAttendPosts < ActiveRecord::Migration[7.1]
         t.index :student_id, name: 'index_student_attend_posts_on_student_id'
       end
   
-      add_foreign_key :posts, :students, column: :creator_id
       add_foreign_key :student_attend_posts, :posts
       add_foreign_key :student_attend_posts, :students
     end
