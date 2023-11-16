@@ -4,6 +4,7 @@ RSpec.describe StudentsController, type: :controller do
   render_views
   let(:student) { create(:student) }
   let(:other_student) { create(:student) }
+  let(:another_student) { create(:student) }
 
   describe 'GET #show' do
     before do
@@ -20,6 +21,14 @@ RSpec.describe StudentsController, type: :controller do
       post_student = create(:post, creator: student)
       create(:student_attend_post, student: other_student, post: post_student, apply_status: 'accepted')
       result = controller.can_view_full_profile?(other_student)
+      expect(result).to be_truthy
+    end
+
+    it 'returns true if there is an accepted application from a third student' do
+      post_student = create(:post, creator: other_student)
+      create(:student_attend_post, student: student, post: post_student, apply_status: 'accepted')
+      create(:student_attend_post, student: another_student, post: post_student, apply_status: 'accepted')
+      result = controller.can_view_full_profile?(another_student)
       expect(result).to be_truthy
     end
   end
