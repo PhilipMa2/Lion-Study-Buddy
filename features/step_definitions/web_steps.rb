@@ -181,16 +181,6 @@ Then(/^the correct number of overlapping sessions should show up$/) do
   assert_equal expected_number, actual_number
 end
 
-And(/^the pending request should show up in the requested's inbox$/) do
-  
-  assert page.has_content?('Pending Request'), "Pending request not found in inbox"
-end
-
-And(/^the pending request should show up in the requestee's profile$/) do
-  # Implement code to check if the pending request is present in the requestee's profile
-  # For example, assert page.has_content?('Pending Request'), "Pending request not found in profile"
-end
-
 When /the user indicates their available time slots for each day/ do |schedule|
   schedule.hashes.each do |row|
     day = row['Day'].to_i - 1
@@ -253,4 +243,72 @@ end
 
 Then(/^the user visits user ([^"]*)'s profile page$/) do |user_id|
   visit "http://127.0.0.1:3000/students/" +  user_id
+end
+
+
+# Given("the user is logged in") do
+#   visit path_to('login')
+#   fill_in('email', with: "frank@example.com")
+#   fill_in('passcode', with: "frank789")
+#   click_button('Login')
+# end
+
+Given("the user visits the study group post page") do
+  visit path_to("specified post 1")
+end
+
+Then("the pending request should show up in the requestee's profile") do
+  visit path_to('profile')
+  expect(page).to have_content('Course: Math, Tag: Tag6, Creator: Bob pending')
+end
+
+And("the pending request should show up in the requested's post") do
+  visit path_to('logout')
+  visit path_to('login')
+  fill_in('email', with: "bob@example.com")
+  fill_in('passcode', with: "654321")
+  click_button('Login')
+  visit "http://127.0.0.1:3000/posts/1"
+  expect(page).to have_content('Frank')
+end
+
+Given("the user visits a study group post page that they have created") do
+  visit path_to("specified post 3")
+end
+
+Then("the request should fail") do
+  expect(page).not_to have_content('Application submitted!')
+end
+
+Given("the user visits a study group post page that they are already accepted in") do
+  visit path_to("specified post 2")
+end
+
+Then("the match request should be gone from their pending requests") do
+  expect(page).not_to have_content('Accept')
+end
+
+Given("the requestee should have their pending request moved to matched requests") do
+  visit path_to('logout')
+  visit path_to('login')
+  fill_in('email', with: "amy@example.com")
+  fill_in('passcode', with: "123456")
+  click_button('Login')
+  visit path_to("profile")
+  expect(page).to have_content('Course: Science, Tag: Tag8, Creator: Frank ✅')
+end
+
+Given(/^the number of members in the post should increase by (\d+)$/) do |count|
+  visit path_to("specified post 3")
+  expect(page).to have_content("#{(count + 1).to_s} / 15")
+end 
+
+Given("the requestee should have their pending request removed") do
+  visit path_to('logout')
+  visit path_to('login')
+  fill_in('email', with: "amy@example.com")
+  fill_in('passcode', with: "123456")
+  click_button('Login')
+  visit path_to("profile")
+  expect(page).not_to have_content('Course: Science, Tag: Tag8, Creator: Frank')
 end
