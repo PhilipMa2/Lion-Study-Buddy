@@ -43,19 +43,17 @@ Kailun Zhang (kz2475)
 ### Run Cucumber Feature Tests
   `bundle exec rake cucumber` 
 
-The code coverage is stored in coverage/cucumber and it is expected to be 96.77%
+The code coverage is stored in coverage/cucumber and it is expected to be 92.65%
 
 ### Run Rspec Tests
   `bundle exec rake spec`
 
-The code coverage is stored in coverage/rspec and it is expected to be 97.85%.
+The code coverage is stored in coverage/rspec and it is expected to be 96.32%.
 
-### Basic Features (iter1)
-* login, logout feature 
-* post feature (create, delete, confirm)
-
-*TODO for iter2:* 
-* matching students
+### New Features for iter2
+* scheduling table feature
+* post accepting/rejecting feature
+* profile view accessibility feature
 
 *A Note for Feature Tests*
 These tests expect:
