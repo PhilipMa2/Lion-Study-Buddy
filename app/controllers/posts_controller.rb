@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_student, only: [:new, :create, :attend]
+  before_action :require_student, only: [:new, :create, :apply, :accept_application, :reject_application, :close]
 
   def show
     @post = Post.find(params[:id])
@@ -34,37 +34,52 @@ class PostsController < ApplicationController
     # end
   end
 
-  def attend
-    @student = current_student
+  def apply
     @post = Post.find(params[:id])
+    @student = current_student
     already_attended = StudentAttendPost.exists?(student: @student, post: @post)
+    accepted_applications_count = @post.student_attend_posts.where(apply_status: 'accepted').count
 
-    unless already_attended
-        StudentAttendPost.create(student: @student, post: @post)
-        flash[:notice] = 'You are now attending this post!'
+    if @post.creator_id == @student.id
+      flash[:alert] = 'You cannot request to join your own post.'
+    elsif @post.post_status == "close" || @post.post_status == "full"
+      flash[:alert] = 'This post is not accepting applications.'
+    elsif already_attended
+      flash[:notice] = 'You have already applied to this post!'
+    elsif accepted_applications_count + 1 >= @post.capacity
+      flash[:alert] = 'This post has reached its capacity.'
+      @post.update(post_status: 'full')
     else
-        flash[:alert] = 'You are already attending this post!'
+      StudentAttendPost.create(student: @student, post: @post)
+      flash[:notice] = 'Application submitted!'
     end
 
     redirect_to post_path(@post)
   end
 
-  def confirm
-    @post = Post.find(params[:id])
-    @post.update(status: 'confirmed')
-    redirect_to post_path(@post), notice: 'Post was successfully confirmed.'
+
+  def accept_application
+    application = StudentAttendPost.find(params[:id])
+    application.update(apply_status: 'accepted')
+    redirect_to post_path(application.post), notice: 'Application accepted.'
   end
 
-  def cancel
+  def reject_application
+    application = StudentAttendPost.find(params[:id])
+    application.update(apply_status: 'rejected')
+    redirect_to post_path(application.post), notice: 'Application rejected.'
+  end
+
+  def close
     @post = Post.find(params[:id])
-    @post.update(status: 'cancelled')
-    redirect_to post_path(@post), notice: 'Post was successfully cancelled.'
+    @post.update(post_status: 'close')
+    redirect_to post_path(@post), notice: 'Post was successfully closed.'
   end
 
 
   private
   
   def post_params
-    params.require(:post).permit(:creator_name, :course, :tag, :text, :status, :start_slot, :end_slot)
+    params.require(:post).permit(:creator_id, :course, :capacity, :tag, :text, :post_status)
   end
 end

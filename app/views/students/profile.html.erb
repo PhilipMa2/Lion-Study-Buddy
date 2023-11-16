@@ -1,27 +1,32 @@
 <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
 <p>Email: <%= @student.email %></p>
-<p>Course: <%= @student.course %></p>
+<p>Open Posts: <%= @student.course %></p>
 <p>Schedule: <%= @student.schedule %></p>
 <p>Tag: <%= @student.tag %></p>
-<p>Text: <%= @student.text %></p>
+<p>Bio: <%= @student.text %></p>
 
+<% if current_student == @student %>
 <h2 class="py-5 text-center">Posts Created</h2>
 <ul class="list-group">
   <% @created_posts.each do |post| %>
     <li class="list-group-item text-center">
-      <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
-      <% end %>
       <div class="d-flex gap-2 justify-content-center py-2">
-  
-      <% if post.confirmed? %>
-        <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.cancelled? %>
-        <span class="status-icon" style="color: red;">❌</span>
-      <% end %>
-
-      <%= button_to 'Confirm', confirm_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
-        <%= button_to 'Cancel', cancel_post_path(post), method: :post, class: "btn btn-primary d-inline-flex align-items-center" %>
+        <% if post.post_status == "open" %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
+          <span class="status-icon" style="color: green;">OPEN</span>
+        <% elsif post.post_status == "full" %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
+          <span class="status-icon" style="color: red;">FULL</span>
+        <% else %>
+          <%= link_to post_path(post) do %>
+            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <% end %>
+          <span class="status-icon" style="color: red;">❌</span>
+        <% end %>
       </div>
     </li>
   <% end %>
@@ -29,23 +34,22 @@
 
 <h2 class="py-5 text-center">Posts Applied For</h2>
 <ul class="list-group">
-  <% @applied_posts.each do |post| %>
+  <% @applied_posts.each do |application| %>
     <li class="list-group-item text-center">
-      <%= link_to post_path(post) do %>
-        Course: <%= post.course %>, Schedule: <%= display_schedule(post.start_slot, post.end_slot) %>, Tag: <%= post.tag %>, Text: <%= post.text %>
-      <% end %>
-
-      <% if post.confirmed? %>
+      <% post = application.post %>
+      <% if application.apply_status == "accepted" %>
+        <%= link_to post_path(post) do %>
+          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
+        <% end %>
         <span class="status-icon" style="color: green;">✅</span>
-      <% elsif post.cancelled? %>
-        <span class="status-icon" style="color: red;">❌</span>
+      <% elsif application.apply_status == "pending" %>
+        <%= link_to post_path(post) do %>
+          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
+        <% end %>
+        <span class="status-icon" style="color: orange;">pending</span>
       <% end %>
     </li>
   <% end %>
 </ul>
-
-  <%= render partial: 'time_slots/create', locals: { time_slots: @time_slots} %>
-
-
-
-
+<% end %>
+<%= render partial: 'time_slots/create', locals: { time_slots: @time_slots} %>

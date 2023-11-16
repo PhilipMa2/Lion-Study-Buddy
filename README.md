@@ -24,9 +24,7 @@ Kailun Zhang (kz2475)
 `eval "$(rbenv init -)"` to your .bash_profile, restart your terminal, and then run the `gem install bundler` command.*
 
 #### Database creation
-  `rails db:create`
-  
-  `rails db:migrate`
+  `rails db:schema:load`OR `rails db:create` + `rails db:migrate`(must have migrate file)
   
   `rails db:seed`
 
@@ -60,7 +58,9 @@ The code coverage is stored in coverage/rspec and it is expected to be 97.85%.
 * matching students
 
 *A Note for Feature Tests*
-These tests expect "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
+These tests expect:
+* "frank@example.com" email and "frank789" passcode to be the valid login for student with first name "Frank" in our database.
+* Frank is unmatched with user Dave (id 4), who has an open post (id 4)
 
 
 ## Features

@@ -12,24 +12,19 @@
 
 ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
   create_table "posts", force: :cascade do |t|
-    t.text "creator_name"
     t.integer "creator_id"
-    t.text "course"
+    t.string "course"
+    t.integer "capacity"
     t.text "tag"
     t.text "text"
-    t.string "status", default: "pending"
-    t.integer "start_slot"
-    t.integer "end_slot"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "post_status", default: "open"
     t.index ["creator_id"], name: "index_posts_on_creator_id"
   end
 
   create_table "student_attend_posts", force: :cascade do |t|
     t.integer "student_id", null: false
     t.integer "post_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "apply_status", default: "pending"
     t.index ["post_id"], name: "index_student_attend_posts_on_post_id"
     t.index ["student_id"], name: "index_student_attend_posts_on_student_id"
   end
@@ -42,9 +37,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
     t.text "schedule"
     t.text "tag"
     t.text "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_students_on_email"
   end
 
   create_table "time_slots", force: :cascade do |t|
@@ -55,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
     t.index ["student_id"], name: "index_time_slots_on_student_id"
   end
 
+  add_foreign_key "posts", "students", column: "creator_id"
   add_foreign_key "posts", "students", column: "creator_id"
   add_foreign_key "student_attend_posts", "posts"
   add_foreign_key "student_attend_posts", "students"

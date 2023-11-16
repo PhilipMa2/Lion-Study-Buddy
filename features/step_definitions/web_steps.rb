@@ -8,7 +8,28 @@ Given /the following students exist/ do |students_table|
   @student = nil
   students_table.hashes.each do |student|
     @student = Student.create(student)
-    Post.create(creator_name: @student.name, creator_id: @student.id, course: @student.course, start_slot: 28, end_slot: 30, tag: @student.tag, text: "Looking for a study partner 5")
+    Post.create(creator_id: @student.id, course: @student.course, capacity: 3, tag: @student.tag, text: "Looking for a study partner")
+  end
+end
+
+Given(/^there are students with the following details:$/) do |table|
+  table.hashes.each do |student|
+    Student.create!(student)
+  end
+end
+
+Given(/^there are posts with the following details:$/) do |table|
+  table.hashes.each do |post|
+    creator = Student.find_by(id: post['creator_id'])
+    Post.create!(post.merge(creator: creator))
+  end
+end
+
+Given(/^there are attendances with the following details:$/) do |table|
+  table.hashes.each do |attendance|
+    student = Student.find_by(id: attendance['student_id'])
+    post = Post.find_by(id: attendance['post_id'])
+    StudentAttendPost.create!(attendance.merge(student: student, post: post))
   end
 end
 
@@ -64,10 +85,9 @@ end
 
 When("fills in the post details") do
   fill_in('post_course', with: "COMS4107")          # Updated to use input id
-  fill_in('post_start_slot', with: "2")             # Updated to use input id
-  fill_in('post_end_slot', with: "3")               # Updated to use input id
   fill_in('post_tag', with: "midterm study")        # Updated to use input id
   fill_in('post_text', with: "midterm study")       # Updated to use input id
+  fill_in('post_capacity', with: 3)
 end
 
 Then("the post should be created successfully") do
@@ -86,12 +106,12 @@ Given("there exists a post to attend on the main page") do
 end
 
 Then("attend the post") do
-  click_button('Attend')
+  click_button('Request to Join')
   expect(page).to have_content("You are now attending this post")
 end
 
 Then("attend the post again") do
-  click_button('Attend')
+  click_button('Request to Join')
   expect(page).to have_content("You are already attending this post")
 end
 
@@ -121,28 +141,40 @@ Then("the post should be confirmed successfully") do
   expect(page).not_to have_content("Status: Pending")
 end
 
+Then(/^the user should see level (\d+) access information$/) do |access_level_str|
+  access_level_int = access_level_str.to_i
+  for accessible_item in should_see_access(access_level_int) do
+    expect(page).to have_content(accessible_item)
+  end
+end
+
+Then(/^the user should not see level (\d+) access information$/) do |access_level_str|
+  access_level_int = access_level_str.to_i
+  for unaccessible_item in should_not_see_access(access_level_int) do
+    expect(page).not_to have_content(unaccessible_item)
+  end
+end
+
 Then(/^the user should see "([^"]*)"$/) do |expected_content|
   expect(page).to have_content(expected_content)
 end
 
 Given('the following posts exist:') do |table|
-  table.hashes.each do |post|
-    creator_name = post['creator_name']
-    creator_id = post['creator_id']
-    course = post['course']
-    schedule = post['schedule']
-    tag = post['tag']
-    text = post['text']
+  data = table.hashes.first
+  fill_in 'post_creator_id', with: data['Creator ID']
+  fill_in 'post_course', with: data['Course']
+  fill_in 'post_capacity', with: data['Capacity']
+  fill_in 'post_tag', with: data['Tag']
+  fill_in 'post_text', with: data['Text']
+end
 
-    visit('/new post') # Navigating to the new post creation page
-    fill_in('Creator Name', with: creator_name)
-    fill_in('Creator ID', with: creator_id)
-    fill_in('Course', with: course)
-    fill_in('Schedule', with: schedule)
-    fill_in('Tag', with: tag)
-    fill_in('Text', with: text)
-    click_button('Create') # Submit the form to create the post
-  end
+Given('the following student_attend_posts exist:') do |table|
+  data = table.hashes.first
+  fill_in 'post_creator_id', with: data['Creator ID']
+  fill_in 'post_course', with: data['Course']
+  fill_in 'post_capacity', with: data['Capacity']
+  fill_in 'post_tag', with: data['Tag']
+  fill_in 'post_text', with: data['Text']
 end
 
 Then(/^the correct number of overlapping sessions should show up$/) do
@@ -217,4 +249,8 @@ Then (/^the user's available time slots for the week are cleared successfully$/)
   expected_time_slots = []
   actual_time_slots = @student.selected_time_slots
   expect(actual_time_slots).to eq(expected_time_slots)
+end
+
+Then(/^the user visits user ([^"]*)'s profile page$/) do |user_id|
+  visit "http://127.0.0.1:3000/students/" +  user_id
 end

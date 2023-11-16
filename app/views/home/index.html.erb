@@ -1,14 +1,12 @@
 <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
   <h1 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">Lion Study Buddy</h1>
   <ul class="col-md-3 text-end">
-    
-<% if logged_in? %>
-  <%= link_to 'Logout', logout_path, method: :delete %><br><br>
-<% else %>
-  <%= link_to 'Login', login_path %><br><br>
-<% end %>
-
-<%= link_to 'Create Post', new_post_path, class: "btn btn-outline-primary me-2" %>
+    <% if logged_in? %>
+      <%= link_to 'Logout', logout_path, method: :delete %><br><br>
+    <% else %>
+      <%= link_to 'Login', login_path %><br><br>
+    <% end %>
+    <%= link_to 'Create Post', new_post_path, class: "btn btn-outline-primary me-2" %>
     <%= link_to 'Profile', profile_path, class: "btn btn-primary" %>
   </ul>
 </header>
@@ -17,9 +15,8 @@
   <thead>
     <tr>
       <th scope="col">Course</th>
-      <th scope="col">Schedule</th>
       <th scope="col">Tag</th>
-      <th scope="col">Creator Name</th>
+      <th scope="col">Creator</th>
       <th scope="col">Details</th>
     </tr>
   </thead>
@@ -27,9 +24,14 @@
     <% @posts.each do |post| %>
       <tr class="post">
         <td><%= post.course %></td>
-        <td><%= display_schedule(post.start_slot, post.end_slot) %></td>
         <td><%= post.tag %></td>
-        <td><%= post.creator_name %></td>
+        <td>
+          <% if logged_in? && post.creator_id == current_student.id %>
+            <%= link_to post.creator.name, profile_path %>
+          <% else %>
+            <%= link_to post.creator.name, student_path(post.creator) %>
+          <% end %>
+        </td>
         <td><%= link_to 'View', post_path(post), class: "btn btn-info" %></td>
       </tr>
     <% end %>
