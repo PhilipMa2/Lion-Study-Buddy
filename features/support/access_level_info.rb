@@ -20,8 +20,8 @@ def should_see_access(access_level_int)
         ]
     when 3
         [
-            "Matched Study Groups",
-            "Pending Requests",
+            "✅", # Matched Study Groups
+            "pending",
             # "Closed Study Groups", # for next iteration
         ]
     else
@@ -36,14 +36,14 @@ def should_not_see_access(access_level_int)
             "Last Name",
             "Email",
             "Schedule",
-            "Matched Study Groups",
-            "Pending Requests",
+            "✅",
+            "pending",
             "Closed Study Groups"
         ]
     when 2
         [
-            "Matched Study Groups",
-            "Pending Requests",
+            "✅",
+            "pending",
             "Closed Study Groups"
         ]
     when 3
