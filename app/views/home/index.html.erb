@@ -6,7 +6,7 @@
     <% else %>
       <%= link_to 'Login', login_path %><br><br>
     <% end %>
-    <%= link_to 'Create Post', new_post_path, class: "btn btn-outline-primary me-2" %>
+    <%= link_to 'Create Group', new_group_path, class: "btn btn-outline-primary me-2" %>
     <%= link_to 'Profile', profile_path, class: "btn btn-primary" %>
   </ul>
 </header>
@@ -15,24 +15,24 @@
   <thead>
     <tr>
       <th scope="col">Course</th>
-      <th scope="col">Tag</th>
+      <th scope="col">Focus Area</th>
       <th scope="col">Creator</th>
       <th scope="col">Details</th>
     </tr>
   </thead>
   <tbody>
-    <% @posts.each do |post| %>
-      <tr class="post">
-        <td><%= post.course %></td>
-        <td><%= post.tag %></td>
+    <% @groups.each do |group| %>
+      <tr class="group">
+        <td><%= group.course %></td>
+        <td><%= group.focus %></td>
         <td>
-          <% if logged_in? && post.creator_id == current_student.id %>
-            <%= link_to post.creator.name, profile_path %>
+          <% if logged_in? && group.creator_id == current_student.id %>
+            <%= link_to group.creator.name, profile_path %>
           <% else %>
-            <%= link_to post.creator.name, student_path(post.creator) %>
+            <%= link_to group.creator.name, student_path(group.creator) %>
           <% end %>
         </td>
-        <td><%= link_to 'View', post_path(post), class: "btn btn-info" %></td>
+        <td><%= link_to 'View', group_path(group), class: "btn btn-info" %></td>
       </tr>
     <% end %>
   </tbody>

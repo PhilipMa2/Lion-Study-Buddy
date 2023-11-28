@@ -11,22 +11,22 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
-  create_table "posts", force: :cascade do |t|
+  create_table "applications", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "group_id", null: false
+    t.string "application_status", default: "pending"
+    t.index ["group_id"], name: "index_applications_on_group_id"
+    t.index ["student_id"], name: "index_applications_on_student_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
     t.integer "creator_id"
     t.string "course"
     t.integer "capacity"
-    t.text "tag"
+    t.text "focus"
     t.text "text"
-    t.string "post_status", default: "open"
-    t.index ["creator_id"], name: "index_posts_on_creator_id"
-  end
-
-  create_table "student_attend_posts", force: :cascade do |t|
-    t.integer "student_id", null: false
-    t.integer "post_id", null: false
-    t.string "apply_status", default: "pending"
-    t.index ["post_id"], name: "index_student_attend_posts_on_post_id"
-    t.index ["student_id"], name: "index_student_attend_posts_on_student_id"
+    t.string "group_status", default: "open"
+    t.index ["creator_id"], name: "index_groups_on_creator_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
     t.text "name"
     t.text "course"
     t.text "schedule"
-    t.text "tag"
+    t.text "focus"
     t.text "text"
   end
 
@@ -47,9 +47,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_15_002955) do
     t.index ["student_id"], name: "index_time_slots_on_student_id"
   end
 
-  add_foreign_key "posts", "students", column: "creator_id"
-  add_foreign_key "posts", "students", column: "creator_id"
-  add_foreign_key "student_attend_posts", "posts"
-  add_foreign_key "student_attend_posts", "students"
+  add_foreign_key "applications", "groups"
+  add_foreign_key "applications", "students"
+  add_foreign_key "groups", "students", column: "creator_id"
   add_foreign_key "time_slots", "students"
 end
