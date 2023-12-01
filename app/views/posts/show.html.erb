@@ -22,16 +22,14 @@
 
 <!-- Display accept/reject options to the creator -->
 <% if @post.creator == current_student %>
-  <% @post.student_attend_posts.each do |application| %>
+  <% @post.student_attend_posts.where(apply_status: "pending").each do |application| %>
     <div class="applicant-row">
-      <% if application.apply_status == "pending" %>
-        <% applicant = application.student %>
-        <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
-        <div class="buttons">
-          <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
-          <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>
-        </div>
-      <% end %>
+      <% applicant = application.student %>
+      <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
+      <div class="buttons">
+        <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
+        <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>
+      </div>
     </div>
   <% end %>
 <% end %>
