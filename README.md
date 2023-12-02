@@ -24,7 +24,7 @@ Kailun Zhang (kz2475)
 `eval "$(rbenv init -)"` to your .bash_profile, restart your terminal, and then run the `gem install bundler` command.*
 
 #### Database creation
-  `rails db:schema:load`OR `rails db:create` + `rails db:migrate`(must have migrate file)
+  `rails db:schema:load` OR `rails db:create` + `rails db:migrate`(must have migrate file)
   
   `rails db:seed`
 

@@ -15,17 +15,12 @@ class GroupsController < ApplicationController
     @group.creator = current_student
     @student = current_student
     
-    # overlap_exists = current_student.posts.any? do |post|
-    #   new_start, new_end = @post.start_slot, @post.end_slot
-    #   existing_start, existing_end = post.start_slot, post.end_slot
+    # If course is a course_id, append the corresponding course_name
+    if Course.exists?(course_id: @group.course)
+      course_name = Course.find_by(course_id: @group.course)&.course_name
+      @group.course += " #{course_name}" if course_name
+    end
 
-    #   new_start < existing_end && existing_start < new_end
-    # end
-
-    # if overlap_exists
-    #   flash.now[:alert] = 'Error: The schedule overlaps with an existing post.'
-    #   redirect_to root_path, notice: 'You already created this post.'
-    # else
     if @group.save
       redirect_to root_path, notice: 'Group was successfully created.'
     else
