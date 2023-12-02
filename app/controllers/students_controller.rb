@@ -49,6 +49,36 @@ class StudentsController < ApplicationController
     @time_slots = TimeSlot.where(student: session[:student_id])
   end
 
+  # creating new user
+  def create_account
+    # first check if the information posted is valid
+    existing_student = Student.find_by(email: params[:email])
+    if existing_student
+      flash.now[:notice] = 'An account with this email already exists. Please log in.'
+    elsif params[:password] != params[:password_confirmation] 
+      flash.now[:notice] = 'Please make sure your password entries match.'
+    else
+      # after the checks, we know at this point the information is posted by user
+      # is sufficient to create a new student in our database.
+      @student = Student.new(
+        email: params[:email], 
+        passcode: params[:password], 
+        name: params[:name], 
+        course: "", 
+        schedule: "", 
+        tag: "", 
+        text: ""
+      )
+      if @student.save
+        redirect_to login_path, notice: 'Account successfully created. Please log in.'
+        return
+      else
+        flash.now[:notice] = 'Account could not be created. Please try again later.'
+      end
+    end
+    render 'sessions/create_account'
+  end
+
   private
 
   def student_params

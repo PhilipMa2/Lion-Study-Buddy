@@ -4,6 +4,8 @@ class Student < ApplicationRecord
     has_many :applied_groups, through: :applications, source: :group
     has_many :time_slots, dependent: :destroy, foreign_key: "student"
 
+    validates :passcode, confirmation: true
+
     def self.authenticate(email, passcode)
         student = find_by(email: email)
         return student if student && student.passcode == passcode

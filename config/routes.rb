@@ -19,5 +19,8 @@ Rails.application.routes.draw do
   resources :students
   get 'profile', to: 'students#profile'
 
+  get 'create-account', to: 'sessions#create_account', as: :create_account
+  post 'create-account', to: 'students#create_account', as: :new_account
+
   resources :time_slots, only: [:create]
 end
