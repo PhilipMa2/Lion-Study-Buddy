@@ -35,3 +35,5 @@
     </div>
   <% end %>
 <% end %>
+
+<%= render partial: 'time_slots/show', locals: { time_slots: @common_time_slots, current_student_ts: @current_student_time_slots } %>

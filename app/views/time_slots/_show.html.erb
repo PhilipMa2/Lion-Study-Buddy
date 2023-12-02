@@ -1,0 +1,46 @@
+<h2 class="py-5 text-center">Group Schedule</h2>
+<p>Green boxes indicate time slots available for both the group and current student</p>
+<p>Blue boxes indicate time slots available only for the group</p>
+<p>Red boxes indicate time slots available only for current student</p>
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-bordered text-center">
+      <thead class="table-light">
+        <tr>
+          <th class="text-uppercase">Time
+          </th>
+          <th class="text-uppercase">Monday</th>
+          <th class="text-uppercase">Tuesday</th>
+          <th class="text-uppercase">Wednesday</th>
+          <th class="text-uppercase">Thursday</th>
+          <th class="text-uppercase">Friday</th>
+          <th class="text-uppercase">Saturday</th>
+          <th class="text-uppercase">Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% (8..21).each do |hour| %>
+          <tr>
+            <td class="align-middle"><%= "#{hour.to_s.rjust(2, '0')}:00" %></td>
+            <% 7.times do |day| %>
+              <% slot_id = (hour - 8) + day * 14 + 1 %>
+              <% if time_slots.any? { |time_slot| time_slot == slot_id } %>
+                <% if current_student_ts.any? { |time_slot| time_slot.available_time == slot_id } %>
+                    <td class="bg-success"></td>
+                <% else %>
+                    <td class="bg-primary"></td>
+                <% end %>
+              <% else %>
+                <% if current_student_ts.any? { |time_slot| time_slot.available_time == slot_id } %>
+                    <td class="bg-danger"></td>
+                <% else %>
+                    <td></td>
+                <% end %>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

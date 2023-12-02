@@ -3,6 +3,13 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    attending_students = [@post.creator_id] + @post.student_attend_posts.where(apply_status: 'accepted').pluck(:student_id)
+    all_time_slots = attending_students.map do |student_id|
+      TimeSlot.where(student_id: student_id).pluck(:available_time)
+    end
+
+    @common_time_slots = all_time_slots.reduce { |intersection, time_slots| intersection & time_slots }
+    @current_student_time_slots = TimeSlot.where(student: session[:student_id])
   end
 
   def new
