@@ -31,7 +31,7 @@ Kailun Zhang (kz2475)
 #### Database checking
   `rails console`
   
-  `ActiveRecord::Base.connection.tables` => ["schema_migrations", "ar_internal_metadata", "posts", "students", "student_attend_posts"]
+  `ActiveRecord::Base.connection.tables` => ["courses", "students", "applications", "groups", "time_slots", "schema_migrations", "ar_internal_metadata"]
   
   `Student.limit(10).all`
   

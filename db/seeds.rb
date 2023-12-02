@@ -1,3 +1,16 @@
+require 'csv'
+
+# Clear existing records to avoid duplicates during development
+Course.destroy_all
+
+# Path to your CSV file
+csv_file = Rails.root.join('db/courses.csv')
+
+# Read CSV file and seed the database
+CSV.foreach(csv_file, headers: true) do |row|
+  Course.create(course_id: row['course_id'], course_name: row['course_name'])
+end
+
 student1 = Student.create(email: "alice@columbia.edu", 
     passcode: "123456", 
     name: "Alice", 
