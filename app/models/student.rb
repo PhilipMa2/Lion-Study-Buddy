@@ -1,4 +1,6 @@
 class Student < ApplicationRecord
+    validates :passcode, confirmation: true
+
     def self.authenticate(email, passcode)
         student = find_by(email: email)
         return student if student && student.passcode == passcode
