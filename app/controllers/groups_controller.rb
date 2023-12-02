@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @student = current_student
     already_attended = Application.exists?(student: @student, group: @group)
-    accepted_applications_count = @group.applications.where(apply_status: 'accepted').count
+    accepted_applications_count = @group.applications.where(application_status: 'accepted').count
 
     if @group.creator_id == @student.id
       flash[:alert] = 'You cannot request to join your own group.'
@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
       flash[:alert] = 'This group has reached its capacity.'
       @group.update(group_status: 'full')
     else
-      Apllication.create(student: @student, group: @group)
+      Application.create(student: @student, group: @group)
       flash[:notice] = 'Application submitted!'
     end
 
@@ -59,21 +59,22 @@ class GroupsController < ApplicationController
 
 
   def accept_application
-    application = Apllication.find(params[:id])
+    application = Application.find(params[:id])
     application.update(application_status: 'accepted')
     redirect_to group_path(application.group), notice: 'Application accepted.'
   end
 
   def reject_application
-    application = Apllication.find(params[:id])
+    application = Application.find(params[:id])
     application.update(application_status: 'rejected')
     redirect_to group_path(application.group), notice: 'Application rejected.'
   end
 
   def close
     @group = Group.find(params[:id])
-    @group.update(group_status: 'close')
-    redirect_to group_path(@group), notice: 'Group was successfully closed.'
+    Application.where(group_id: @group.id).destroy_all
+    @group.destroy
+    redirect_to root_path, notice: 'Group and all associated applications were successfully deleted.'
   end
 
 

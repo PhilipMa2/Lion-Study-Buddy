@@ -11,6 +11,12 @@
   <%= button_to "Request to Join", apply_group_path(@group), method: :post, class: "btn btn-primary" %>
 <% end %>
 
+<% if @group.creator == current_student %>
+  <p>
+    <%= button_to "Close Group", close_group_path(@group), method: :post, class: "btn btn-danger", data: { confirm: "Are you sure you want to close this group?" } %>
+  </p>
+<% end %>
+
 <!-- Display members list to accepted students and the creator -->
 <% if @group.students.include?(current_student) || @group.creator == current_student %>
   <h3>Members:</h3>

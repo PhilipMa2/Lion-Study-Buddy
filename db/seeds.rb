@@ -45,35 +45,35 @@ student5 = Student.create(email: "frank@columbia.edu",
     
 group1 = Group.create(creator_id: student1.id, 
     course: "COMPUTATIONAL GENOMICS", 
-    capacity: 12, 
+    capacity: 2, 
     focus: student1.focus, 
     text: student1.text, 
     group_status: "open")
 
 group2 = Group.create(creator_id: student2.id, 
     course: "DEVELOPMENT TECHNOLOGY", 
-    capacity: 12, 
+    capacity: 5, 
     focus: student2.focus, 
     text: student2.text, 
     group_status: "open")
 
 group3 = Group.create(creator_id: student3.id, 
     course: "ADVANCED PROGRAMMING", 
-    capacity: 12, 
+    capacity: 10, 
     focus: student3.focus, 
     text: student3.text, 
     group_status: "open")
 
 group4 = Group.create(creator_id: student4.id, 
     course: "PROGRAMMING LANG & TRANSLATORS", 
-    capacity: 12, 
+    capacity: 15, 
     focus: student4.focus, 
     text: student4.text, 
     group_status: "open")
 
 group5 = Group.create(creator_id: student5.id, 
     course: "USER INTERFACE DESIGN", 
-    capacity: 12, 
+    capacity: 20, 
     focus: student5.focus, 
     text: student5.text, 
     group_status: "open")

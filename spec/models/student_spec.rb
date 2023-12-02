@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Student, type: :model do
-  it { should have_many(:posts).with_foreign_key('creator_id') }
-  it { should have_many(:student_attend_posts) }
-  it { should have_many(:applied_posts).through(:student_attend_posts).source(:post) }
+  it { should have_many(:groups).with_foreign_key('creator_id') }
+  it { should have_many(:applications) }
+  it { should have_many(:applied_groups).through(:applications).source(:group) }
 
   describe '.authenticate' do
     let!(:student) { create(:student, email: 'test@example.com', passcode: 'secret') }
@@ -21,13 +21,13 @@ RSpec.describe Student, type: :model do
     end
   end
 
-  describe '#applied_posts_with_status' do
+  describe '#applied_groups_with_status' do
     let(:student) { create(:student) }
-    let!(:post) { create(:post) }
-    let!(:student_attend_post) { create(:student_attend_post, student: student, post: post) }
+    let!(:group) { create(:group) }
+    let!(:application) { create(:application, student: student, group: group) }
 
-    it 'returns posts student has applied to' do
-      expect(student.applied_posts_with_status).to include(student_attend_post)
+    it 'returns groups student has applied to' do
+      expect(student.applications).to include(application)
     end
   end
 

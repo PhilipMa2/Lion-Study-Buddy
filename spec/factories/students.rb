@@ -5,7 +5,7 @@ FactoryBot.define do
     name { "John Doe" }
     course { "Computer Science" }
     schedule { "Sample Schedule" }
-    tag { "Sample Tag" }
+    focus { "Sample focus" }
     text { "Sample text about the student." }
   end
 end

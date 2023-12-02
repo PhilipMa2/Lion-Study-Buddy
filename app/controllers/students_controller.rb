@@ -66,7 +66,7 @@ class StudentsController < ApplicationController
         name: params[:name], 
         course: "", 
         schedule: "", 
-        tag: "", 
+        focus: "", 
         text: ""
       )
       if @student.save

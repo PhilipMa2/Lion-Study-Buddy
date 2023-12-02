@@ -1,14 +1,37 @@
-<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-  <h1 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">Lion Study Buddy</h1>
-  <ul class="col-md-3 text-end">
-    <% if logged_in? %>
-      <%= link_to 'Logout', logout_path, method: :delete %><br><br>
-    <% else %>
-      <%= link_to 'Login', login_path %><br><br>
-    <% end %>
-    <%= link_to 'Create Group', new_group_path, class: "btn btn-outline-primary me-2" %>
-    <%= link_to 'Profile', profile_path, class: "btn btn-primary" %>
-  </ul>
+<header class="py-3 mb-4 border-bottom">
+  <!-- First Row -->
+  <div class="d-flex justify-content-between mb-3">
+    <h1 class="link-body-emphasis text-decoration-none">Lion Study Buddy</h1>
+    <div>
+      <% if logged_in? %>
+        <%= link_to 'Logout', logout_path, method: :delete %>
+      <% else %>
+        <%= link_to 'Login', login_path %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Second Row -->
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Capacity Filter Form -->
+    <form id="capacity_filter_form" action="<%= root_path %>" method="get" class="d-flex align-items-center">
+      <span id="capacity_name" class="me-2 align-self-center">Capacity(Max)</span>
+      <span id="capacity_value" class="me-2 align-self-center"><%= params[:capacity] || 20 %></span>
+      <input type="range" id="capacity_filter" name="capacity" min="1" max="20" value="<%= params[:capacity] || 20 %>" class="form-range align-self-center" style="height: 38px;">
+    </form>
+    
+    <!-- Search Box -->
+    <form class="d-flex" action="<%= root_path %>" method="get">
+      <input class="form-control me-2" type="search" placeholder="Search Course" aria-label="Search" name="course_search" style="height: 38px;">
+      <button class="btn btn-outline-primary" type="submit" style="height: 38px;">Search</button>
+    </form>
+  
+    <!-- Group Creation and Profile Links -->
+    <div>
+      <%= link_to 'Create Group', new_group_path, class: "btn btn-outline-primary me-2" %>
+      <%= link_to 'Profile', profile_path, class: "btn btn-primary" %>
+    </div>
+  </div>  
 </header>
 
 <table class="table table-striped">
@@ -37,3 +60,18 @@
     <% end %>
   </tbody>
 </table>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const capacityFilter = document.getElementById('capacity_filter');
+    const capacityValue = document.getElementById('capacity_value');
+
+    capacityFilter.addEventListener('input', function() {
+      capacityValue.textContent = this.value;
+    });
+
+    capacityFilter.addEventListener('change', function() {
+      document.getElementById('capacity_filter_form').submit();
+    });
+  });
+</script>
