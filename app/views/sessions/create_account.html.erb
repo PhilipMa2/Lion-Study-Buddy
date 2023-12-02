@@ -1,0 +1,49 @@
+<main class="form-signin w-100 m-auto d-flex align-items-center py-4 bg-body-tertiary justify-content-center">
+  <%= form_with model: @student, url: new_account_path, local: true do |f| %>
+    <h1 class="h3 mb-3 fw-normal">Create an Account</h1>
+
+    <div class="form-floating">
+      <%= f.email_field :email, class: "form-control", id: "floatingEmail", required: true %>
+      <%= f.label :email, for: "floatingEmail" %>
+    </div>
+
+    <div class="form-floating">
+      <%= f.text_field :name, class: "form-control", id: "floatingName", required: true %>
+      <%= f.label :name, for: "floatingName" %>
+    </div>
+
+    <div class="form-floating">
+      <%= f.password_field :password, class: "form-control", id: "floatingPassword", required: true %>
+      <%= f.label :password, for: "floatingPassword" %>
+    </div>
+
+    <div class="form-floating">
+      <%= f.password_field :password_confirmation, class: "form-control", id: "floatingPasswordConfirmation", required: true %>
+      <%= f.label :password_confirmation, for: "floatingPasswordConfirmation" %>
+    </div>
+
+    <%= f.submit "Create Account", class: "btn btn-primary w-100 py-2", id: "submitBtn", disabled: true %>
+  <% end %>
+</main>
+
+<p>
+  Account already exists?
+  <%= link_to "Login here.", login_path %>
+</p>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Disable the submit button initially
+    document.getElementById('submitBtn').disabled = true;
+
+    // Check if all required fields are filled out before enabling the submit button
+    document.querySelectorAll('[required]').forEach(function (element) {
+      element.addEventListener('input', function () {
+        var isFormValid = document.querySelector('form').checkValidity();
+
+        // Enable or disable the submit button based on form validity
+        document.getElementById('submitBtn').disabled = !isFormValid;
+      });
+    });
+  });
+</script>
