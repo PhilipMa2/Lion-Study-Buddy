@@ -23,20 +23,20 @@
             <td class="align-middle"><%= "#{hour.to_s.rjust(2, '0')}:00" %></td>
             <% 7.times do |day| %>
               <td class="align-middle">
-              <% slot_id = (hour - 8) + day * 13 + 1 %>
-                <% if time_slots.any? { |time_slot| time_slot.available_time == slot_id } %>
-                  <%= form.check_box :selected_time_slots,
-                  {multiple: true, checked: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
-                  slot_id,
-                  nil %>  
-                <% else %>
-                  <%= form.check_box :selected_time_slots,
-                  {multiple: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
-                  slot_id,
-                  nil %>  
-                <% end %>
-              </td>
+              <% slot_id = (hour - 8) + day * 14 + 1 %>
+              <% if time_slots.any? { |time_slot| time_slot.available_time == slot_id } %>
+                <%= form.check_box :selected_time_slots,
+                {multiple: true, checked: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
+                slot_id,
+                nil %>  
+              <% else %>
+                <%= form.check_box :selected_time_slots,
+                {multiple: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
+                slot_id,
+                nil %>  
+              <% end %>
             <% end %>
+            </td>
           </tr>
         <% end %>
         <tr>
