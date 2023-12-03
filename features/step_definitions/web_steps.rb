@@ -196,13 +196,13 @@ end
 
 Then (/^the user's available time slots for the week are saved successfully$/) do
   expect(page).to have_content("Schedule saved successfully")
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19]
+  expected_time_slots = [15, 2, 16, 3, 17, 4, 18, 5, 19]
   actual_time_slots = @student.selected_time_slots
   expect(actual_time_slots).to eq(expected_time_slots)
 end
 
 Given /the user has already set their available time slots for the week/ do
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19]
+  expected_time_slots = [15, 2, 16, 3, 17, 4, 18, 5, 19]
   expected_time_slots.each do |slot|
     check("time_slot_#{slot}")
   end
@@ -213,13 +213,13 @@ end
 
 Then (/^the user's available time slots for the week are updated successfully$/) do
   expect(page).to have_content("Schedule saved successfully")
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19, 32, 45, 33, 46, 47]
+  expected_time_slots = [15, 2, 16, 3, 17, 45, 4, 18, 32, 46, 5, 19, 33, 47]
   actual_time_slots = @student.selected_time_slots
   expect(actual_time_slots).to eq(expected_time_slots)
 end
 
 Given /the user has already set their available time slots for the complete week/ do
-  expected_time_slots = [2, 15, 3, 16, 4, 17, 5, 18, 19, 32, 45, 33, 46, 47]
+  expected_time_slots = [15, 2, 16, 3, 17, 45, 4, 18, 32, 46, 5, 19, 33, 47]
   expected_time_slots.each do |slot|
     check("time_slot_#{slot}")
   end

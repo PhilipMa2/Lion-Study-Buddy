@@ -17,6 +17,11 @@
         <%= message %>
       </div>
     <% end %>
+    <% unless current_page?(root_path) %>
+      <%= link_to root_path, class: "btn btn-primary" do %>
+        Home
+      <% end %>
+    <% end %>
     <%= yield %>
     </div>
   </body>

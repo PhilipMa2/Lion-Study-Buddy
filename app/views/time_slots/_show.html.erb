@@ -1,6 +1,7 @@
-<h2 class="py-5 text-center">Schedule</h2>
-<p>*Checked boxes indicate time slots available for study</p>
-<%= form_with(url: time_slots_path, method: :post) do |form| %>
+<h2 class="py-5 text-center">Group Schedule</h2>
+<p>Green boxes indicate time slots available for you and everyone in the group</p>
+<p>Blue boxes indicate time slots available for everyone else in the group</p>
+<p>Red boxes indicate time slots available only for you</p>
 <div class="container">
   <div class="table-responsive">
     <table class="table table-bordered text-center">
@@ -22,31 +23,24 @@
           <tr>
             <td class="align-middle"><%= "#{hour.to_s.rjust(2, '0')}:00" %></td>
             <% 7.times do |day| %>
-              <td class="align-middle">
               <% slot_id = (hour - 8) + day * 14 + 1 %>
-              <% if time_slots.any? { |time_slot| time_slot.available_time == slot_id } %>
-                <%= form.check_box :selected_time_slots,
-                {multiple: true, checked: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
-                slot_id,
-                nil %>  
+              <% if time_slots.any? { |time_slot| time_slot == slot_id } %>
+                <% if current_student_ts.any? { |time_slot| time_slot.available_time == slot_id } %>
+                    <td class="bg-success"></td>
+                <% else %>
+                    <td class="bg-primary"></td>
+                <% end %>
               <% else %>
-                <%= form.check_box :selected_time_slots,
-                {multiple: true, class: "form-check-input", id: "time_slot_#{slot_id}" }, 
-                slot_id,
-                nil %>  
+                <% if current_student_ts.any? { |time_slot| time_slot.available_time == slot_id } %>
+                    <td class="bg-danger"></td>
+                <% else %>
+                    <td></td>
+                <% end %>
               <% end %>
             <% end %>
-            </td>
           </tr>
         <% end %>
-        <tr>
-          <td colspan="8">
-            <%= form.submit 'Update', class: "btn btn-primary align-items-center" %>
-          </td>
-        </tr>
       </tbody>
     </table>
   </div>
-  
 </div>
-<% end %>
