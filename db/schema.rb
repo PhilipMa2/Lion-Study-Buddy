@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_02_200845) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_03_014523) do
   create_table "applications", force: :cascade do |t|
     t.integer "student_id", null: false
     t.integer "group_id", null: false
@@ -40,9 +40,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_02_200845) do
     t.text "email"
     t.text "passcode"
     t.text "name"
-    t.text "course"
-    t.text "schedule"
-    t.text "focus"
     t.text "text"
   end
 
