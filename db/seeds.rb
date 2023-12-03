@@ -1,3 +1,16 @@
+require 'csv'
+
+# Clear existing records to avoid duplicates during development
+Course.destroy_all
+
+# Path to your CSV file
+csv_file = Rails.root.join('db/courses.csv')
+
+# Read CSV file and seed the database
+CSV.foreach(csv_file, headers: true) do |row|
+  Course.create(course_id: row['course_id'], course_name: row['course_name'])
+end
+
 student1 = Student.create(email: "alice@columbia.edu", 
     passcode: "123456", 
     name: "Alice", 
@@ -44,35 +57,35 @@ student5 = Student.create(email: "frank@columbia.edu",
 
     
 group1 = Group.create(creator_id: student1.id, 
-    course: "COMPUTATIONAL GENOMICS", 
+    course: "CBMFW4761 COMPUTATIONAL GENOMICS", 
     capacity: 2, 
     focus: student1.focus, 
     text: student1.text, 
     group_status: "open")
 
 group2 = Group.create(creator_id: student2.id, 
-    course: "DEVELOPMENT TECHNOLOGY", 
+    course: "COMSW3102 DEVELOPMENT TECHNOLOGY", 
     capacity: 5, 
     focus: student2.focus, 
     text: student2.text, 
     group_status: "open")
 
 group3 = Group.create(creator_id: student3.id, 
-    course: "ADVANCED PROGRAMMING", 
+    course: "COMSW3157 ADVANCED PROGRAMMING", 
     capacity: 10, 
     focus: student3.focus, 
     text: student3.text, 
     group_status: "open")
 
 group4 = Group.create(creator_id: student4.id, 
-    course: "PROGRAMMING LANG & TRANSLATORS", 
+    course: "COMSW4115 PROGRAMMING LANG & TRANSLATORS", 
     capacity: 15, 
     focus: student4.focus, 
     text: student4.text, 
     group_status: "open")
 
 group5 = Group.create(creator_id: student5.id, 
-    course: "USER INTERFACE DESIGN", 
+    course: "COMSW4170 USER INTERFACE DESIGN", 
     capacity: 20, 
     focus: student5.focus, 
     text: student5.text, 

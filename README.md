@@ -24,14 +24,14 @@ Kailun Zhang (kz2475)
 `eval "$(rbenv init -)"` to your .bash_profile, restart your terminal, and then run the `gem install bundler` command.*
 
 #### Database creation
-  `rails db:schema:load`OR `rails db:create` + `rails db:migrate`(must have migrate file)
+  `rails db:schema:load` OR `rails db:create` + `rails db:migrate`(must have migrate file)
   
   `rails db:seed`
 
 #### Database checking
   `rails console`
   
-  `ActiveRecord::Base.connection.tables` => ["schema_migrations", "ar_internal_metadata", "posts", "students", "student_attend_posts"]
+  `ActiveRecord::Base.connection.tables` => ["courses", "students", "applications", "groups", "time_slots", "schema_migrations", "ar_internal_metadata"]
   
   `Student.limit(10).all`
   

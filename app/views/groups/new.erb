@@ -14,7 +14,7 @@
 <%= form_for @group do |f| %>
   <div class="mb-3">
     <%= f.label :course %><br>
-    <%= f.text_field :course, value: @group.course, class: "form-control"  %>
+    <%= f.collection_select :course, Course.all, :course_id, ->(course) { "#{course.course_id} #{course.course_name}" }, { prompt: 'Select a Course' }, class: 'form-control select2' %>
   </div>
   <div class="mb-3">
     <%= f.label :focus %><br>
