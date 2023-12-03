@@ -1,0 +1,32 @@
+<h1 class="py-5 text-center">Create Group</h1>
+
+<% if @group.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+    <ul>
+    <% @group.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @group do |f| %>
+  <div class="mb-3">
+    <%= f.label :course %><br>
+    <%= f.collection_select :course, Course.all, :course_id, ->(course) { "#{course.course_id} #{course.course_name}" }, { prompt: 'Select a Course' }, class: 'form-control select2' %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :focus %><br>
+    <%= f.text_field :focus, value: @group.focus, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :text %><br>
+    <%= f.text_field :text, value: @group.text, class: "form-control"  %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :capacity %><br>
+    <%= f.number_field :capacity, value: @group.capacity, min: 1, class: "form-control" %>
+  </div>
+  <%= f.submit "Create", class: "btn btn-primary" %>
+<% end %>

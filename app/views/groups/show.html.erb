@@ -1,0 +1,51 @@
+<p><strong>Status:</strong> <%= @group.group_status %></p>
+<p><strong>Open Groups:</strong> <%= @group.course %></p>
+<p><strong>Focus Area:</strong> <%= @group.focus %></p>
+<p><strong>Bio:</strong> <%= @group.text %></p>
+<p>
+  <strong>Capacity:</strong> 
+  <%= @group.applications.where(application_status: 'accepted').count + 1 %> / <%= @group.capacity %>
+</p>
+
+<% if @group.group_status == "open" %>
+  <%= button_to "Request to Join", apply_group_path(@group), method: :post, class: "btn btn-primary" %>
+<% end %>
+
+<% if @group.creator == current_student %>
+  <p>
+    <%= button_to "Close Group", close_group_path(@group), method: :post, class: "btn btn-danger", data: { confirm: "Are you sure you want to close this group?" } %>
+  </p>
+<% end %>
+
+<!-- Display members list to accepted students and the creator -->
+<% if @group.students.include?(current_student) || @group.creator == current_student %>
+  <h3>Members:</h3>
+  <p>
+  <% if logged_in? && @group.creator_id == current_student.id %>
+    <%= link_to @group.creator.name, profile_path %>
+  <% else %>
+    <%= link_to @group.creator.name, student_path(@group.creator) %>
+  <% end %>
+  </p>
+  <% @group.applications.where(application_status: 'accepted').each do |application| %>
+    <p><%= link_to application.student.name, student_path(application.student) %></p>
+  <% end %>
+<% end %>
+
+<!-- Display accept/reject options to the creator -->
+<% if @group.creator == current_student %>
+  <% @group.applications.each do |application| %>
+    <div class="applicant-row">
+      <% if application.application_status == "pending" %>
+        <% applicant = application.student %>
+        <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
+        <div class="buttons">
+          <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
+          <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= render partial: 'time_slots/show', locals: { time_slots: @common_time_slots, current_student_ts: @current_student_time_slots } %>
