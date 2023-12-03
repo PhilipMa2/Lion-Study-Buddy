@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe HomeController, type: :controller do
   render_views
   describe 'GET #index' do
-    let!(:posts) { create_list(:post, 5) }
+    let!(:groups) { create_list(:group, 5) }
 
     before do
       get :index
     end
 
-    it 'assigns @posts' do
-      expect(assigns(:posts)).to eq(posts)
+    it 'assigns @groups' do
+      expect(assigns(:groups)).to eq(groups)
     end
 
     it 'renders the index template' do

@@ -1,5 +1,18 @@
 class StudentsController < ApplicationController
-  before_action :require_student, only: [:profile]
+  before_action :require_student, only: [:profile, :edit, :update]
+
+  def edit
+    @student = Student.find(params[:id])
+  end
+
+  def update
+    @student = Student.find(params[:id])
+    if @student.update(student_params)
+      redirect_to profile_path(@student), notice: 'Profile updated successfully.'
+    else
+      render :edit
+    end
+  end
 
   def show
     @student = Student.find(params[:id])
@@ -8,22 +21,22 @@ class StudentsController < ApplicationController
 
   def can_view_full_profile?(student)
     # Check if the current student has accepted an application from the viewed student
-    accepted_by_current_student = StudentAttendPost.where(student_id: student.id, post_id: current_student.posts.select(:id), apply_status: 'accepted').exists?
+    accepted_by_current_student = Application.where(student_id: student.id, group_id: current_student.groups.select(:id), application_status: 'accepted').exists?
     # Check if the viewed student has accepted an application from the current student
-    accepted_by_viewed_student = StudentAttendPost.where(student_id: current_student.id, post_id: student.posts.select(:id), apply_status: 'accepted').exists?
+    accepted_by_viewed_student = Application.where(student_id: current_student.id, group_id: student.groups.select(:id), application_status: 'accepted').exists?
     
     # Early return for response rate optimization
     if (accepted_by_current_student || accepted_by_viewed_student)
       return true;
     end
 
-    # Check if the viewed student and the current student share a post they're both accepted to
-    current_student_accepted_posts = StudentAttendPost.where(student_id: student.id, apply_status: 'accepted')
-    # viewed_student_accepted_posts = StudentAttendPost.where(student_id: current_student.id, apply_status: 'accepted')
+    # Check if the viewed student and the current student share a group they're both accepted to
+    current_student_accepted_groups = Application.where(student_id: student.id, application_status: 'accepted')
+    # viewed_student_accepted_groups = Application.where(student_id: current_student.id, application_status: 'accepted')
 
-    for current_student_accepted_post in current_student_accepted_posts do
-      if (StudentAttendPost.where(student_id: current_student.id, post_id: current_student_accepted_post.post_id, apply_status: 'accepted').exists?) 
-        # viewed student shares a same accepted post as viewing student
+    for current_student_accepted_group in current_student_accepted_groups do
+      if (Application.where(student_id: current_student.id, group_id: current_student_accepted_group.group_id, application_status: 'accepted').exists?) 
+        # viewed student shares a same accepted group as viewing student
         return true;
       end
     end
@@ -33,8 +46,6 @@ class StudentsController < ApplicationController
 
   def profile
     @student = current_student
-    @created_posts = @student.posts
-    @applied_posts = @student.applied_posts_with_status
     @time_slots = TimeSlot.where(student: session[:student_id])
   end
 
@@ -55,7 +66,7 @@ class StudentsController < ApplicationController
         name: params[:name], 
         course: "", 
         schedule: "", 
-        tag: "", 
+        focus: "", 
         text: ""
       )
       if @student.save
@@ -66,5 +77,11 @@ class StudentsController < ApplicationController
       end
     end
     render 'sessions/create_account'
+  end
+
+  private
+
+  def student_params
+    params.require(:student).permit(:name, :email, :course, :schedule, :focus, :text)
   end
 end

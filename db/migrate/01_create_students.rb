@@ -6,7 +6,7 @@ class CreateStudents < ActiveRecord::Migration[7.0]
       t.text :name
       t.text :course
       t.text :schedule
-      t.text :tag
+      t.text :focus
       t.text :text
     end
   end

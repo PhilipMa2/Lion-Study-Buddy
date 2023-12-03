@@ -1,29 +1,30 @@
 <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
 <p>Email: <%= @student.email %></p>
-<p>Open Posts: <%= @student.course %></p>
+<p>Course: <%= @student.course %></p>
 <p>Schedule: <%= @student.schedule %></p>
-<p>Tag: <%= @student.tag %></p>
+<p>Focus: <%= @student.focus %></p>
 <p>Bio: <%= @student.text %></p>
+<%= link_to 'Edit Profile', edit_student_path(@student) %>
 
 <% if current_student == @student %>
-<h2 class="py-5 text-center">Posts Created</h2>
+<h2 class="py-5 text-center">Groups Created</h2>
 <ul class="list-group">
-  <% @created_posts.each do |post| %>
+  <% @student.groups.each do |group| %>
     <li class="list-group-item text-center">
       <div class="d-flex gap-2 justify-content-center py-2">
-        <% if post.post_status == "open" %>
-          <%= link_to post_path(post) do %>
-            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        <% if group.group_status == "open" %>
+          <%= link_to group_path(group) do %>
+            Course: <%= group.course %>, Focus: <%= group.focus %>, Text: <%= group.text %>
           <% end %>
           <span class="status-icon" style="color: green;">OPEN</span>
-        <% elsif post.post_status == "full" %>
-          <%= link_to post_path(post) do %>
-            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+        <% elsif group.group_status == "full" %>
+          <%= link_to group_path(group) do %>
+            Course: <%= group.course %>, Focus: <%= group.focus %>, Text: <%= group.text %>
           <% end %>
           <span class="status-icon" style="color: red;">FULL</span>
         <% else %>
-          <%= link_to post_path(post) do %>
-            Course: <%= post.course %>, Tag: <%= post.tag %>, Text: <%= post.text %>
+          <%= link_to group_path(group) do %>
+            Course: <%= group.course %>, Focus: <%= group.focus %>, Text: <%= group.text %>
           <% end %>
           <span class="status-icon" style="color: red;">❌</span>
         <% end %>
@@ -32,19 +33,19 @@
   <% end %>
 </ul>
 
-<h2 class="py-5 text-center">Posts Applied For</h2>
+<h2 class="py-5 text-center">Groups Applied</h2>
 <ul class="list-group">
-  <% @applied_posts.each do |application| %>
+  <% @student.applications.each do |application| %>
     <li class="list-group-item text-center">
-      <% post = application.post %>
-      <% if application.apply_status == "accepted" %>
-        <%= link_to post_path(post) do %>
-          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
+      <% group = application.group %>
+      <% if application.application_status == "accepted" %>
+        <%= link_to group_path(group) do %>
+          Course: <%= group.course %>, Focus: <%= group.focus %>, Creator: <%= group.creator.name %>
         <% end %>
         <span class="status-icon" style="color: green;">✅</span>
-      <% elsif application.apply_status == "pending" %>
-        <%= link_to post_path(post) do %>
-          Course: <%= post.course %>, Tag: <%= post.tag %>, Creator: <%= post.creator.name %>
+      <% elsif application.application_status == "pending" %>
+        <%= link_to group_path(group) do %>
+          Course: <%= group.course %>, Focus: <%= group.focus %>, Creator: <%= group.creator.name %>
         <% end %>
         <span class="status-icon" style="color: orange;">pending</span>
       <% end %>
