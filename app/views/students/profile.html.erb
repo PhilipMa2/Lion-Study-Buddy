@@ -1,7 +1,5 @@
 <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
 <p>Email: <%= @student.email %></p>
-<p>Course: <%= @student.course %></p>
-<p>Schedule: <%= @student.schedule %></p>
 
 <p id="bio-display">Bio: <%= @student.text %></p>
 <button id="edit-bio-button">Edit Bio</button>
@@ -12,6 +10,7 @@
     <%= form.submit 'Save', id: 'save-bio-button' %>
   <% end %>
 </div>
+<div class="form-text">You can write anything you would like others to know about you here. Everyone will be able to see this.</div>
 
 <% if current_student == @student %>
 <h2 class="py-5 text-center">Groups Created</h2>
