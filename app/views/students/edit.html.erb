@@ -13,37 +13,17 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.email_field :email %>
+  <div class="mb-3">
+    <%= form.label :bio, class: "form-label" %>
+    <%= form.text_area :text, class: "form-control", rows: 3 %>
+    <div class="form-text">You can write anything you would like others to know about you here. Everyone will be able to see this.</div>
   </div>
 
-  <div class="field">
-    <%= form.label :course %>
-    <%= form.text_field :course %>
-  </div>
-
-  <div class="field">
-    <%= form.label :schedule %>
-    <%= form.text_field :schedule %>
-  </div>
-
-  <div class="field">
-    <%= form.label :focus %>
-    <%= form.text_field :focus %>
-  </div>
-
-  <div class="field">
-    <%= form.label :text %>
-    <%= form.text_field :text %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Save Changes" %>
-  </div>
+  <%= form.submit "Save Changes", class: "btn btn-primary" %>
+  
 <% end %>

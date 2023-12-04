@@ -1,8 +1,5 @@
 <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
 <p>Email: <%= @student.email %></p>
-<p>Course: <%= @student.course %></p>
-<p>Schedule: <%= @student.schedule %></p>
-<p>Focus: <%= @student.focus %></p>
 <p>Bio: <%= @student.text %></p>
 <%= link_to 'Edit Profile', edit_student_path(@student) %>
 
@@ -53,4 +50,5 @@
   <% end %>
 </ul>
 <% end %>
+
 <%= render partial: 'time_slots/create', locals: { time_slots: @time_slots} %>
