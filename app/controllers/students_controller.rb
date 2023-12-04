@@ -69,9 +69,6 @@ class StudentsController < ApplicationController
         email: params[:email], 
         passcode: params[:password], 
         name: params[:name], 
-        course: "", 
-        schedule: "", 
-        focus: "", 
         text: ""
       )
       if @student.save
@@ -87,6 +84,6 @@ class StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:name, :email, :course, :schedule, :focus, :text)
+    params.require(:student).permit(:name, :email, :text)
   end
 end

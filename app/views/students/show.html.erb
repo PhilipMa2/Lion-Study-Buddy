@@ -1,12 +1,8 @@
 <% if @can_view_full_profile %>
     <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
     <p>Email: <%= @student.email %></p>
-    <p>Courses: <%= @student.course %></p>
-    <p>Schedule: <%= @student.schedule %></p>
-    <p>Focus: <%= @student.focus %></p>
     <p>Bio: <%= @student.text %></p>
 <% else %>
     <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
-    <p>Courses: <%= @student.course %></p>
     <p>Bio: <%= @student.text %></p>
 <% end %>
