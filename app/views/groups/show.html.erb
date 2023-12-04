@@ -35,16 +35,17 @@
 <!-- Display accept/reject options to the creator -->
 <% if @group.creator == current_student %>
   <% @group.applications.each do |application| %>
-    <div class="applicant-row">
-      <% if application.application_status == "pending" %>
+    <% if application.application_status == "pending" %>
+      <div class="applicant-row">
+      
         <% applicant = application.student %>
         <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
         <div class="buttons">
           <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
           <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 
