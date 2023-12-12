@@ -40,8 +40,10 @@
       
         <% applicant = application.student %>
         <%= link_to applicant.name, student_path(applicant), class: "applicant-name" %>
+        Shared Time Slots with Group Members: <%= number_of_overlapping_time_slots(applicant, @group.students) %>
         <div class="buttons">
-          <%= button_to 'Accept', accept_application_path(application), method: :post, class: "btn-accept" %>
+          <!-- Need to pass in group_id to accept application path because the application's id overrides group's id -->
+          <%= button_to 'Accept', accept_application_path(application, group_id: @group.id), method: :post, class: "btn-accept" %>
           <%= button_to 'Reject', reject_application_path(application), method: :post, class: "btn-reject" %>
         </div>
       </div>

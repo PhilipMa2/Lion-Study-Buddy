@@ -78,3 +78,4 @@ group5 = Group.create(creator_id: student5.id,
 
 Application.create(student_id: student1.id, group_id: group2.id)
 Application.create(student_id: student2.id, group_id: group1.id)
+Application.create(student_id: student3.id, group_id: group1.id)

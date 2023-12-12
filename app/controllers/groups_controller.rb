@@ -28,6 +28,11 @@ class GroupsController < ApplicationController
       @group.course += " #{course_name}" if course_name
     end
 
+    # check for edge case of capacity = 1
+    if @group.capacity == 1
+      @group.update(group_status: 'full')
+    end
+
     if @group.save
       redirect_to root_path, notice: 'Group was successfully created.'
     else
@@ -40,7 +45,6 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @student = current_student
     already_attended = Application.exists?(student: @student, group: @group)
-    accepted_applications_count = @group.applications.where(application_status: 'accepted').count
 
     if @group.creator_id == @student.id
       flash[:alert] = 'You cannot request to join your own group.'
@@ -48,9 +52,8 @@ class GroupsController < ApplicationController
       flash[:alert] = 'This group is not accepting applications.'
     elsif already_attended
       flash[:notice] = 'You have already applied to this group!'
-    elsif accepted_applications_count + 1 >= @group.capacity
-      flash[:alert] = 'This group has reached its capacity.'
-      @group.update(group_status: 'full')
+    elsif @group.group_status == 'full'
+      flash[:alert] = 'This group cannot take any more students.'
     else
       Application.create(student: @student, group: @group)
       flash[:notice] = 'Application submitted!'
@@ -61,9 +64,27 @@ class GroupsController < ApplicationController
 
 
   def accept_application
-    application = Application.find(params[:id])
-    application.update(application_status: 'accepted')
-    redirect_to group_path(application.group), notice: 'Application accepted.'
+    # the form accepts applicant and group as parameters;
+    # group_id therefore needs to be passed in from form as well,
+    # because params[:id] is overwritten by applicant (first param) id
+    group_id = params[:group_id]
+    @group = Group.find(group_id)
+
+    if @group.group_status == 'full'
+      redirect_back(fallback_location: root_path, notice: 'Study group is already at max capacity.')
+    else 
+      application = Application.find(params[:id])
+      application.update(application_status: 'accepted')
+
+      # +1 = the creator themself
+      accepted_members_count = @group.applications.where(application_status: 'accepted').count + 1
+
+      # whenever accepted, we make sure group status is now full. 
+      if @group.capacity <= accepted_members_count
+        @group.update(group_status: 'full')
+      end
+      redirect_to group_path(application.group), notice: 'Application accepted.'
+    end
   end
 
   def reject_application
