@@ -7,10 +7,15 @@ class StudentsController < ApplicationController
 
   def update
     @student = Student.find(params[:id])
-    if @student.update(student_params)
-      redirect_to profile_path(@student), notice: 'Profile updated successfully.'
-    else
-      render :edit
+
+    respond_to do |format|
+      if @student.update(student_params)
+        format.html { redirect_to profile_path(@student), notice: 'Profile updated successfully.' }
+        format.js
+      else
+        format.html { render :edit }
+        format.js   { render 'edit', status: :unprocessable_entity }
+      end
     end
   end
 

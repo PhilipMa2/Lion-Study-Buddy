@@ -1,7 +1,16 @@
 <h1 class="py-5 text-center"><%= @student.name %>'s Profile</h1>
 <p>Email: <%= @student.email %></p>
-<p>Bio: <%= @student.text %></p>
-<%= link_to 'Edit Profile', edit_student_path(@student) %>
+
+<p id="bio-display">Bio: <%= @student.text %></p>
+<button id="edit-bio-button", class="btn btn-primary">Edit Bio</button>
+
+<div id="bio-edit-container" style="display: none;">
+  <%= form_with(model: @student, url: student_path(@student), method: :patch, remote: true) do |form| %>
+    <%= form.text_area :text, rows: 4, cols: 50, id: "bio-textarea" %>
+    <%= form.submit 'Save', id: 'save-bio-button', class: "btn btn-primary"%>
+  <% end %>
+</div>
+<div class="form-text">You can write anything you would like others to know about you here. Everyone will be able to see this.</div>
 
 <% if current_student == @student %>
 <h2 class="py-5 text-center">Groups Created</h2>
@@ -52,3 +61,15 @@
 <% end %>
 
 <%= render partial: 'time_slots/create', locals: { time_slots: @time_slots} %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const editBioButton = document.getElementById('edit-bio-button');
+    const bioEditContainer = document.getElementById('bio-edit-container');
+    
+    editBioButton.addEventListener('click', function() {
+      bioEditContainer.style.display = 'block';
+      editBioButton.style.display = 'none';
+    });
+  });
+</script>

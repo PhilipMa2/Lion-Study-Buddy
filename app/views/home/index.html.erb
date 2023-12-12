@@ -13,16 +13,15 @@
 
   <!-- Second Row -->
   <div class="d-flex justify-content-between align-items-center">
-    <!-- Capacity Filter Form -->
-    <form id="capacity_filter_form" action="<%= root_path %>" method="get" class="d-flex align-items-center">
-      <span id="capacity_name" class="me-2 align-self-center">Max Study Group Size</span>
+    <!-- Combined Filter Form -->
+    <form id="combined_filter_form" action="<%= root_path %>" method="get" class="d-flex align-items-center">
+      <!-- Capacity Filter -->
+      <span id="capacity_name" class="me-2 align-self-center" style="min-width: 130px;">Max Group Size</span>
       <span id="capacity_value" class="me-2 align-self-center"><%= params[:capacity] || 20 %></span>
-      <input type="range" id="capacity_filter" name="capacity" min="1" max="20" value="<%= params[:capacity] || 20 %>" class="form-range align-self-center" style="height: 38px;">
-    </form>
-    
-    <!-- Search Box -->
-    <form class="d-flex" action="<%= root_path %>" method="get">
-      <input class="form-control me-2" type="search" placeholder="Search Course" aria-label="Search" name="course_search" style="height: 38px;">
+      <input type="range" id="capacity_filter" name="capacity" min="1" max="20" value="<%= params[:capacity] || 20 %>" class="form-range align-self-center me-3" style="height: 38px;">
+
+      <!-- Search Box -->
+      <input class="form-control me-2" type="search" placeholder="Search Course" aria-label="Search" name="course_search" value="<%= params[:course_search] %>" style="height: 38px;">
       <button class="btn btn-outline-primary" type="submit" style="height: 38px;">Search</button>
     </form>
   
@@ -71,7 +70,7 @@
     });
 
     capacityFilter.addEventListener('change', function() {
-      document.getElementById('capacity_filter_form').submit();
+      document.getElementById('combined_filter_form').submit();
     });
   });
 </script>
