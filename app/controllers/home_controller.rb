@@ -7,8 +7,8 @@ class HomeController < ApplicationController
     end
 
     if params[:course_search].present?
-      search_term = "%#{params[:course_search]}%"
-      @groups = @groups.where('course LIKE ? OR focus LIKE ?', search_term, search_term)
+      search_term = "%#{params[:course_search].downcase}%"
+      @groups = @groups.where('LOWER(course) LIKE ? OR LOWER(focus) LIKE ?', search_term, search_term)
     end
   end
 end
