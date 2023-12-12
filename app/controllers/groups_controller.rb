@@ -64,17 +64,23 @@ class GroupsController < ApplicationController
 
 
   def accept_application
-    @group = Group.find(params[:id])
+    # the form accepts applicant and group as parameters;
+    # group_id therefore needs to be passed in from form as well,
+    # because params[:id] is overwritten by applicant (first param) id
+    group_id = params[:group_id]
+    @group = Group.find(group_id)
 
     if @group.group_status == 'full'
-      redirect_to group_path(application.group), notice: 'Study group is already at max capacity.'
+      redirect_back(fallback_location: root_path, notice: 'Study group is already at max capacity.')
     else 
       application = Application.find(params[:id])
       application.update(application_status: 'accepted')
-      accepted_applications_count = @group.applications.where(application_status: 'accepted').count
-      
+
+      # +1 = the creator themself
+      accepted_members_count = @group.applications.where(application_status: 'accepted').count + 1
+
       # whenever accepted, we make sure group status is now full. 
-      if @group.capacity >= accepted_applications_count
+      if @group.capacity <= accepted_members_count
         @group.update(group_status: 'full')
       end
       redirect_to group_path(application.group), notice: 'Application accepted.'
