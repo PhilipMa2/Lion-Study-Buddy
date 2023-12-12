@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_student, :logged_in?
+  helper_method :current_student, :logged_in?, :number_of_overlapping_time_slots
 
   # private
 
@@ -19,4 +19,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def number_of_overlapping_time_slots(applicant_student, students)
+    return 0 if students.empty?
+
+    overlapping_time_slots = students.reduce(applicant_student.time_slots.pluck(:available_time)) do |result, student|
+      result & student.time_slots.pluck(:available_time)
+    end
+
+    overlapping_time_slots.count
+  end
 end
