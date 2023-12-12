@@ -1,7 +1,16 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
 <header class="py-3 mb-4 border-bottom">
   <!-- First Row -->
   <div class="d-flex justify-content-between mb-3">
-    <h1 class="link-body-emphasis text-decoration-none">Lion Study Buddy</h1>
+    <h1 class="link-body-emphasis text-decoration-none d-flex align-items-center">
+      Lion Study Buddy
+      <%= link_to "https://youtu.be/7BPPMIxRgN8", class: "demo-link", target: "_blank", data: { toggle: "tooltip", placement: "top" }, title: "Click here for a simple demo!" do %>
+        <%= inline_svg_tag "circle-question-solid.svg", width: "20", height: "20", style: "fill: #1E3050; margin-left: 12px; font-size: 1rem;", viewBox: "0 0 512 512" %>      
+      <% end %>
+    </h1>
     <div>
       <% if logged_in? %>
         <%= link_to 'Logout', logout_path, method: :delete %>
@@ -72,5 +81,11 @@
     capacityFilter.addEventListener('change', function() {
       document.getElementById('combined_filter_form').submit();
     });
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
   });
 </script>
