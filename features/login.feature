@@ -8,7 +8,7 @@ Background: students in database
 
   Given the following students exist:
   | name   | email              | passcode    |
-  | Frank  | frank@example.com  | frank789    |  
+  | Alice  | alice@columbia.edu  | 123456    |  
 
 Scenario: User logs in unsuccessfully with invalid credentials
     Given the user visits the "login" page

@@ -8,7 +8,7 @@ Given /the following students exist/ do |students_table|
   @student = nil
   students_table.hashes.each do |student|
     @student = Student.create(student)
-    Post.create(creator_id: @student.id, course: @student.course, capacity: 3, tag: @student.tag, text: "Looking for a study partner")
+    Group.create(creator_id: @student.id, course: "Fundamental Analysis for Inves", capacity: 3, text: "Looking for a study partner")
   end
 end
 
@@ -21,21 +21,21 @@ end
 Given(/^there are posts with the following details:$/) do |table|
   table.hashes.each do |post|
     creator = Student.find_by(id: post['creator_id'])
-    Post.create!(post.merge(creator: creator))
+    Group.create!(post.merge(creator: creator))
   end
 end
 
 Given(/^there are attendances with the following details:$/) do |table|
   table.hashes.each do |attendance|
     student = Student.find_by(id: attendance['student_id'])
-    post = Post.find_by(id: attendance['post_id'])
-    StudentAttendPost.create!(attendance.merge(student: student, post: post))
+    group = Group.find_by(id: attendance['group_id'])
+    Application.create!(attendance.merge(student: student, group: group))
   end
 end
 
 When("the user logs in with correct credentials") do
-  fill_in('email', with: "frank@example.com")
-  fill_in('passcode', with: "frank789")
+  fill_in('email', with: "alice@columbia.edu")
+  fill_in('passcode', with: "123456")
   click_button("Login")
 end
 
@@ -65,7 +65,7 @@ end
 
 Then(/^the user should be directed to the "([^"]*)" page$/) do |expected_path|
   if (expected_path == "specified post")
-    expect(current_path).to eq('/posts/' + @specified_post_id)
+    expect(current_path).to eq('/groups/' + @specified_group_id)
   else
     expect(current_path).to eq('/' + (expected_path != "home" ? expected_path : ""))
   end
@@ -78,8 +78,8 @@ end
 
 Given("the user is logged in") do
   visit path_to('login')
-  fill_in('email', with: "frank@example.com")
-  fill_in('passcode', with: "frank789")
+  fill_in('email', with: "alice@columbia.edu")
+  fill_in('passcode', with: "123456")
   click_button('Login')
 end
 
@@ -97,11 +97,11 @@ end
 
 Given("there exists a created post in the user's profile") do
   visit path_to('profile')
-  expect(page).to have_content("\nPosts Created\nCourse: ")
+  expect(page).to have_content("\Groups Created\nCourse: ")
 end
 
 Given("there exists a post to attend on the main page") do
-  first('.post').click_link('View')
+  first('.group').click_link('View')
   expect(page).to have_content("Looking for a study partner")
 end
 
@@ -119,7 +119,7 @@ Given(/^the user selects the post to "([^"]*)"$/) do |button_to_click|
   # Identify and click the button/icon of the first post
   page_content = page.body
   match = /Course: (.*?), Schedule/.match(page_content)
-  @specified_post_id = "1" # match[1] if match # should be "5" for our test case
+  @specified_group_id = "1" # match[1] if match # should be "5" for our test case
   click_button(button_to_click, :match => :first)
 end
 
@@ -253,27 +253,27 @@ end
 #   click_button('Login')
 # end
 
-Given("the user visits the study group post page") do
-  visit path_to("specified post 1")
+Given('the user visits the study group page {int}') do |group_id|
+  visit path_to("specified group #{group_id}")
 end
 
 Then("the pending request should show up in the requestee's profile") do
   visit path_to('profile')
-  expect(page).to have_content('Course: Math, Tag: Tag6, Creator: Bob pending')
+  expect(page).to have_content('Course: Contemporary Latin American Art, Focus: art, Creator: Bob pending')
 end
 
 And("the pending request should show up in the requested's post") do
   visit path_to('logout')
   visit path_to('login')
-  fill_in('email', with: "bob@example.com")
-  fill_in('passcode', with: "654321")
+  fill_in('email', with: "bob@columbia.edu")
+  fill_in('passcode', with: "123456")
   click_button('Login')
-  visit "http://127.0.0.1:3000/posts/1"
-  expect(page).to have_content('Frank')
+  visit "http://127.0.0.1:3000/groups/2"
+  expect(page).to have_content('Alice')
 end
 
 Given("the user visits a study group post page that they have created") do
-  visit path_to("specified post 3")
+  visit path_to("specified group 1")
 end
 
 Then("the request should fail") do
@@ -281,7 +281,7 @@ Then("the request should fail") do
 end
 
 Given("the user visits a study group post page that they are already accepted in") do
-  visit path_to("specified post 2")
+  visit path_to("specified group 3")
 end
 
 Then("the match request should be gone from their pending requests") do
@@ -291,24 +291,24 @@ end
 Given("the requestee should have their pending request moved to matched requests") do
   visit path_to('logout')
   visit path_to('login')
-  fill_in('email', with: "amy@example.com")
+  fill_in('email', with: "bob@columbia.edu")
   fill_in('passcode', with: "123456")
   click_button('Login')
   visit path_to("profile")
-  expect(page).to have_content('Course: Science, Tag: Tag8, Creator: Frank ✅')
+  expect(page).to have_content('Course: Fundamental Analysis for Inves, Focus: analysis, Creator: Alice ✅')
 end
 
 Given(/^the number of members in the post should increase by (\d+)$/) do |count|
-  visit path_to("specified post 3")
-  expect(page).to have_content("#{(count + 1).to_s} / 15")
+  visit path_to("specified group 1")
+  expect(page).to have_content("#{(count + 1).to_s} / 10")
 end 
 
 Given("the requestee should have their pending request removed") do
   visit path_to('logout')
   visit path_to('login')
-  fill_in('email', with: "amy@example.com")
+  fill_in('email', with: "bob@columbia.edu")
   fill_in('passcode', with: "123456")
   click_button('Login')
   visit path_to("profile")
-  expect(page).not_to have_content('Course: Science, Tag: Tag8, Creator: Frank')
+  expect(page).not_to have_content('Course: Fundamental Analysis for Inves, Focus: analysis, Creator: Alice')
 end

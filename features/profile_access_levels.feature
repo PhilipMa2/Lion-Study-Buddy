@@ -12,17 +12,18 @@ Feature: restricting access to profile information based on access levels
 
 Background:
     Given there are students with the following details:
-      | email               | passcode | name    | course | schedule | tag   | text  |
-      | amy@example.com     | 123456   | Amy     | Math   | Mon-Wed  | Tag1  | Text1 |
-      | bob@example.com     | 654321   | Bob     | Science| Tue-Thu  | Tag2  | Text2 |
-      | cindy@example.com   | 987654   | Cindy   | English| Mon-Fri  | Tag3  | Text3 |
-      | darren@example.com  | 111222   | Darren  | History| Mon      | Tag4  | Text4 |
-      | frank@example.com   | frank789 | Frank   | Physics| Fri      | Tag5  | Text5 |
+      | email                | passcode | name    |  text  |
+      | alice@columbia.edu   | 123456   | Alice   |  text  |
+      | bob@columbia.edu     | 123456   | Bob     |  text  |
+      | carol@columbia.edu   | 123456   | Carol   |  text  |
+      | dave@columbia.edu    | 123456   | Dave    |  text  |
+      | frank@columbia.edu   | 123456   | Frank   |  text  |
 
     And there are posts with the following details:
-      | creator_id | course  | capacity | tag  | text     |
-      | 2          | Math    | 10       | Tag6 | Text6    |
-      | 3          | Science | 15       | Tag7 | Text7    |
+      | creator_id | course                            | capacity | focus       | text     |
+      | 1          | Fundamental Analysis for Inves    | 10       | analysis    | Text6    |
+      | 2          | Contemporary Latin American Art   | 15       | art         | Text7    |
+      | 3          | SUPERVISED PROJ PHOTOGRAPHY       | 15       | photography | Text8    |
 
     And there are attendances with the following details:
       | student_id | post_id | apply_status |
