@@ -8,21 +8,23 @@ def should_see_access(access_level_int)
     case access_level_int
     when 1
         [
-            "'s Profile", # First Name
-            "Bio",
-            "Open Posts"
+            "'s Profile",
+            "Bio"   
         ]
     when 2
         [
-            # "Last Name", # for next iteration
-            "Email",
-            "Schedule"
+            "'s Profile",
+            "Bio",
+            "Email"
         ]
     when 3
         [
-            "✅", # Matched Study Groups
-            "pending",
-            # "Closed Study Groups", # for next iteration
+            "'s Profile",
+            "Bio",
+            "Email",
+            "Groups Created",
+            "Groups Applied",
+            "Schedule"
         ]
     else
       raise "No mapping found for Access Level #{access_level_int.to_s}"

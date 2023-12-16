@@ -5,10 +5,10 @@ Feature: restricting access to profile information based on access levels
     I want to have PII available only to those I am currently matched in a study group with.
 
 # To be thorough with our check for access levels, the following scenario:
-#   Cucumber will be logged in (id 5). For Frank, he should see:
-#   Access level 1: Amy (1), Bob (2) -> Frank has pending / unaccepted request to Bob's post.
-#   Access level 2: Cindy (3), Darren (4) -> Cindy has created a post. Frank, Cindy, and Darren are all accepted in it.
-#   Access level 3: Frank viewing his own profile
+#   Cucumber will be logged in (id 1). For Alice, she should see:
+#   Access level 1: Bob (2) -> Alice has pending / unaccepted request to Bob's post.
+#   Access level 2: Carol (3), Dave (4) -> Carol has created a post. Alice, Carol, and Dave are all accepted in it.
+#   Access level 3: Alice viewing her own profile
 
 Background:
     Given there are students with the following details:
@@ -26,10 +26,10 @@ Background:
       | 3          | SUPERVISED PROJ PHOTOGRAPHY       | 15       | photography | Text8    |
 
     And there are attendances with the following details:
-      | student_id | post_id | apply_status |
-      | 5          | 1       | pending      |
-      | 5          | 2       | accepted     |
-      | 4          | 2       | accepted     |
+      | student_id | group_id | application_status |
+      | 1          | 2        | pending            |
+      | 1          | 3        | accepted           |
+      | 4          | 3        | accepted           |
 
 # Please refer to the README for details on the 3 access levels
 
