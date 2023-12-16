@@ -18,7 +18,7 @@ Scenario: User logs in unsuccessfully with invalid credentials
 
 Scenario: User cannot access without valid credentials
     Given an unauthenticated user
-    Given the user visits the "new post" page
+    Given the user visits the "new group" page
     Then the user should be directed to the "login" page
     When the user logs in with correct credentials
     Then the user should be directed to the "home" page

@@ -7,8 +7,8 @@ Feature: editing schedule availability time slots
 Background: students in database
 
   Given the following students exist:
-  | name   | email              | passcode    |
-  | Frank  | frank@example.com  | frank789    |  
+  | name   | email               | passcode    |
+  | Alice  | alice@columbia.edu  | 123456      |  
 
 Scenario: User sets their available time slots
     Given the user is logged in

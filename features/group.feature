@@ -10,6 +10,10 @@ Background: students in database
   | name   | email              | passcode    |
   | Alice  | alice@columbia.edu | 123456      |  
 
+  Given the following courses exist:
+  | course_id  | course_name                    |
+  | ACCTB8010  | Fundamental Analysis for Inves |
+
 Scenario: User creates a new group
   Given the user is logged in
   Given the user visits the "new group" page

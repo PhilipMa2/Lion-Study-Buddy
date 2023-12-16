@@ -10,7 +10,7 @@ def path_to(page_name)
         base_url + '/logout'
     when 'profile'
         base_url + '/profile'
-    when 'new post'
+    when 'new group'
         base_url + '/groups/new'
     when /^specified group (\d+)$/  # Adjust this regex
         base_url + "/groups/#{$1}"

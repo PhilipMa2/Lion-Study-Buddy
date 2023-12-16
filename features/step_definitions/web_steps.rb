@@ -12,6 +12,12 @@ Given /the following students exist/ do |students_table|
   end
 end
 
+Given /the following courses exist/ do |courses_table|
+  courses_table.hashes.each do |course|
+    Course.create(course)
+  end
+end
+
 Given(/^there are students with the following details:$/) do |table|
   table.hashes.each do |student|
     Student.create!(student)
@@ -83,16 +89,16 @@ Given("the user is logged in") do
   click_button('Login')
 end
 
-When("fills in the post details") do
-  fill_in('post_course', with: "COMS4107")          # Updated to use input id
-  fill_in('post_tag', with: "midterm study")        # Updated to use input id
-  fill_in('post_text', with: "midterm study")       # Updated to use input id
-  fill_in('post_capacity', with: 3)
+When("fills in the group details") do
+  select('ACCTB8010 Fundamental Analysis for Inves', from: 'group_course')
+  fill_in('group_focus', with: "Study Focus")
+  fill_in('group_text', with: "Study Text")
+  fill_in('group_capacity', with: 3)
 end
 
-Then("the post should be created successfully") do
-  expect(page).to have_content("COMS4107")
-  expect(page).to have_content("midterm study")
+Then("the group should be created successfully") do
+  expect(page).to have_content("ACCTB8010 Fundamental Analysis for Inves")
+  expect(page).to have_content("Study Focus")
 end
 
 Given("there exists a created post in the user's profile") do
