@@ -13,7 +13,7 @@ Background:
       | dave@columbia.edu    | 123456   | Dave    |  text  |
       | frank@columbia.edu   | 123456   | Frank   |  text  |
 
-    And there are posts with the following details:
+    And there are groups with the following details:
       | creator_id | course                            | capacity | focus       | text     |
       | 1          | Fundamental Analysis for Inves    | 10       | analysis    | Text6    |
       | 2          | Contemporary Latin American Art   | 15       | art         | Text7    |

@@ -24,7 +24,7 @@ Given(/^there are students with the following details:$/) do |table|
   end
 end
 
-Given(/^there are posts with the following details:$/) do |table|
+Given(/^there are groups with the following details:$/) do |table|
   table.hashes.each do |post|
     creator = Student.find_by(id: post['creator_id'])
     Group.create!(post.merge(creator: creator))
@@ -317,4 +317,34 @@ Given("the requestee should have their pending request removed") do
   click_button('Login')
   visit path_to("profile")
   expect(page).not_to have_content('Course: Fundamental Analysis for Inves, Focus: analysis, Creator: Alice')
+end
+
+Given('I visit the home page') do
+  visit root_path
+end
+
+And('I fill in {string} with {string}') do |field, value|
+  fill_in field, with: value
+end
+
+And('I press {string}') do |button|
+  click_button button
+end
+
+Then('I should see all the groups') do
+  Group.all do |group|
+    expect(page).to have_content(group.course)
+  end
+end
+
+Then('I should see groups with a capacity of {int} or less') do |capacity|
+  Group.where('capacity <= ?', capacity).each do |group|
+    expect(page).to have_content(group.course)
+  end
+end
+
+Then('I should see groups related to {string}') do |search_term|
+  Group.where('LOWER(course) LIKE ?', "%#{search_term.downcase}%").each do |group|
+    expect(page).to have_content(group.course)
+  end
 end
