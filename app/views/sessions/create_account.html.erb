@@ -22,7 +22,7 @@
       <%= f.label :password_confirmation, for: "floatingPasswordConfirmation" %>
     </div>
 
-    <%= f.submit "Create Account", class: "btn btn-primary w-100 py-2", id: "submitBtn", disabled: true %>
+    <%= f.submit "Create Account", class: "btn btn-primary w-100 py-2", id: "submitBtn" %>
   <% end %>
 </main>
 
@@ -31,19 +31,19 @@
   <%= link_to "Login here.", login_path %>
 </p>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Disable the submit button initially
-    document.getElementById('submitBtn').disabled = true;
+# <script>
+#   document.addEventListener('DOMContentLoaded', function () {
+#     // Disable the submit button initially
+#     document.getElementById('submitBtn').disabled = true;
 
-    // Check if all required fields are filled out before enabling the submit button
-    document.querySelectorAll('[required]').forEach(function (element) {
-      element.addEventListener('input', function () {
-        var isFormValid = document.querySelector('form').checkValidity();
+#     // Check if all required fields are filled out before enabling the submit button
+#     document.querySelectorAll('[required]').forEach(function (element) {
+#       element.addEventListener('input', function () {
+#         var isFormValid = document.querySelector('form').checkValidity();
 
-        // Enable or disable the submit button based on form validity
-        document.getElementById('submitBtn').disabled = !isFormValid;
-      });
-    });
-  });
-</script>
+#         // Enable or disable the submit button based on form validity
+#         document.getElementById('submitBtn').disabled = !isFormValid;
+#       });
+#     });
+#   });
+# </script>

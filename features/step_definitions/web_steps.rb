@@ -348,3 +348,46 @@ Then('I should see groups related to {string}') do |search_term|
     expect(page).to have_content(group.course)
   end
 end
+# ////////////////////////
+When('I click the "Create Account" button') do
+  # page.execute_script("document.getElementById('submitBtn').disabled = false;")
+  click_button('Create Account')
+end
+
+Then('I should be redirected to the login page') do
+  puts page.body
+  expect(current_path).to eq path_to('login')
+end
+
+Then('I should be redirected to the profile page') do
+  expect(current_path).to eq profile_path(@student)
+end
+
+Then('I should see {string}') do |text|
+  expect(page).to have_content(text)
+end
+
+When('I visit the profile page') do
+  visit profile_path(@student)
+end
+
+When('I fill in the new account details with valid information') do
+  fill_in 'email', with: 'newuser@columbia.edu'
+  fill_in 'password', with: '123456'
+  fill_in 'password_confirmation', with: '123456'
+  fill_in 'name', with: 'New User'
+end
+
+When('I fill in the new account details with an existing email') do
+  fill_in 'email', with: 'alice@columbia.edu'
+  fill_in 'password', with: '123456'
+  fill_in 'password_confirmation', with: '123456'
+  fill_in 'name', with: 'Alice'
+end
+
+When('I fill in the new account details with mismatching passwords') do
+  fill_in 'email', with: 'newuser@example.com'
+  fill_in 'password', with: '123456'
+  fill_in 'password_confirmation', with: 'differentpassword'
+  fill_in 'name', with: 'New User'
+end

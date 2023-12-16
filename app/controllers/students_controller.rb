@@ -1,9 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :require_student, only: [:profile, :edit, :update]
-
-  def edit
-    @student = Student.find(params[:id])
-  end
+  before_action :require_student, only: [:profile, :update]
 
   def update
     @student = Student.find(params[:id])

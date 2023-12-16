@@ -14,6 +14,10 @@ Background: students in database
   | course_id  | course_name                    |
   | ACCTB8010  | Fundamental Analysis for Inves |
 
+  And there are groups with the following details:
+  | creator_id | course                            | capacity | focus       | text     |
+  | 1          | Fundamental Analysis for Inves    | 10       | analysis    | Text6    |
+
 Scenario: User creates a new group
   Given the user is logged in
   Given the user visits the "new group" page
@@ -22,3 +26,9 @@ Scenario: User creates a new group
   Then the group should be created successfully
   And the user should be directed to the "home" page
 
+Scenario: User closes a group
+  Given the user is logged in
+  And the user visits the group's page
+  When the user clicks the "Close Group" button
+  Then the group should be closed successfully
+  And the user should be directed to the "home" page
