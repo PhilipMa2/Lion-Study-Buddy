@@ -355,8 +355,7 @@ When('I click the "Create Account" button') do
 end
 
 Then('I should be redirected to the login page') do
-  puts page.body
-  expect(current_path).to eq path_to('login')
+  expect(current_path).to eq "/login"
 end
 
 Then('I should be redirected to the profile page') do

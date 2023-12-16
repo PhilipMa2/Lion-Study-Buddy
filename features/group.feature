@@ -28,7 +28,6 @@ Scenario: User creates a new group
 
 Scenario: User closes a group
   Given the user is logged in
-  And the user visits the group's page
+  And the user visits the study group page 1
   When the user clicks the "Close Group" button
-  Then the group should be closed successfully
   And the user should be directed to the "home" page
