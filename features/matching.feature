@@ -6,30 +6,27 @@ Feature: request to and accept / decline matches from potential study buddies' p
 
 Background:
     Given there are students with the following details:
-      | email               | passcode | name    | course | schedule | tag   | text  |
-      | amy@example.com     | 123456   | Amy     | Math   | Mon-Wed  | Tag1  | Text1 |
-      | bob@example.com     | 654321   | Bob     | Science| Tue-Thu  | Tag2  | Text2 |
-      | cindy@example.com   | 987654   | Cindy   | English| Mon-Fri  | Tag3  | Text3 |
-      | darren@example.com  | 111222   | Darren  | History| Mon      | Tag4  | Text4 |
-      | frank@example.com   | frank789 | Frank   | Physics| Fri      | Tag5  | Text5 |
+      | email                | passcode | name    |  text  |
+      | alice@columbia.edu   | 123456   | Alice   |  text  |
+      | bob@columbia.edu     | 123456   | Bob     |  text  |
+      | carol@columbia.edu   | 123456   | Carol   |  text  |
+      | dave@columbia.edu    | 123456   | Dave    |  text  |
+      | frank@columbia.edu   | 123456   | Frank   |  text  |
 
-    And there are posts with the following details:
-      | creator_id | course  | capacity | tag  | text     |
-      | 2          | Math    | 10       | Tag6 | Text6    |
-      | 3          | Science | 15       | Tag7 | Text7    |
-      | 5          | Science | 15       | Tag8 | Text8    |
-
+    And there are groups with the following details:
+      | creator_id | course                            | capacity | focus       | text     |
+      | 1          | Fundamental Analysis for Inves    | 10       | analysis    | Text6    |
+      | 2          | Contemporary Latin American Art   | 15       | art         | Text7    |
+      | 3          | SUPERVISED PROJ PHOTOGRAPHY       | 15       | photography | Text8    |
 
     And there are attendances with the following details:
-      | student_id | post_id | apply_status |
-      | 5          | 1       | pending      |
-      | 5          | 2       | accepted     |
-      | 4          | 2       | accepted     |
-      | 1          | 3       | pending      |
+      | student_id | group_id | application_status |
+      | 2          | 1        | pending            |
+      | 1          | 3        | accepted           |
 
 Scenario: User sends a request to match with another student's post
     Given the user is logged in
-    And the user visits the study group post page
+    And the user visits the study group page 2
     When the user clicks the "Request to Join" button
     Then the pending request should show up in the requestee's profile
     And the pending request should show up in the requested's post
@@ -39,14 +36,14 @@ Scenario: User attempts to request to match with their own post
     And the user visits a study group post page that they have created
     When the user clicks the "Request to Join" button
     Then the request should fail 
-    And the user should see "You cannot request to join your own post"
+    And the user should see "You cannot request to join your own group"
 
 Scenario: User attempts to request to match with a post they are already accepted in
     Given the user is logged in 
     And the user visits a study group post page that they are already accepted in
     When the user clicks the "Request to Join" button
     Then the request should fail 
-    And the user should see "You have already applied to this post!"
+    And the user should see "You have already applied to this group!"
 
 Scenario: User accepts a request to match
     Given the user is logged in 
