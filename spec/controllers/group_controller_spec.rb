@@ -122,7 +122,7 @@ RSpec.describe GroupsController, type: :controller do
     let(:application) { create(:application, group: sample_group, student: student) }
 
     it "accepts an application" do
-      post :accept_application, params: { id: application.id }
+      post :accept_application, params: { group_id: sample_group.id, id: application.id }
       expect(application.reload.application_status).to eq('accepted')
       expect(response).to redirect_to(group_path(application.group))
     end
