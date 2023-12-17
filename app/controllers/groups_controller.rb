@@ -67,7 +67,7 @@ class GroupsController < ApplicationController
     # the form accepts applicant and group as parameters;
     # group_id therefore needs to be passed in from form as well,
     # because params[:id] is overwritten by applicant (first param) id
-    group_id = params[:group_id]
+    group_id = params[:id]
     @group = Group.find(group_id)
 
     if @group.group_status == 'full'

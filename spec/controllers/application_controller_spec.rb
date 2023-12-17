@@ -72,4 +72,38 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
   end
+
+
+  describe '#number_of_overlapping_time_slots' do
+    let(:applicant_student) { create(:student) }
+    
+    let!(:student1) { create(:student) }
+    let!(:student2) { create(:student) }
+    let!(:ts1) { create(:time_slot, available_time: 1, student: student1)}
+    let!(:ts2) { create(:time_slot, available_time: 1, student: applicant_student)}
+
+    context 'when there are no overlapping time slots' do
+      it 'returns 0' do
+        result = controller.number_of_overlapping_time_slots(applicant_student, [student2])
+
+        expect(result).to eq(0)
+      end
+    end
+
+    context 'when there are overlapping time slots' do
+      it 'returns the number of overlapping time slots' do
+        result = controller.number_of_overlapping_time_slots(applicant_student, [student1])
+
+        expect(result).to eq(1)
+      end
+    end
+
+    context 'when the students array is empty' do
+      it 'returns 0' do
+        result = controller.number_of_overlapping_time_slots(applicant_student, [])
+
+        expect(result).to eq(0)
+      end
+    end
+  end
 end
