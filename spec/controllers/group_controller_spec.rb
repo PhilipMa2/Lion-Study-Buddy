@@ -142,7 +142,7 @@ RSpec.describe GroupsController, type: :controller do
   describe 'POST #close' do
     it 'deletes the group from the database' do
       expect {
-        post :close, params: { id: sample_group.id }
+        delete :close, params: { id: sample_group.id }
       }.to change(Group, :count).by(1)
     end
   end
