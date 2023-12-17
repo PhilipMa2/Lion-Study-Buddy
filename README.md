@@ -48,7 +48,7 @@ The code coverage is stored in coverage/cucumber and it is expected to be 91.8%
 ### Run Rspec Tests
   `bundle exec rake spec`
 
-The code coverage is stored in coverage/rspec and it is expected to be 90.56%.
+The code coverage is stored in coverage/rspec and it is expected to be 90.11%.
 
 ### New Features for iter2
 * scheduling table feature
