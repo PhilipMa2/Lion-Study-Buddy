@@ -348,7 +348,7 @@ Then('I should see groups related to {string}') do |search_term|
     expect(page).to have_content(group.course)
   end
 end
-# ////////////////////////
+
 When('I click the "Create Account" button') do
   # page.execute_script("document.getElementById('submitBtn').disabled = false;")
   click_button('Create Account')
